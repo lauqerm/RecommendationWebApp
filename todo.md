@@ -1,0 +1,2 @@
+- Add `@type/react-router`, `@type/react-redux`, `@type/react-router`, `@type/react-router-dom` to support TypeScript
+- Add `react-router-dom` for actual React component
