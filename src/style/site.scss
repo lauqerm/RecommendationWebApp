@@ -1,0 +1,26 @@
+@import "./util.scss";
+
+.site {
+  &Container {
+    @include site;
+    grid-template-areas: "header" "view" "footer";
+  }
+  &Header {
+    @include site;
+    grid-area: header;
+    grid-template-columns: max-content minmax(max-content, 800px) max-content;
+    &__logo {
+      @include square(80px);
+      margin: 10px;
+    }
+  }
+  &Footer {
+    @include site;
+    grid-area: footer;
+    grid-template-columns: 1fr max-content;
+  }
+  &View {
+    @include site;
+    grid-area: view;
+  }
+}

@@ -1,0 +1,12 @@
+// Process
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+// Block
+@mixin site {
+  display: grid;
+  position: relative;
+  box-sizing: border-box;
+}
