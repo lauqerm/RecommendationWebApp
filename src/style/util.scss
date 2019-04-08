@@ -1,7 +1,12 @@
 // Process
-@mixin square($size) {
+@mixin squareShape($size) {
   width: $size;
   height: $size;
+}
+
+@mixin circleShape($size) {
+  @include squareShape($size);
+  border-radius: 50%;
 }
 
 // Block

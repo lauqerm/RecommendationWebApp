@@ -1,0 +1,7 @@
+@import './util.scss';
+
+.profile {
+	&__avatar {
+		@include circleShape(60px);
+	}
+}

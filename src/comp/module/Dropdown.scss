@@ -1,0 +1,9 @@
+.dropdown {
+	&_container {
+		position: relative;
+	}
+	&__drop{
+		position: absolute;
+		visibility: collapse;
+	}
+}

@@ -1,8 +1,9 @@
 import React from 'react'
+import '../style/theme.scss'
 
 const View = () => {
 	return (
-		<div>View</div>
+		<div className="siteView p1">View</div>
 	)
 }
 

@@ -1,11 +1,12 @@
-import FooterBar from './footer'
-import HeaderBar from './header'
+import FooterBar from './Footer'
+import HeaderBar from './Header'
 import React from 'react'
-import View from './view'
+import View from './View'
+import '../style/site.scss'
 
 const SiteContainer = () => {
 	return (
-		<div>
+		<div className="siteContainer">
 			<HeaderBar />
 			<View />
 			<FooterBar />
