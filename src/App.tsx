@@ -1,5 +1,5 @@
 import React from 'react'
-import root from './logic/reducer'
+import root from './redux/reducer'
 import SiteContainer from './layout'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { createStore } from 'redux'

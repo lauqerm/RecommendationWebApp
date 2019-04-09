@@ -8,7 +8,7 @@ import '../style/profile.scss'
 const HeaderBar = () => {
 	return (
 		<div className="siteHeader">
-			<NavLink to="/" >
+			<NavLink to="/s" >
 				<Logo className="siteHeader__logo" />
 			</NavLink>
 			<Search />
