@@ -28,6 +28,6 @@
   }
   &View {
     @include site;
-    grid-area: view;
+	grid-area: view;
   }
 }

@@ -6,61 +6,117 @@ import React, {
 	useState
 	} from 'react'
 import { mergeRight } from 'ramda'
-import { override, useClientRect } from '../../com'
+import { override } from '../../com'
 import './Dropdown.scss'
 
-export enum Edge { UP, DOWN, LEFT, RIGHT }
-export enum Align { CENTER, UP, DOWN, LEFT, RIGHT }
-
 export type DropdownMeta = {
-	edge?: Edge,
-	align?: Align,
-	allowOverflow: boolean,
+	edge?: 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT',
+	align?: 'CENTER' | 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT',
 	smart?: boolean,
 }
 
-export const withDropdown = (element: ReactChild, dropElement: ReactChild, meta?: DropdownMeta, forceOpen?: boolean) => {
+// value already valid in withDropdown
+const getPosition = (contSize: ClientRect, dropSize: ClientRect, meta: DropdownMeta) => {
+	const { edge, align, smart } = meta
+	const code = `${edge}_${align}`
+	const { height: contHeight, width: contWidth } = contSize
+	const { height: dropHeight, width: dropWidth } = dropSize
+	let top = 0, left = 0
+	switch (code) {
+		case 'TOP_LEFT': {
+			top = contHeight
+			break
+		}
+		case 'TOP_CENTER': {
+			top = contHeight
+			left = (contWidth - dropWidth) / 2
+			break
+		}
+		case 'TOP_RIGHT': {
+			top = contHeight
+			left = (contWidth - dropWidth)
+			break
+		}
+		case 'BOTTOM_LEFT': {
+			top = contHeight
+			break
+		}
+		case 'BOTTOM_CENTER': {
+			top = contHeight
+			left = (contWidth - dropWidth) / 2
+			break
+		}
+		case 'BOTTOM_RIGHT': {
+			top = contHeight
+			left = (contWidth - dropWidth)
+			break
+		}
+		case 'LEFT_TOP': {
+			left = contWidth
+			break
+		}
+		case 'LEFT_CENTER': {
+			left = contWidth
+			top = (contHeight - dropHeight) / 2
+			break
+		}
+		case 'LEFT_BOTTOM': {
+			left = contWidth
+			top = contHeight - dropHeight
+			break
+		}
+		case 'RIGHT_TOP': {
+			left = -dropWidth
+			break
+		}
+		case 'RIGHT_CENTER': {
+			left = -dropWidth
+			top = (contHeight - dropHeight) / 2
+			break
+		}
+		case 'RIGHT_BOTTOM': {
+			left = -dropWidth
+			top = contHeight - dropHeight
+			break
+		}
+	}
+	return { top, left }
+}
+
+export const withDropdown = (element: ReactChild, dropElement: ReactChild, meta?: DropdownMeta, overrideStatus?: boolean) => {
 	const defaultMeta: DropdownMeta = {
-		edge: Edge.UP,
-		align: Align.RIGHT,
-		allowOverflow: false,
+		edge: 'TOP',
+		align: 'RIGHT',
+		smart: true,
 	}
 	const _meta = mergeRight(defaultMeta, meta)
-	const [isOpen, toggleOpen] = useState(false)
-	const [position, setPosition] = useState({
-		left: 0,
-		top: 0,
-	})
-	if (forceOpen !== undefined) toggleOpen(override(isOpen, forceOpen))
 
-	// const [rectDrop, refDrop] = useClientRect()
-	// const [rectCont, refCont] = useClientRect()
-	// console.log(rectCont)
-	// const { width, height } = rectCont as unknown as DOMRect
-	// const position = ((width: number, height: number) => {
-	// 	return {
-	// 		left: width,
-	// 		top: height,
-	// 	}
-	// })(width, height)
-	let refCont = createRef() as RefObject<HTMLDivElement>
+	const [isOpen, toggleOpen] = useState(false)
+	if (overrideStatus !== undefined && overrideStatus !== isOpen)
+		toggleOpen(override(isOpen, overrideStatus))
 
 	useEffect(() => {
-		console.log('INSIDE EFFECT')
-		const currentRef = refCont.current
-		if (currentRef !== null) {
-			const { height } = currentRef.getBoundingClientRect()
-			setPosition({
-				top: height,
-				left: 0,
-			})
+		const currentCont = refCont.current
+		const currentDrop = refDrop.current
+
+		if (currentDrop !== null && currentCont !== null) {
+			const { top, left } = getPosition(
+				currentCont.getBoundingClientRect(),
+				currentDrop.getBoundingClientRect(),
+				_meta)
+
+			currentDrop.style.top = `${top}px`
+			currentDrop.style.left = `${left}px`
+			currentDrop.style.visibility = isOpen ? 'visible' : 'hidden'
 		}
-	}, [position.top])
-	console.log('RENDER')
+	})
+
+	let refCont = createRef() as RefObject<HTMLDivElement>
+	let refDrop = createRef() as RefObject<HTMLDivElement>
 	return (
 		<div ref={refCont} onClick={() => toggleOpen(!isOpen)} className="dropdown_container">
 			{element}
-			<div style={position} className="dropdown__drop" >
+			<div ref={refDrop} className="dropdown__drop" >
 				{dropElement}
 			</div>
 		</div>

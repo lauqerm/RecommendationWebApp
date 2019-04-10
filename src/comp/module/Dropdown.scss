@@ -1,9 +1,12 @@
 .dropdown {
 	&_container {
 		position: relative;
+		display: inline-block;
 	}
 	&__drop{
 		position: absolute;
-		visibility: visible;
+		visibility: hidden;
+		width: max-content;
+		z-index: 900;
 	}
 }
