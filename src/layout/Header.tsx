@@ -14,7 +14,7 @@ const HeaderBar = () => {
 			<Search />
 			{withDropdown(
 				<img className="profile__avatar" src={require('../image/user--noAvatar.png')} />,
-				<div>This is a dropdown</div>
+				<div>This is a dropdown</div>,
 			)}
 		</div >
 	)
