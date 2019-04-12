@@ -6,11 +6,14 @@ import '../style/site.scss'
 
 const SiteContainer = () => {
 	return (
-		<div className="siteContainer">
-			<HeaderBar />
-			<View />
-			<FooterBar />
-		</div>
+		<React.Fragment>
+			<div className="siteOverlay" />
+			<div className="siteContainer">
+				<HeaderBar />
+				<View />
+				<FooterBar />
+			</div>
+		</React.Fragment>
 	)
 }
 
