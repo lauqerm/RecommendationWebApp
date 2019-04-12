@@ -1,13 +1,7 @@
-export const AUTHORIZE = 'AUTHORIZE'
-export const ADD_TOKEN = 'ADD_TOKEN'
-export interface AddTokenAction {
-	type: string,
-	category: string,
-	token: string,
-}
+export type AuthAction =
+	| { type: 'ADD_TOKEN'; token: string }
 
-export const addToken = (token: string): AddTokenAction => ({
+export const addToken = (token: string): AuthAction => ({
 	token,
-	category: AUTHORIZE,
-	type: ADD_TOKEN,
+	type: 'ADD_TOKEN',
 })

@@ -1,4 +1,4 @@
-import { AnyAction, Reducer } from 'redux'
+import { AnyAction } from 'redux'
 import { authorization } from './auth'
 
 const defaultRootState:any = {}
@@ -9,7 +9,7 @@ const root = (state = defaultRootState, action: AnyAction) => {
 		authorization
 	}
 
-	Object.keys(reducers).reduce((nextState: any, key: string) => {
+	return Object.keys(reducers).reduce((nextState: any, key: string) => {
 		nextState[key] = reducers[key](state[key], action)
 		return nextState
 	}, {})

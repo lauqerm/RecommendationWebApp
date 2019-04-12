@@ -1,6 +1,5 @@
-import { addToken, AUTHORIZE } from './auth'
+import { addToken } from './auth'
 
 export {
 	addToken,
-	AUTHORIZE,
 }

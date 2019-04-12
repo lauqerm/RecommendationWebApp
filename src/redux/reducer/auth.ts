@@ -1,4 +1,4 @@
-import { AddTokenAction } from '../action/auth'
+import { AuthAction } from '../action/auth'
 
 export interface AuthorizeState {
 	authStatus: boolean,
@@ -10,9 +10,10 @@ const _authorization = {
 	token: '',
 }
 
-export const authorization = (state = _authorization, action: AddTokenAction): AuthorizeState => {
+export const authorization = (state = _authorization, action: AuthAction): AuthorizeState => {
+	console.log('reducer')
 	switch (action.type) {
-		case 'AUTHORIZE': return {
+		case 'ADD_TOKEN': return {
 			authStatus: true,
 			token: action.token
 		}
