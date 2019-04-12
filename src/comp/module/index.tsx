@@ -1,7 +1,7 @@
 import Search from './Search'
-import { withDropdown } from './Dropdown'
+import { Dropdown } from './Dropdown'
 
 export {
 	Search,
-	withDropdown
+	Dropdown
 }
