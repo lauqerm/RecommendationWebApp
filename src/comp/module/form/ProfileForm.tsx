@@ -1,6 +1,6 @@
 import React from 'react'
 
-export class ProfileFrom extends React.Component<{ userId: string }> {
+export class ProfileForm extends React.Component<any> {
 	render() {
 		return (
 			<div>

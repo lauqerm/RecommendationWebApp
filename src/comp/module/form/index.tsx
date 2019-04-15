@@ -1,9 +1,9 @@
 import { LoginForm } from './LoginForm'
-import { ProfileFrom } from './ProfileForm'
+import { ProfileForm } from './ProfileForm'
 import { RegisterForm } from './RegisterForm'
 
 export {
 	LoginForm,
 	RegisterForm,
-	ProfileFrom,
+	ProfileForm,
 }
