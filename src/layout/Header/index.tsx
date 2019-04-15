@@ -29,7 +29,7 @@ const HeaderContainer = (props: any) => {
 	const { authStatus } = props
 	return (
 		<div className="siteHeader">
-			<NavLink to="/s" >
+			<NavLink to="/" >
 				<Logo className="siteHeader__logo" />
 			</NavLink>
 			<Search />

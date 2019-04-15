@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { withCurrentUser } from '../../comp/hoc'
 import '../../style/profile.scss'
 
-const AvatarDropdown = (props: any) => {
+const AvatarDropdown = (props: _HeaderAvatarProps) => {
 	const { currentUserId } = props
 	return <div>
 		<NavLink to={`/${currentUserId}/favourite`} >{'Địa điểm yêu thích'}</NavLink><br />
@@ -20,7 +20,7 @@ const _HeaderAvatar = (props: _HeaderAvatarProps) => {
 	const { currentUserId } = props
 	return <Dropdown
 		child={<img className="profile__avatar" src={require('../../image/user--noAvatar.png')} />}
-		drop={<AvatarDropdown userId={currentUserId} />} />
+		drop={<AvatarDropdown currentUserId={currentUserId} />} />
 }
 
 export const HeaderAvatar = withCurrentUser(_HeaderAvatar)

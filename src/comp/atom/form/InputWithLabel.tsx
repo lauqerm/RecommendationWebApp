@@ -7,10 +7,11 @@ export type InputWithLabelProps = {
 	id?: string,
 	formId: string,
 	type: string,
-	required?: boolean,
+	disabled?: boolean | undefined,
+	value?: string,
 }
 export const InputWithLabel = (props: InputWithLabelProps) => {
-	const { key, label, id, formId, ...spreadingProps } = props
+	const { key, label, id, formId, value, disabled, ...spreadingProps } = props
 	const _id = override(key, id)
 	const ownId = `${formId}_${_id}`
 	return (
@@ -18,7 +19,10 @@ export const InputWithLabel = (props: InputWithLabelProps) => {
 			<label htmlFor={ownId} form={formId} >
 				{label}
 			</label>
-			<input id={ownId} form={formId} {...spreadingProps} />
+			{disabled
+				? <div>{value}</div>
+				: <input id={ownId} form={formId} {...spreadingProps} />
+			}
 		</React.Fragment>
 	)
 }

@@ -1,9 +1,8 @@
 import React from 'react'
 import { ProfileForm } from '../comp/module/form'
 import { Route, RouteComponentProps } from 'react-router'
-import { withCurrentUser } from '../comp/hoc'
 
-const _UserRoute = () => {
+export const UserRoute = () => {
 	return (
 		<React.Fragment>
 			<Route path="/:userId/favourite" render={(props: any) => {
@@ -19,5 +18,3 @@ const _UserRoute = () => {
 		</React.Fragment>
 	)
 }
-
-export const UserRoute = withCurrentUser(_UserRoute)

@@ -1,11 +1,13 @@
 import React, { FormEvent } from 'react'
 import { InputWithLabel } from '../../atom/form'
+import { withCurrentUser } from '../../hoc'
 import '../../../style/layout.scss'
 
 type ProfileFormProps = {
-	id: string
+	id: string,
+	currentUserId: string,
 }
-export class ProfileForm extends React.Component<ProfileFormProps> {
+class _ProfileForm extends React.Component<ProfileFormProps> {
 	formInputs = [
 		{
 			label: 'Email',
@@ -37,13 +39,15 @@ export class ProfileForm extends React.Component<ProfileFormProps> {
 		e.preventDefault()
 	}
 	render() {
-		const { id } = this.props
+		const { id, currentUserId } = this.props
+		const isCurrentUser = id === currentUserId
 		const inputs = this.formInputs.map((element, index) => {
 			return {
 				...element,
 				formId: id,
 				id: `${index}`,
 				key: `${index}`,
+				disabled: !isCurrentUser
 			}
 		})
 		return (
@@ -58,11 +62,16 @@ export class ProfileForm extends React.Component<ProfileFormProps> {
 				</div>
 				{InputWithLabel(inputs[4])}
 				{InputWithLabel(inputs[5])}
-				<div>
-					<input type="submit" value="Hoàn tất" />
-					<button>Hủy bỏ</button>
-				</div>
+				{isCurrentUser
+					? <div>
+						<input type="submit" value="Hoàn tất" />
+						<button>Hủy bỏ</button>
+					</div>
+					: null
+				}
 			</div>
 		)
 	}
 }
+
+export const ProfileForm = withCurrentUser(_ProfileForm)
