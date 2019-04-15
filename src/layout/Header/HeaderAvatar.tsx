@@ -1,26 +1,26 @@
 import React from 'react'
 import { Dropdown } from '../../comp/module'
 import { NavLink } from 'react-router-dom'
-import { withUserId } from '../../comp/hoc'
+import { withCurrentUser } from '../../comp/hoc'
 import '../../style/profile.scss'
 
 const AvatarDropdown = (props: any) => {
-	const { userId } = props
+	const { currentUserId } = props
 	return <div>
-		<NavLink to={`/${userId}/favourite`} >{'Địa điểm yêu thích'}</NavLink><br />
-		<NavLink to={`/${userId}/profile`} >{'Thông tin cá nhân'}</NavLink><br />
+		<NavLink to={`/${currentUserId}/favourite`} >{'Địa điểm yêu thích'}</NavLink><br />
+		<NavLink to={`/${currentUserId}/profile`} >{'Thông tin cá nhân'}</NavLink><br />
 		<NavLink to={`/logout`} >{'Đăng xuất'}</NavLink><br />
 	</div>
 }
 
 type _HeaderAvatarProps = {
-	userId: string
+	currentUserId: string
 }
 const _HeaderAvatar = (props: _HeaderAvatarProps) => {
-	const { userId } = props
+	const { currentUserId } = props
 	return <Dropdown
 		child={<img className="profile__avatar" src={require('../../image/user--noAvatar.png')} />}
-		drop={<AvatarDropdown userId={userId} />} />
+		drop={<AvatarDropdown userId={currentUserId} />} />
 }
 
-export const HeaderAvatar = withUserId(_HeaderAvatar)
+export const HeaderAvatar = withCurrentUser(_HeaderAvatar)

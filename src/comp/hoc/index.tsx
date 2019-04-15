@@ -1,5 +1,5 @@
-import withUserId from './withUserId'
+import withCurrentUser from './withCurrentUser'
 
 export {
-	withUserId
+	withCurrentUser
 }
