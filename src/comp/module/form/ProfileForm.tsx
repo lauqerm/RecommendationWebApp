@@ -1,32 +1,64 @@
-import React from 'react'
+import React, { FormEvent } from 'react'
+import { InputWithLabel } from '../../atom/form'
+import '../../../style/layout.scss'
 
 export class ProfileForm extends React.Component<any> {
+	formInputs = [
+		{
+			label: 'Email',
+			type: 'email',
+			disabled: true,
+		},
+		{
+			label: 'Tên đăng nhập',
+			type: 'text',
+		},
+		{
+			label: 'Mật khẩu',
+			type: 'password',
+		},
+		{
+			label: 'Xác nhận mật khẩu',
+			type: 'password',
+		},
+		{
+			label: 'Địa điểm',
+			type: 'text',
+		},
+		{
+			label: 'Ưa thích',
+			type: 'text',
+		},
+	]
+	submit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+	}
 	render() {
+		const { id } = this.props
+		const inputs = this.formInputs.map((element, index) => {
+			return {
+				...element,
+				formId: id,
+				id: `${index}`,
+				key: `${index}`,
+			}
+		})
 		return (
-			<div>
+			<div className="container--stack">
 				<div>
-					<img src="/" />Ảnh đại diện
-					</div>
-				<label>Email</label><br />
-				<input disabled type="text" /><br />
-				<label>Tên đăng nhập</label><br />
-				<input type="text" /><br />
-				<div>
-					<label>Mật khẩu</label><br />
-					<input type="password" /><br />
+					<img src="/" />
+					Ảnh đại diện
+					{InputWithLabel(inputs[0])}
+					{InputWithLabel(inputs[1])}
+					{InputWithLabel(inputs[2])}
+					{InputWithLabel(inputs[3])}
 				</div>
+				{InputWithLabel(inputs[4])}
+				{InputWithLabel(inputs[5])}
 				<div>
-					<label>Xác nhận mật khẩu</label><br />
-					<input type="password" /><br />
+					<input type="submit" value="Hoàn tất" />
+					<button>Hủy bỏ</button>
 				</div>
-				<div>
-					<label>Địa điểm</label><br />
-					<input type="text" /><br />
-					<label>Ưa thích</label><br />
-					<input type="text" /><br />
-				</div>
-				<button>Hoàn tất</button>
-				<button>Hủy bỏ</button>
 			</div>
 		)
 	}

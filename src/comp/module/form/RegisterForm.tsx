@@ -1,19 +1,50 @@
-import React from 'react'
+import React, { FormEvent } from 'react'
+import { InputWithLabel } from '../../atom/form'
+import '../../../style/layout.scss'
 
-export class RegisterForm extends React.Component {
+type RegisterFormProps = {
+	id: string
+}
+export class RegisterForm extends React.Component<RegisterFormProps> {
+	formInputs = [
+		{
+			label: 'Email',
+			type: 'email',
+			required: true,
+		},
+		{
+			label: 'Tên đăng nhập',
+			type: 'text',
+			required: true,
+		},
+		{
+			label: 'Mật khẩu',
+			type: 'password',
+			required: true,
+		},
+		{
+			label: 'Xác nhận mật khẩu',
+			type: 'password',
+			required: true,
+		},
+	]
+	submit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+	}
 	render() {
+		const { id } = this.props
 		return (
-			<div>
-			<label>Email</label><br />
-			<input type="text" /><br />
-				<label>Tên đăng nhập</label><br />
-				<input type="text" /><br />
-				<label>Mật khẩu</label><br />
-				<input type="password" /><br />
-				<label>Xác nhận mật khẩu</label><br />
-				<input type="password" /><br />
-				<button>Đăng ký</button>
-			</div>
+			<form className="container--stack" id={id} onSubmit={this.submit} >
+				{this.formInputs.map((element, index) => {
+					return InputWithLabel({
+						formId: id,
+						id: `${index}`,
+						key: `${index}`,
+						...element
+					})
+				})}
+				<input type="submit" value="Gửi yêu cầu" />
+			</form>
 		)
 	}
 }
