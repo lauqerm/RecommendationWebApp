@@ -1,7 +1,10 @@
 import Search from './Search'
-import { withDropdown } from './Dropdown'
+import { Dropdown } from './Dropdown'
+import { LoginForm, RegisterForm } from './form'
 
 export {
 	Search,
-	withDropdown
+	Dropdown,
+	LoginForm,
+	RegisterForm,
 }

@@ -1,18 +1,21 @@
+import { mergeRight } from 'ramda'
+import './Dropdown.scss'
 import React, {
 	createRef,
-	ReactChild,
 	RefObject,
-	useEffect,
-	useState
-	} from 'react'
-import { mergeRight } from 'ramda'
-import { override } from '../../com'
-import './Dropdown.scss'
+	ReactChild,
+} from 'react'
 
 export type DropdownMeta = {
 	edge?: 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT',
 	align?: 'CENTER' | 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT',
 	smart?: boolean,
+}
+export type DropdownType = {
+	child: ReactChild,
+	drop: ReactChild,
+	_meta?: DropdownMeta,
+	overrideStatus?: boolean
 }
 
 // value already valid in withDropdown
@@ -83,42 +86,41 @@ const getPosition = (contSize: ClientRect, dropSize: ClientRect, meta: DropdownM
 	return { top, left }
 }
 
-export const withDropdown = (element: ReactChild, dropElement: ReactChild, meta?: DropdownMeta, overrideStatus?: boolean) => {
-	const defaultMeta: DropdownMeta = {
+export class Dropdown extends React.Component<DropdownType> {
+	defaultMeta: DropdownMeta = {
 		edge: 'TOP',
 		align: 'RIGHT',
 		smart: true,
 	}
-	const _meta = mergeRight(defaultMeta, meta)
-
-	const [isOpen, toggleOpen] = useState(false)
-	if (overrideStatus !== undefined && overrideStatus !== isOpen)
-		toggleOpen(override(isOpen, overrideStatus))
-
-	useEffect(() => {
-		const currentCont = refCont.current
-		const currentDrop = refDrop.current
+	meta = mergeRight(this.defaultMeta, this.props._meta)
+	isOpen = false || this.props.overrideStatus
+	refCont = createRef() as RefObject<HTMLDivElement>
+	refDrop = createRef() as RefObject<HTMLDivElement>
+	toggleState = () => {
+		this.isOpen = !this.isOpen
+		const currentCont = this.refCont.current
+		const currentDrop = this.refDrop.current
 
 		if (currentDrop !== null && currentCont !== null) {
 			const { top, left } = getPosition(
 				currentCont.getBoundingClientRect(),
 				currentDrop.getBoundingClientRect(),
-				_meta)
+				this.meta)
 
 			currentDrop.style.top = `${top}px`
 			currentDrop.style.left = `${left}px`
-			currentDrop.style.visibility = isOpen ? 'visible' : 'hidden'
+			currentDrop.style.visibility = this.isOpen ? 'visible' : 'hidden'
 		}
-	})
-
-	let refCont = createRef() as RefObject<HTMLDivElement>
-	let refDrop = createRef() as RefObject<HTMLDivElement>
-	return (
-		<div ref={refCont} onClick={() => toggleOpen(!isOpen)} className="dropdown_container">
-			{element}
-			<div ref={refDrop} className="dropdown__drop" >
-				{dropElement}
+	}
+	render() {
+		const { child, drop } = this.props
+		return (
+			<div ref={this.refCont} className="dropdown_container">
+				<div onClick={this.toggleState} className="dropdown__ele" >{child}</div>
+				<div ref={this.refDrop} className="dropdown__drop" >
+					{drop}
+				</div>
 			</div>
-		</div>
-	)
+		)
+	}
 }

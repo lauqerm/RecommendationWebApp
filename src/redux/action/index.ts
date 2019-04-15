@@ -1,6 +1,7 @@
-import { addToken, AUTHORIZE } from './auth'
+import { addToken, addUserId, auth } from './auth'
 
 export {
 	addToken,
-	AUTHORIZE,
+	addUserId,
+	auth
 }

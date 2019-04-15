@@ -15,3 +15,8 @@
   position: relative;
   box-sizing: border-box;
 }
+
+// Shortener
+@mixin padding($amount) {
+	padding: $amount;
+}

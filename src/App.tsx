@@ -1,18 +1,17 @@
 import React from 'react'
-import root from './redux/reducer'
+import rootReducer from './redux/reducer'
 import SiteContainer from './layout'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
+import { withRootRouter } from './route'
 
-const store = createStore(root)
+const store = createStore(rootReducer, composeWithDevTools())
 
 const App = () => {
 	return (
 		<Provider store={store}>
-			<Router>
-				<SiteContainer />
-			</Router>
+			{withRootRouter(<SiteContainer />)}
 		</Provider>
 	)
 }
