@@ -13,7 +13,7 @@ export class RegisterForm extends React.Component<RegisterFormProps> {
 			required: true,
 		},
 		{
-			label: 'Tên đăng nhập',
+			label: 'Tên tài khoản',
 			type: 'text',
 			required: true,
 		},

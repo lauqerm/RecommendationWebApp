@@ -2,7 +2,10 @@ import React, { FormEvent } from 'react'
 import { InputWithLabel } from '../../atom/form'
 import '../../../style/layout.scss'
 
-export class ProfileForm extends React.Component<any> {
+type ProfileFormProps = {
+	id: string
+}
+export class ProfileForm extends React.Component<ProfileFormProps> {
 	formInputs = [
 		{
 			label: 'Email',
@@ -10,7 +13,7 @@ export class ProfileForm extends React.Component<any> {
 			disabled: true,
 		},
 		{
-			label: 'Tên đăng nhập',
+			label: 'Tên tài khoản',
 			type: 'text',
 		},
 		{
