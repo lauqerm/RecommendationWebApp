@@ -41,12 +41,12 @@ const HeaderContainer = (props: any) => {
 				? <div className="siteHeader__logButton">
 					<Dropdown
 						child={<button>Đăng ký</button>}
-						drop={<RegisterForm />} />
+						drop={<RegisterForm id="register" />} />
 					<Dropdown
 						child={<button onClick={() => {
 							auth('123', '321')
 						}} >Đăng nhập</button>}
-						drop={<LoginForm />} />
+						drop={<LoginForm id="login" />} />
 				</div>
 				: null
 			}
