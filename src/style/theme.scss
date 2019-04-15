@@ -1,6 +1,4 @@
-@mixin padding($amount) {
-	padding: $amount;
-}
+@import "./util.scss";
 
 .p0 { @include padding(0!important); }
 .p1 { @include padding(1rem); }
