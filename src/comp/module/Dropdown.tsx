@@ -115,8 +115,8 @@ export class Dropdown extends React.Component<DropdownType> {
 	render() {
 		const { child, drop } = this.props
 		return (
-			<div ref={this.refCont} onClick={this.toggleState} className="dropdown_container">
-				{child}
+			<div ref={this.refCont} className="dropdown_container">
+				<div onClick={this.toggleState} className="dropdown__ele" >{child}</div>
 				<div ref={this.refDrop} className="dropdown__drop" >
 					{drop}
 				</div>
