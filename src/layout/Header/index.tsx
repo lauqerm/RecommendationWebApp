@@ -1,4 +1,3 @@
-import HeaderAvatar from './HeaderAvatar'
 import React from 'react'
 import { auth } from '../../redux/action'
 import { connect } from 'react-redux'
@@ -9,6 +8,7 @@ import {
 	RegisterForm,
 	Search
 	} from '../../comp/module'
+import { HeaderAvatar } from './HeaderAvatar'
 import { NavLink } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../logo.svg'
 import '../../style/site.scss'

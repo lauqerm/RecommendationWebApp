@@ -1,12 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Dropdown } from '../../comp/module'
 import { NavLink } from 'react-router-dom'
+import { withUserId } from '../../comp/hoc'
 import '../../style/profile.scss'
-
-const mapStateToProps = (state: any):HeaderAvatarProps => {
-	return { userId: state.authorization.userId }
-}
 
 const AvatarDropdown = (props: any) => {
 	const { userId } = props
@@ -17,17 +13,14 @@ const AvatarDropdown = (props: any) => {
 	</div>
 }
 
-type HeaderAvatarProps = {
+type _HeaderAvatarProps = {
 	userId: string
 }
-const HeaderAvatar = (props: HeaderAvatarProps) => {
+const _HeaderAvatar = (props: _HeaderAvatarProps) => {
 	const { userId } = props
 	return <Dropdown
 		child={<img className="profile__avatar" src={require('../../image/user--noAvatar.png')} />}
 		drop={<AvatarDropdown userId={userId} />} />
 }
 
-export default connect(
-	mapStateToProps,
-	null,
-)(HeaderAvatar)
+export const HeaderAvatar = withUserId(_HeaderAvatar)
