@@ -3,13 +3,13 @@ import { AuthAction } from '../action/auth'
 export interface AuthorizeState {
 	authStatus: boolean,
 	token: string,
-	userId: string,
+	currentUserId: string,
 }
 
 const _authorization = {
 	authStatus: false,
 	token: '',
-	userId: '',
+	currentUserId: '',
 }
 
 export const authorization = (state = _authorization, action: AuthAction): AuthorizeState => {
@@ -22,12 +22,12 @@ export const authorization = (state = _authorization, action: AuthAction): Autho
 		case 'ADD_USER_ID': return {
 			...state,
 			authStatus: true,
-			userId: action.id
+			currentUserId: action.id
 		}
 		case 'AUTH': return {
 			...state,
 			authStatus: true,
-			userId: action.id,
+			currentUserId: action.id,
 			token: action.token
 		}
 		default: return state

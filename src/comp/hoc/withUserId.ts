@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state: any) => {
-	return { userId: state.authorization.userId }
+	return { currentUserId: state.authorization.currentUserId }
 }
 
 export default connect(
