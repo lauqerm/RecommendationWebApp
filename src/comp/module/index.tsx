@@ -1,4 +1,4 @@
-import Search from './Search'
+import Search from './form/Search'
 import { Dropdown } from './Dropdown'
 import { LoginForm, RegisterForm } from './form'
 

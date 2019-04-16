@@ -1,6 +1,6 @@
-import { LoginForm } from './LoginForm'
-import { ProfileForm } from './ProfileForm'
-import { RegisterForm } from './RegisterForm'
+import { LoginForm } from './Login'
+import { ProfileForm } from './Profile'
+import { RegisterForm } from './Register'
 
 export {
 	LoginForm,
