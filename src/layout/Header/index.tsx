@@ -2,13 +2,9 @@ import React from 'react'
 import { auth } from '../../redux/action'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import {
-	Dropdown,
-	LoginForm,
-	RegisterForm,
-	Search
-	} from '../../comp/module'
+import { Dropdown } from '../../comp/module'
 import { HeaderAvatar } from './HeaderAvatar'
+import { LoginForm, RegisterForm, Search } from '../../comp/module/form'
 import { NavLink } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../logo.svg'
 import '../../style/site.scss'
