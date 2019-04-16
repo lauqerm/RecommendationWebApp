@@ -1,6 +1,6 @@
 import React from 'react'
-import { UserRoute } from '../route'
-import '../style/theme.scss'
+import { UserRoute } from '../../route'
+import '../../style/theme.scss'
 
 const View = () => {
 	return (
