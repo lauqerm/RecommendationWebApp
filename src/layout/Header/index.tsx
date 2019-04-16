@@ -40,9 +40,15 @@ const HeaderContainer = (props: any) => {
 			{authStatus === false
 				? <div className="siteHeader__logButton">
 					<Dropdown
+						meta={{
+							align: 'RIGHT'
+						}}
 						child={<button>Đăng ký</button>}
 						drop={<RegisterForm id="register" />} />
 					<Dropdown
+						meta={{
+							align: 'RIGHT'
+						}}
 						child={<button onClick={() => {
 							auth('123', '321')
 						}} >Đăng nhập</button>}

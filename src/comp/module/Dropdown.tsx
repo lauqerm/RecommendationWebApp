@@ -14,13 +14,13 @@ export type DropdownMeta = {
 export type DropdownType = {
 	child: ReactChild,
 	drop: ReactChild,
-	_meta?: DropdownMeta,
+	meta?: DropdownMeta,
 	overrideStatus?: boolean
 }
 
 // value already valid in withDropdown
-const getPosition = (contSize: ClientRect, dropSize: ClientRect, meta: DropdownMeta) => {
-	const { edge, align, smart } = meta
+const getPosition = (contSize: ClientRect, dropSize: ClientRect, __meta: DropdownMeta) => {
+	const { edge, align, smart } = __meta
 	const code = `${edge}_${align}`
 	const { height: contHeight, width: contWidth } = contSize
 	const { height: dropHeight, width: dropWidth } = dropSize
@@ -89,10 +89,10 @@ const getPosition = (contSize: ClientRect, dropSize: ClientRect, meta: DropdownM
 export class Dropdown extends React.Component<DropdownType> {
 	defaultMeta: DropdownMeta = {
 		edge: 'TOP',
-		align: 'RIGHT',
+		align: 'LEFT',
 		smart: true,
 	}
-	meta = mergeRight(this.defaultMeta, this.props._meta)
+	_meta = mergeRight(this.defaultMeta, this.props.meta)
 	isOpen = false || this.props.overrideStatus
 	refCont = createRef() as RefObject<HTMLDivElement>
 	refDrop = createRef() as RefObject<HTMLDivElement>
@@ -105,7 +105,7 @@ export class Dropdown extends React.Component<DropdownType> {
 			const { top, left } = getPosition(
 				currentCont.getBoundingClientRect(),
 				currentDrop.getBoundingClientRect(),
-				this.meta)
+				this._meta)
 
 			currentDrop.style.top = `${top}px`
 			currentDrop.style.left = `${left}px`

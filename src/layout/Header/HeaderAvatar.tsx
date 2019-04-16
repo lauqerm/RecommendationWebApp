@@ -19,6 +19,9 @@ type _HeaderAvatarProps = {
 const _HeaderAvatar = (props: _HeaderAvatarProps) => {
 	const { currentUserId } = props
 	return <Dropdown
+		meta={{
+			align: 'RIGHT'
+		}}
 		child={<img className="profile__avatar" src={require('../../image/user--noAvatar.png')} />}
 		drop={<AvatarDropdown currentUserId={currentUserId} />} />
 }
