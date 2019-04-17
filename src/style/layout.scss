@@ -1,4 +1,6 @@
-.container {
+@import './theme.scss';
+
+.ctn {
 	&--stack {
 		display: grid;
 		grid-template-rows: 1fr;

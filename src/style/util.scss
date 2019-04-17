@@ -17,6 +17,18 @@
 }
 
 // Shortener
-@mixin padding($amount) {
-	padding: $amount;
+@mixin padding($name, $amount) {
+	.p-#{$name} { padding: $amount }
+	.pt-#{$name} { padding: $amount }
+	.pb-#{$name} { padding: $amount }
+	.pl-#{$name} { padding: $amount }
+	.pr-#{$name} { padding: $amount }
+}
+
+@mixin margin($name, $amount) {
+	.m-#{$name} { margin: $amount }
+	.mt-#{$name} { margin: $amount }
+	.mb-#{$name} { margin: $amount }
+	.ml-#{$name} { margin: $amount }
+	.mr-#{$name} { margin: $amount }
 }
