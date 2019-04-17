@@ -1,7 +1,45 @@
-@import './util.scss';
+@import "./util.scss";
 
 .profile {
-	&__avatar {
-		@include circleShape(60px);
-	}
+  width: 60%;
+  min-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  height: min-content;
+  grid-row-gap: 0.5rem;
+  box-shadow: 0 2px 4px var(--sd0);
+  &__avatar {
+    @include circleShape(60px);
+  }
+  &__cont {
+    &--info {
+      display: grid;
+      grid-template-columns: 150px 150px 1fr;
+      grid-row-gap: 0.5rem;
+      height: min-content;
+    }
+    &--avt {
+      grid-row: 1 / span 4;
+    }
+    &--pwd {
+      grid-column: 2 / span 2;
+      display: flex;
+      &--sub {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 150px 1fr;
+      }
+    }
+    &--act {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 0.5rem;
+    }
+  }
+  label {
+    font-weight: bold;
+    padding-left: 5px;
+    margin-top: 0.5rem;
+  }
 }
