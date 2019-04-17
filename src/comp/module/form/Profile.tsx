@@ -13,7 +13,6 @@ class _ProfileForm extends React.Component<ProfileFormProps> {
 		{
 			label: 'Email',
 			type: 'email',
-			disabled: true,
 		},
 		{
 			label: 'Tên tài khoản',
@@ -48,16 +47,18 @@ class _ProfileForm extends React.Component<ProfileFormProps> {
 				formId: id,
 				id: `${index}`,
 				key: `${index}`,
-				disabled: !isCurrentUser
+				disabled: index !== 0 ? !isCurrentUser : true
 			}
 		})
+
 		return (
 			<div className="ctn--stack p-3 mt-1 profile">
 				<div className="profile__cont--info">
-					<div className="profile__cont--avt">
+					<figure className="profile__cont--avt">
 						<img className="profile__cont--avatar" src="/" />
-						Ảnh đại diện
-					</div>
+						<br />
+						<label>Ảnh đại diện</label>
+					</figure>
 					{isCurrentUser
 						? InputWithLabel(inputs[0])
 						: null
