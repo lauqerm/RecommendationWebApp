@@ -1,6 +1,7 @@
 .ctn {
 	&--stack {
 		display: grid;
+		box-sizing: border-box;
 		grid-template-rows: 1fr;
 	}
 }

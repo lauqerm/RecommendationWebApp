@@ -21,16 +21,24 @@
   }
   &Header {
     @include site;
-    box-shadow: 0 0 1px 1px #000;
+    box-shadow: 0 0 8px 1px var(--sd0);
     padding: 10px;
     grid-area: header;
-    grid-template-columns: max-content 1fr max-content;
+    grid-template-columns: max-content 1fr 250px 0.5em;
     &__logo {
       @include squareShape(60px);
-	}
-	&__logButton > button + button {
-		margin-left: 1rem;
-	}
+    }
+    &__logButton {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    &__button {
+      font-size: 1.6em;
+      font-weight: 100;
+      cursor: pointer;
+      text-align: left;
+      line-height: 60px;
+    }
   }
   &Footer {
     @include site;
