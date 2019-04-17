@@ -6,10 +6,10 @@ import '../../style/profile.scss'
 
 const AvatarDropdown = (props: _HeaderAvatarProps) => {
 	const { currentUserId } = props
-	return <div>
-		<NavLink to={`/${currentUserId}/favourite`} >{'Địa điểm yêu thích'}</NavLink><br />
-		<NavLink to={`/${currentUserId}/profile`} >{'Thông tin cá nhân'}</NavLink><br />
-		<NavLink to={`/logout`} >{'Đăng xuất'}</NavLink><br />
+	return <div className="ctn--stack p-2 drop--shadow" style={{ width: '250px' }}>
+		<NavLink className="nav-link dropdown-item" to={`/${currentUserId}/favourite`} >{'Địa điểm yêu thích'}</NavLink>
+		<NavLink className="nav-link dropdown-item" to={`/${currentUserId}/profile`} >{'Thông tin cá nhân'}</NavLink>
+		<NavLink className="nav-link dropdown-item" to={`/logout`} >{'Đăng xuất'}</NavLink>
 	</div>
 }
 

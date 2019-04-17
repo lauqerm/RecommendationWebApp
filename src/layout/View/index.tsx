@@ -3,7 +3,7 @@ import { UserRoute } from '../../route'
 
 const View = () => {
 	return (
-		<div className="siteView p1" style={{ textAlign: 'center' }}>
+		<div className="siteView p-2" style={{ textAlign: 'center' }}>
 			<UserRoute />
 		</div>
 	)
