@@ -37,17 +37,19 @@ const HeaderContainer = (props: any) => {
 				? <div className="siteHeader__logButton">
 					<Dropdown
 						meta={{
-							align: 'RIGHT'
+							align: 'LEFT'
 						}}
-						child={<button>Đăng ký</button>}
+						child={<div className="siteHeader__button">Đăng ký</div>}
 						drop={<RegisterForm id="register" />} />
 					<Dropdown
 						meta={{
 							align: 'RIGHT'
 						}}
-						child={<button onClick={() => {
-							auth('123', '321')
-						}} >Đăng nhập</button>}
+						child={<div className="siteHeader__button"
+							style={{ textAlign: 'right' }}
+							onClick={() => {
+								auth('123', '321')
+							}} >Đăng nhập</div>}
 						drop={<LoginForm id="login" />} />
 				</div>
 				: null

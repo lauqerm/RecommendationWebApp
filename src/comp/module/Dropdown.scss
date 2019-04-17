@@ -2,11 +2,24 @@
 	&_container {
 		position: relative;
 		display: inline-block;
+		box-sizing: border-box;
 	}
 	&__drop{
+		box-sizing: border-box;
 		position: absolute;
 		visibility: hidden;
 		width: max-content;
 		z-index: 900;
+	}
+}
+
+.drop {
+	&--shadow {
+		background-color: var(--bg0);
+		border-radius: 3px;
+		border: 1px solid var(--bd0);
+		box-sizing: border-box;
+		box-shadow: 0 2px 4px var(--sd0);
+		width: max-content;
 	}
 }

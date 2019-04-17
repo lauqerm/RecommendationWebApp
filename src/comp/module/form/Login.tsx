@@ -10,11 +10,12 @@ export class LoginForm extends React.Component<LoginFormProps> {
 		{
 			label: 'Email',
 			type: 'email',
-			disabled: true,
+			required: true,
 		},
 		{
 			label: 'Mật khẩu',
 			type: 'password',
+			required: true,
 		},
 	]
 	submit = (e: FormEvent<HTMLFormElement>) => {
@@ -23,7 +24,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
 	render() {
 		const { id } = this.props
 		return (
-			<form className="ctn--stack p-1" id={id} onSubmit={this.submit} >
+			<form className="ctn--stack p-2 drop--shadow" style={{ width: '250px' }} id={id} onSubmit={this.submit} >
 				{this.formInputs.map((element, index) => {
 					return InputWithLabel({
 						formId: id,
@@ -32,7 +33,8 @@ export class LoginForm extends React.Component<LoginFormProps> {
 						...element
 					})
 				})}
-				<input type="submit" value="Đăng nhập" />
+				<br />
+				<input type="submit" className="btn btn-success" value="Đăng nhập" />
 			</form>
 		)
 	}

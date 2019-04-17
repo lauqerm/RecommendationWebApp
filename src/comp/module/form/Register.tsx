@@ -34,7 +34,7 @@ export class RegisterForm extends React.Component<RegisterFormProps> {
 	render() {
 		const { id } = this.props
 		return (
-			<form className="ctn--stack p-1" id={id} onSubmit={this.submit} >
+			<form className="ctn--stack p-2 drop--shadow" style={{ width: '250px' }} id={id} onSubmit={this.submit} >
 				{this.formInputs.map((element, index) => {
 					return InputWithLabel({
 						formId: id,
@@ -43,7 +43,8 @@ export class RegisterForm extends React.Component<RegisterFormProps> {
 						...element
 					})
 				})}
-				<input type="submit" value="Gửi yêu cầu" />
+				<br />
+				<input type="submit" className="btn btn-success" value="Gửi yêu cầu" />
 			</form>
 		)
 	}
