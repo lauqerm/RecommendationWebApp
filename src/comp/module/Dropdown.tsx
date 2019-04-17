@@ -1,5 +1,5 @@
 import { mergeRight } from 'ramda'
-import './Dropdown.scss'
+import './dropdown.scss'
 import React, {
 	createRef,
 	RefObject,
