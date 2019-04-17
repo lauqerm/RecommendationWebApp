@@ -21,7 +21,7 @@ export class Search extends React.Component<any, any> {
 			<div>
 				<Dropdown
 					child={<div>Magnifier</div>}
-					drop={<div className="container--stack">
+					drop={<div className="ctn--stack p-1">
 						<PriceFilter onInput={this.onPriceInput} value={this.state.price} />
 						<ReviewFilter />
 						<TagFilter />

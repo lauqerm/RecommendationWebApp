@@ -51,7 +51,7 @@ class _ProfileForm extends React.Component<ProfileFormProps> {
 			}
 		})
 		return (
-			<div className="container--stack">
+			<div className="ctn--stack p-1">
 				<div>
 					<img src="/" />
 					Ảnh đại diện

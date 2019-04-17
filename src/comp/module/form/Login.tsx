@@ -23,7 +23,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
 	render() {
 		const { id } = this.props
 		return (
-			<form className="container--stack" id={id} onSubmit={this.submit} >
+			<form className="ctn--stack p-1" id={id} onSubmit={this.submit} >
 				{this.formInputs.map((element, index) => {
 					return InputWithLabel({
 						formId: id,
