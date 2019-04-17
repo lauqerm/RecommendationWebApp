@@ -24,11 +24,11 @@
     }
     &--pwd {
       grid-column: 2 / span 2;
-      display: flex;
+      display: grid;
+      grid-row-gap: 0.5rem;
       &--sub {
-        flex: 1;
         display: grid;
-        grid-template-columns: 150px 1fr;
+        grid-template-columns: 150px minmax(150px, 1fr);
       }
     }
     &--act {
