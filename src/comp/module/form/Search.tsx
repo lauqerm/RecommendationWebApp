@@ -2,7 +2,6 @@ import React, { FormEvent } from 'react'
 import { debounce } from '../../../com'
 import { Dropdown } from '..'
 import { PriceFilter, ReviewFilter, TagFilter } from '../filter'
-import '../../../style/layout.scss'
 
 export class Search extends React.Component<any, any> {
 	constructor(props: any) {

@@ -2,7 +2,6 @@ import React from 'react'
 import { Dropdown } from '../../comp/module'
 import { NavLink } from 'react-router-dom'
 import { withCurrentUser } from '../../comp/hoc'
-import '../../style/profile.scss'
 
 const AvatarDropdown = (props: _HeaderAvatarProps) => {
 	const { currentUserId } = props

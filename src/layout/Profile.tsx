@@ -1,8 +1,15 @@
 import React, { FormEvent } from 'react'
 import { InputWithLabel } from '../comp/atom/form'
 import { withCurrentUser } from '../comp/hoc'
-import '../style/layout.scss'
 import '../style/profile.scss'
+
+export const ProfileImage = (src: any) => {
+	return (
+		<figure className="profile__cont--avt">
+			<img className="profile__cont--avatar profile__avatar" src="/" />
+		</figure>
+	)
+}
 
 type ProfileFormProps = {
 	id: string,
@@ -54,11 +61,7 @@ class _Profile extends React.Component<ProfileFormProps> {
 		return (
 			<div className="ctn--stack p-3 mt-1 profile">
 				<div className="profile__cont--info">
-					<figure className="profile__cont--avt">
-						<img className="profile__cont--avatar" src="/" />
-						<br />
-						<label>Ảnh đại diện</label>
-					</figure>
+					<ProfileImage />
 					{isCurrentUser
 						? InputWithLabel(inputs[0])
 						: null

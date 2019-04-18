@@ -1,6 +1,5 @@
 import React, { FormEvent } from 'react'
 import { InputWithLabel } from '../../atom/form'
-import '../../../style/layout.scss'
 
 type LoginFormProps = {
 	id: string

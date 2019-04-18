@@ -9,7 +9,8 @@ const TripDetail = (props: any) => {
 				<h1 className="tripDetail__header">This is a trip</h1>
 				<div className="tripDetail__summary">
 					<div className="tripDetail__review">
-						Review summary
+						Total score
+						Sum of review
 					</div>
 					<div className="tripDetail__price">
 						PRICE
