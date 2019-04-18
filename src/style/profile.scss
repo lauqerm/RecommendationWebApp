@@ -1,31 +1,33 @@
 @import "./util.scss";
 
 .profile {
-  width: 60%;
-  min-width: 500px;
+  box-shadow: 0 2px 4px var(--sd0);
+  grid-row-gap: 0.5rem;
+  height: min-content;
   margin-left: auto;
   margin-right: auto;
+  min-width: 500px;
   text-align: left;
-  height: min-content;
-  grid-row-gap: 0.5rem;
-  box-shadow: 0 2px 4px var(--sd0);
+  width: 60%;
   &__avatar {
     @include circleShape(60px);
   }
   &__cont {
     &--info {
       display: grid;
-      grid-template-columns: 150px 150px 1fr;
-      grid-row-gap: 0.5rem;
-      height: min-content;
+      grid-template-columns: max-content 1fr;
     }
-    &--avt {
-      grid-row: 1 / span 4;
-    }
-    &--pwd {
-      grid-column: 2 / span 2;
+    &--content {
       display: grid;
       grid-row-gap: 0.5rem;
+      grid-template-columns: 150px 1fr;
+      height: min-content;
+    }
+    &--pwd {
+	  grid-row-gap: 0.5rem;
+	  grid-template-columns: 1fr 1fr;
+      display: grid;
+      grid-column: 1 / span 2;
       &--sub {
         display: grid;
         grid-template-columns: 150px minmax(150px, 1fr);

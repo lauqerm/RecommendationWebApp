@@ -1,14 +1,22 @@
-.tripDetail {
+.trip {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "detail detail" "review similar";
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: max-content 1fr;
   text-align: left;
-  width: 80%;
-  min-width: 500px;
+}
+
+.tripDetail {
+  box-shadow: 0 2px 4px var(--sd0);
+  display: grid;
+  grid-area: detail;
+  grid-row-gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+  height: min-content;
   margin-left: auto;
   margin-right: auto;
-  height: min-content;
-  grid-row-gap: 0.5rem;
-  box-shadow: 0 2px 4px var(--sd0);
+  min-width: 500px;
+  width: 80%;
   &__img {
     object-fit: cover;
   }
@@ -16,4 +24,12 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.tripReview {
+  grid-area: review;
+}
+
+.tripSimilar {
+  grid-area: similar;
 }
