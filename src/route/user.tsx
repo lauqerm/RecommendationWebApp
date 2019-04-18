@@ -1,15 +1,15 @@
 import React from 'react'
 import Trip from '../layout/Trip'
+import { Logout, TripBox } from '../comp/module'
 import { NavLink } from 'react-router-dom'
 import { Profile } from '../layout/Profile'
 import { Route, RouteComponentProps } from 'react-router'
-import { TripBox } from '../comp/module'
 
 export const UserRoute = () => {
 	return (
 		<React.Fragment>
 			<Route exact path="/" render={(props: any) => {
-				return <NavLink to="/trip/423"><TripBox /></NavLink>
+				return <NavLink to="/trip/1"><TripBox /></NavLink>
 			}} />
 			<Route exact path="/trip/:tripId" render={(props: any) => {
 				const { tripId } = props.match.params
@@ -23,7 +23,7 @@ export const UserRoute = () => {
 				return <Profile id={userId} />
 			}} />
 			<Route exact path="/logout" render={(props: any) => {
-				return <div>Logging out</div>
+				return <Logout />
 			}} />
 		</React.Fragment>
 	)
