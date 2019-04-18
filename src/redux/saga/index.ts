@@ -5,7 +5,6 @@ function* manipulateToken(action: AnyAction) {
 	try {
 		const { type } = action
 		const { token, id } = action
-		console.log(type)
 		switch (type) {
 			case 'AUTH': {
 				yield call((token: string) => window.localStorage.setItem('TOKEN', token), token)

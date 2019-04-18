@@ -10,6 +10,7 @@ export type DropdownMeta = {
 	edge?: 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT',
 	align?: 'CENTER' | 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT',
 	smart?: boolean,
+	persist?: boolean
 }
 export type DropdownType = {
 	child: ReactChild,
@@ -87,15 +88,28 @@ const getPosition = (contSize: ClientRect, dropSize: ClientRect, __meta: Dropdow
 }
 
 export class Dropdown extends React.Component<DropdownType> {
+	constructor(props: DropdownType) {
+		super(props)
+		this.handleOutsideClick.bind(this)
+	}
 	defaultMeta: DropdownMeta = {
 		edge: 'TOP',
 		align: 'LEFT',
 		smart: true,
+		persist: false,
 	}
 	_meta = mergeRight(this.defaultMeta, this.props.meta)
 	isOpen = false || this.props.overrideStatus
 	refCont = createRef() as RefObject<HTMLDivElement>
 	refDrop = createRef() as RefObject<HTMLDivElement>
+	handleOutsideClick = (event: MouseEvent) => {
+		event.stopPropagation()
+		if(this.refDrop.current !== null)
+			if(!this.refDrop.current.contains(event.target as Node)) {
+				this.isOpen = true
+				this.toggleState()
+			}
+	}
 	toggleState = () => {
 		this.isOpen = !this.isOpen
 		const currentCont = this.refCont.current
@@ -111,6 +125,14 @@ export class Dropdown extends React.Component<DropdownType> {
 			currentDrop.style.left = `${left}px`
 			currentDrop.style.visibility = this.isOpen ? 'visible' : 'hidden'
 		}
+	}
+	componentDidMount() {
+		if (this._meta.persist !== true)
+			document.addEventListener('mousedown', this.handleOutsideClick);
+	}
+	componentWillUnmount() {
+		if (this._meta.persist !== true)
+			document.removeEventListener('mousedown', this.handleOutsideClick);
 	}
 	render() {
 		const { child, drop } = this.props
