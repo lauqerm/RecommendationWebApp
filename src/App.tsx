@@ -1,12 +1,19 @@
+import createSagaMiddleware from 'redux-saga'
 import React from 'react'
 import rootReducer from './redux/reducer'
-import SiteContainer from './layout'
+import sagaToken from './redux/saga'
+import { applyMiddleware, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { createStore } from 'redux'
 import { Provider } from 'react-redux'
+import { SiteContainer } from './layout'
 import { withRootRouter } from './route'
 
-const store = createStore(rootReducer, composeWithDevTools())
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(rootReducer, composeWithDevTools(
+	applyMiddleware(sagaMiddleware)
+))
+
+sagaMiddleware.run(sagaToken)
 
 const App = () => {
 	return (
