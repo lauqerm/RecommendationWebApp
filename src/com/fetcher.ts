@@ -5,7 +5,10 @@ const API = 'http://10.1.1.90:3001/'
 
 interface GETHeader {
 	source: string,
-	header?: object,
+	header?: {
+		auth_token: string | null,
+		[key: string]: any
+	},
 	params?: object,
 	timeout?: number
 }
@@ -20,9 +23,10 @@ const defaultFetcherProps = {
 const Fetcher = {
 	GET: (_props: GETHeader) => {
 		const props = _.merge(_.cloneDeep(defaultFetcherProps), _props)
+		props.header['auth_token'] = window.localStorage.getItem('TOKEN')
 		const { source, header, params, timeout } = props
-		let CancelToken = axios.CancelToken
-		let tokenSource = CancelToken.source()
+		const CancelToken = axios.CancelToken
+		const tokenSource = CancelToken.source()
 
 		var request = {
 			method: 'GET',
@@ -37,9 +41,10 @@ const Fetcher = {
 	},
 	POST: (_props: POSTHeader) => {
 		const props = _.merge(_.cloneDeep(defaultFetcherProps), _props)
+		props.header['auth_token'] = window.localStorage.getItem('TOKEN')
 		const { source, data, header, params, timeout } = props
-		let CancelToken = axios.CancelToken
-		let tokenSource = CancelToken.source()
+		const CancelToken = axios.CancelToken
+		const tokenSource = CancelToken.source()
 
 		var request = {
 			method: 'POST',
