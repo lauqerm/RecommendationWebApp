@@ -1,24 +1,57 @@
-import React, { FormEvent } from 'react'
+import React, { ChangeEvent, FormEvent } from 'react'
+import { AuthAction } from '../../../redux/action/auth'
+import { Fetcher } from '../../../com/fetcher'
 import { InputWithLabel } from '../../atom/form'
+import { RouteComponentProps, withRouter } from 'react-router'
 
-type LoginFormProps = {
-	id: string
+interface LoginFormProps extends RouteComponentProps {
+	id: string,
+	method: {
+		auth: (token: string, userId: string) => AuthAction,
+	},
 }
-export class LoginForm extends React.Component<LoginFormProps> {
+class _LoginForm extends React.Component<LoginFormProps> {
 	formInputs = [
 		{
 			label: 'Email',
 			type: 'email',
+			key: 'email',
 			required: true,
 		},
 		{
 			label: 'Mật khẩu',
 			type: 'password',
+			key: 'password',
 			required: true,
 		},
 	]
+	fetcherStatus = {
+		status: 0,
+	}
+	formData: any = {}
+	onChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const name = e.currentTarget.getAttribute('name') as string
+		const value = e.currentTarget.value
+		this.formData[name] = value
+		this.forceUpdate()
+	}
 	submit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+		const { request } = Fetcher.POST({
+			source: 'login',
+			data: Fetcher.makeBody(this.formData)
+		})
+		request.then((response: any) => {
+			const { auth_token, id, status } = response.data
+			const { auth } = this.props.method
+			this.fetcherStatus.status = status
+			if (status === 200) {
+				auth(auth_token, id as string)
+				this.props.history.push('/')
+			} else {
+				this.forceUpdate()
+			}
+		})
 	}
 	render() {
 		const { id } = this.props
@@ -28,13 +61,20 @@ export class LoginForm extends React.Component<LoginFormProps> {
 					return InputWithLabel({
 						formId: id,
 						id: `${index}`,
-						key: `${index}`,
+						onChange: this.onChange,
+						value: this.formData[element.key],
 						...element
 					})
 				})}
-				<br />
+				<div className="pt-1 text-danger">{
+					this.fetcherStatus.status === 404
+						? 'Sai mật khẩu hoặc email'
+						: <br />
+				}</div>
 				<input type="submit" className="btn btn-success" value="Đăng nhập" />
 			</form>
 		)
 	}
 }
+
+export const LoginForm = withRouter(_LoginForm)

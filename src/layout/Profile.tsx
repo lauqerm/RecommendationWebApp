@@ -62,19 +62,20 @@ class _Profile extends React.Component<ProfileFormProps> {
 			<div className="ctn--stack p-3 mt-1 profile">
 				<div className="profile__cont--info">
 					<ProfileImage />
-					{isCurrentUser
-						? InputWithLabel(inputs[0])
-						: null
-					}
-					{InputWithLabel(inputs[1])}
-					{isCurrentUser
-						? <div className="profile__cont--pwd">
-							<div className="profile__cont--pwd--sub">{InputWithLabel(inputs[2])}</div>
-							<div className="profile__cont--pwd--sub">{InputWithLabel(inputs[3])}</div>
-						</div>
-						: null
-					}
-					<div></div>
+					<div className="profile__cont--content">
+						{isCurrentUser
+							? InputWithLabel(inputs[0])
+							: null
+						}
+						{InputWithLabel(inputs[1])}
+						{isCurrentUser
+							? <div className="profile__cont--pwd">
+								<div className="profile__cont--pwd--sub">{InputWithLabel(inputs[2])}</div>
+								<div className="profile__cont--pwd--sub">{InputWithLabel(inputs[3])}</div>
+							</div>
+							: null
+						}
+					</div>
 				</div>
 				{InputWithLabel(inputs[4])}
 				{InputWithLabel(inputs[5])}

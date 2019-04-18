@@ -9,7 +9,7 @@ export const PriceType = [
 	'Bình dân',
 	'Trung bình',
 	'Rộng rãi',
-	'Xa xỉ'
+	'Xa hoa'
 ]
 const PriceFilter = (props: PriceFilterProps) => {
 	const { onInput, value } = props

@@ -1,13 +1,14 @@
-import React, { ReactChild } from 'react'
+import React, { ChangeEvent, ReactChild } from 'react'
 import { override } from '../../../com'
 
 export type InputWithLabelProps = {
+	disabled?: boolean | undefined,
+	formId: string,
+	id?: string,
 	key: string,
 	label: ReactChild,
-	id?: string,
-	formId: string,
+	onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 	type: string,
-	disabled?: boolean | undefined,
 	value?: string,
 }
 export const InputWithLabel = (props: InputWithLabelProps) => {
@@ -21,7 +22,7 @@ export const InputWithLabel = (props: InputWithLabelProps) => {
 			</label>
 			{disabled
 				? <div>{value}</div>
-				: <input id={ownId} form={formId} {...spreadingProps} />
+				: <input name={key} id={ownId} form={formId} {...spreadingProps} />
 			}
 		</React.Fragment>
 	)
