@@ -1,9 +1,11 @@
+import Review from './Review'
 import TripBox from './TripBox'
-import { Dropdown } from './Dropdown'
 import TripDetail from './TripDetail'
+import { Dropdown } from './Dropdown'
 
 export {
 	Dropdown,
 	TripBox,
 	TripDetail,
+	Review,
 }

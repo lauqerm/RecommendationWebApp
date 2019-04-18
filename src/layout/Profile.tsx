@@ -1,14 +1,14 @@
 import React, { FormEvent } from 'react'
-import { InputWithLabel } from '../../atom/form'
-import { withCurrentUser } from '../../hoc'
-import '../../../style/layout.scss'
-import '../../../style/profile.scss'
+import { InputWithLabel } from '../comp/atom/form'
+import { withCurrentUser } from '../comp/hoc'
+import '../style/layout.scss'
+import '../style/profile.scss'
 
 type ProfileFormProps = {
 	id: string,
 	currentUserId: string,
 }
-class _ProfileForm extends React.Component<ProfileFormProps> {
+class _Profile extends React.Component<ProfileFormProps> {
 	formInputs = [
 		{
 			label: 'Email',
@@ -87,4 +87,4 @@ class _ProfileForm extends React.Component<ProfileFormProps> {
 	}
 }
 
-export const ProfileForm = withCurrentUser(_ProfileForm)
+export const Profile = withCurrentUser(_Profile)

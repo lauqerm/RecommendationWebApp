@@ -1,9 +1,9 @@
 import React from 'react'
-import { ProfileForm } from '../comp/module/form'
+import Trip from '../layout/Trip'
+import { NavLink } from 'react-router-dom'
+import { Profile } from '../layout/Profile'
 import { Route, RouteComponentProps } from 'react-router'
 import { TripBox } from '../comp/module'
-import { NavLink } from 'react-router-dom'
-import Trip from '../layout/Trip'
 
 export const UserRoute = () => {
 	return (
@@ -20,7 +20,7 @@ export const UserRoute = () => {
 			}} />
 			<Route exact path="/user/:userId/profile" render={(props: RouteComponentProps<{ userId: string }>) => {
 				const { userId } = props.match.params
-				return <ProfileForm id={userId} />
+				return <Profile id={userId} />
 			}} />
 			<Route exact path="/logout" render={(props: any) => {
 				return <div>Logging out</div>
