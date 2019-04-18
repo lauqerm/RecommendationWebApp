@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import axios from 'axios'
 
-const API = '10.1.1.90:3001/'
+const API = 'http://10.1.1.90:3001/'
 
 interface GETHeader {
 	source: string,
