@@ -24,7 +24,13 @@ export const authorization = (state = _authorization, action: AuthAction): Autho
 			authStatus: true,
 			currentUserId: action.id
 		}
-		case 'AUTH': return {
+		case 'LOGGED_OUT': return {
+			...state,
+			authStatus: false,
+			token: '',
+			currentUserId: '',
+		}
+		case 'AUTH_WRITTEN': return {
 			...state,
 			authStatus: true,
 			currentUserId: action.id,
