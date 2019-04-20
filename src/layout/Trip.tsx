@@ -1,41 +1,21 @@
+import _ from 'lodash'
 import React from 'react'
-import { CancelTokenSource } from 'axios'
-import { Fetcher } from '../com/fetcher'
 import { Review, TripDetail } from '../comp/module'
 
 type TripProps = {
 	id: string
 }
-type FetchStatusProps = {
-	cancelToken: CancelTokenSource | undefined
-}
 class Trip extends React.Component<TripProps> {
-	fetchStatus: FetchStatusProps = {
-		cancelToken: undefined,
-	}
-	fetch = () => {
-		const id = this.props.id
-		let { request, tokenSource } = Fetcher.GET({
-			source: `travel/${id}`,
-		})
-		this.fetchStatus.cancelToken = tokenSource
-		request.then((response) => {
-			let { cancelToken } = this.fetchStatus
-			if (cancelToken)
-				this.fetchStatus.cancelToken = undefined
-			console.log(response)
-		})
-	}
-	componentDidMount() {
-		this.fetch()
-	}
 	render() {
+		const { id } = this.props
 		return (
 			<div className="trip">
-				<TripDetail />
+				<TripDetail id={id} />
 				<div className="tripReview">
-					<Review userId="321" disabled />
-					<Review userId="321" />
+					<Review userId="123" />
+					<Review userId="321" value={1} disabled />
+					<Review userId="443" value={3} disabled />
+					<Review userId="111" value={5} disabled />
 					<div></div>
 				</div>
 				<div className="tripSimilar">
