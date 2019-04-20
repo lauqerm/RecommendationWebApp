@@ -1,7 +1,6 @@
 import React from 'react'
 import Trip from '../layout/Trip'
-import { Logout, TripBox } from '../comp/module'
-import { NavLink } from 'react-router-dom'
+import { Logout, Showroom } from '../comp/module'
 import { Profile } from '../layout/Profile'
 import { Route, RouteComponentProps } from 'react-router'
 
@@ -9,16 +8,19 @@ export const UserRoute = () => {
 	return (
 		<React.Fragment>
 			<Route exact path="/" render={(props: any) => {
-				return <NavLink to="/trip/1"><TripBox /></NavLink>
+				return <Showroom />
 			}} />
 			<Route exact path="/trip/:tripId" render={(props: any) => {
 				const { tripId } = props.match.params
 				return <Trip id={tripId} />
 			}} />
-			<Route exact path="/user/:userId/favourite" render={(props: any) => {
+			<Route exact path="/favourite/:userId" render={(props: any) => {
 				return <div>Hello favourite</div>
 			}} />
-			<Route exact path="/user/:userId/profile" render={(props: RouteComponentProps<{ userId: string }>) => {
+			<Route exact path="/history/:userId" render={(props: any) => {
+				return <div>Hello history</div>
+			}} />
+			<Route exact path="/profile/:userId" render={(props: RouteComponentProps<{ userId: string }>) => {
 				const { userId } = props.match.params
 				return <Profile id={userId} />
 			}} />
