@@ -10,9 +10,13 @@
   --bd9: #dfdfdf;
 }
 
+textarea {
+	min-height: 50px;
+}
 input[type="text"],
 input[type="password"],
-input[type="email"] {
+input[type="email"],
+textarea {
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;

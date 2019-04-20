@@ -3,6 +3,7 @@
   grid-template-columns: max-content 1fr;
   grid-column-gap: 1rem;
   height: min-content;
+  box-shadow: 0 0 2px 1px var(--sd0);
   &__detail {
     display: grid;
     grid-template-columns: 1fr;

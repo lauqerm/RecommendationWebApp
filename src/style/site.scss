@@ -21,7 +21,7 @@
   }
   &Header {
     @include site;
-    box-shadow: 0 0 8px 1px var(--sd0);
+    box-shadow: 0 0 4px 1px var(--sd0);
     padding: 10px;
     grid-area: header;
     grid-template-columns: max-content 1fr 250px 0.5em;
