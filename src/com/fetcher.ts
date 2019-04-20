@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import axios from 'axios'
+import axios, { CancelTokenSource } from 'axios'
 
 const API = 'http://10.1.1.90:3001/'
 
@@ -14,6 +14,10 @@ interface GETHeader {
 }
 interface POSTHeader extends GETHeader {
 	data: object
+}
+export type FetchStatusProps = {
+	ready?: boolean,
+	cancelToken: CancelTokenSource | undefined
 }
 const defaultFetcherProps = {
 	header: {},
