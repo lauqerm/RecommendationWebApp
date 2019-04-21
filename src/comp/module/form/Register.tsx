@@ -58,7 +58,6 @@ export class _RegisterForm extends React.Component<RegisterFormProps> {
 			const { auth } = this.props.method
 			this.fetcherStatus.status = status
 			if (status === 201) {
-				console.log('201')
 				auth(auth_token, id as string)
 				this.props.history.push('/')
 			} else {
@@ -75,9 +74,14 @@ export class _RegisterForm extends React.Component<RegisterFormProps> {
 					return InputWithLabel({
 						formId: id,
 						id: `${index}`,
-						onChange: this.onChange,
+						inputProps: {
+							onChange: this.onChange,
+							type: element.type,
+							required: element.required
+						},
 						value: this.formData[element.key],
-						...element
+						label: element.label,
+						key: element.key
 					})
 				})}
 				<div className="pt-1 text-danger">{

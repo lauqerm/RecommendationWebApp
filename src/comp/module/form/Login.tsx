@@ -61,9 +61,14 @@ class _LoginForm extends React.Component<LoginFormProps> {
 					return InputWithLabel({
 						formId: id,
 						id: `${index}`,
-						onChange: this.onChange,
+						inputProps: {
+							onChange: this.onChange,
+							type: element.type,
+							required: element.required
+						},
 						value: this.formData[element.key],
-						...element
+						label: element.label,
+						key: element.key
 					})
 				})}
 				<div className="pt-1 text-danger">{
