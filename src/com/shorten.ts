@@ -4,9 +4,22 @@ export const override = (value: any, overrideValue: any) => {
 		: overrideValue
 }
 
+export const validateChain = (value: any, keyChain: string[], defaultValue: any) => {
+	const len = keyChain.length
+	let nextValue = value
+	if (value === null || value === undefined)
+		return defaultValue
+	for (let cnt = 0; cnt < len; cnt++) {
+		nextValue = nextValue[keyChain[cnt]]
+		if (nextValue === null || nextValue === undefined)
+			return defaultValue
+	}
+	return nextValue
+}
+
 export const objectToArray = (obj: { [key: string]: any }) => {
 	return Object.keys(obj).map((key) => {
-		const pair:{ [key: string]: any } = {}
+		const pair: { [key: string]: any } = {}
 		pair[`${key}`] = obj[key]
 		return pair
 	})
