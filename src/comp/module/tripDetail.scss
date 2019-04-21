@@ -1,0 +1,24 @@
+.tripDetail {
+  box-shadow: 0 0 4px 1px var(--sd0);
+  display: grid;
+  grid-row-gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+  height: min-content;
+  min-width: 500px;
+  text-align: left;
+  &__img {
+    object-fit: cover;
+  }
+  &__summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.tripReview {
+  grid-area: review;
+}
+
+.tripSimilar {
+  grid-area: similar;
+}
