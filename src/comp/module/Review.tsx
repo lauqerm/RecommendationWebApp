@@ -20,7 +20,7 @@ const reviewLabel = [
 ]
 class _Review extends React.Component<ReviewProps> {
 	heldValue = -1
-	inputOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+	inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		console.log(e.currentTarget.value, e.currentTarget.name, e.currentTarget.title)
 	}
 	inputOnMouseover = (e: React.MouseEvent<HTMLLabelElement>) => {
@@ -44,11 +44,14 @@ class _Review extends React.Component<ReviewProps> {
 					<div>
 						<RateInput
 							name={userId}
-							range={5}
 							labelList={reviewLabel}
 							disabled={disabled}
-							onChange={this.inputOnChange}
-							onMouseOver={this.inputOnMouseover}
+							inputProps={{
+								onChange: this.inputOnChange
+							}}
+							labelProps={{
+								onMouseOver: this.inputOnMouseover
+							}}
 							value={value} />
 						{_value !== undefined ? reviewLabel[_value - 1] : ''}
 					</div>

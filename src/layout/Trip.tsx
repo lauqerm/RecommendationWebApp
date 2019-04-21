@@ -10,7 +10,9 @@ class Trip extends React.Component<TripProps> {
 		const { id } = this.props
 		return (
 			<div className="trip">
-				<TripDetail id={id} />
+				<div style={{ gridArea: 'detail' }}>
+					<TripDetail id={id} />
+				</div>
 				<div className="tripReview">
 					<Review userId="123" />
 					<Review userId="321" value={1} disabled />

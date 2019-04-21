@@ -3,6 +3,7 @@ import React from 'react'
 import TripDetail from './TripDetail'
 import { Fetcher, FetchStatusProps } from '../../com/fetcher'
 import { withCurrentUser } from '../hoc'
+import './showroom.scss'
 
 class Showroom extends React.Component<any> {
 	suggestions = []
@@ -37,7 +38,7 @@ class Showroom extends React.Component<any> {
 	}
 	render() {
 		return (
-			<div>
+			<div className="showroom">
 				{this.suggestions.map((element) => {
 					return <TripDetail key={element} id={element} />
 				})}

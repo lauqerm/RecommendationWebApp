@@ -3,6 +3,7 @@ import React from 'react'
 import { Fetcher, FetchStatusProps } from '../../com/fetcher'
 import { moneyFormatWholeVND } from '../../com/shorten'
 import { NavLink } from 'react-router-dom'
+import './tripDetail.scss'
 import '../../style/trip.scss'
 
 type TripProps = {
@@ -49,7 +50,9 @@ class TripDetail extends React.Component<TripProps> {
 			<div className="tripDetail">
 				<img className="tripDetail__img" src="/" />
 				<div className="tripDetail__info p-2">
-					<h1 className="tripDetail__header"><NavLink to={`/trip/${id}`}>{title}</NavLink></h1>
+					<h2 className="tripDetail__header">
+					<NavLink to={`/trip/${id}`}>{title}</NavLink>
+					</h2>
 					<div className="tripDetail__summary">
 						<div className="tripDetail__review">
 							Total score
@@ -70,8 +73,10 @@ class TripDetail extends React.Component<TripProps> {
 						</ul>
 					</div>
 				</div>
-				Google map, maybe
-		</div>
+				<div>
+					Google map, maybe
+				</div>
+			</div>
 		)
 	}
 }

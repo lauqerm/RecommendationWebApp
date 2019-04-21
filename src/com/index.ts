@@ -1,4 +1,4 @@
-import { override } from './shorten'
+import { objectToArray, override } from './shorten'
 
 function debounce (func: any, wait: number, immediate: boolean = false) {
 	var timeout: any
@@ -25,4 +25,5 @@ function debounce (func: any, wait: number, immediate: boolean = false) {
 export {
 	override,
 	debounce,
+	objectToArray,
 }
