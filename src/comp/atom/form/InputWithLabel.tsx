@@ -5,7 +5,7 @@ export type InputWithLabelProps = {
 	disabled?: boolean | undefined,
 	formId: string,
 	id?: string,
-	key: string,
+	key?: string,
 	label: ReactChild,
 	inputProps?: DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
 	labelProps?: DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>,
@@ -22,7 +22,7 @@ export const InputWithLabel = (props: InputWithLabelProps) => {
 			</label>
 			{disabled
 				? <div>{value}</div>
-				: <input name={key} id={ownId} form={formId} {...inputProps} />
+				: <input name={ownId} id={ownId} form={formId} value={value} {...inputProps} />
 			}
 		</React.Fragment>
 	)
