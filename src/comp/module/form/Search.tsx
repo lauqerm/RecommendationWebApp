@@ -19,6 +19,11 @@ export class Search extends React.Component<any, any> {
 		return (
 			<div>
 				<Dropdown
+					meta={{
+						persist: {
+							clickInside: true,
+						}
+					}}
 					child={<div>Magnifier</div>}
 					drop={<div className="ctn--stack p-1">
 						<PriceFilter onInput={this.onPriceInput} value={this.state.price} />

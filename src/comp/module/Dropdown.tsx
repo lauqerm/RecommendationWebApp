@@ -1,16 +1,21 @@
-import { mergeRight } from 'ramda'
+import { mergeRight, mergeDeepRight } from 'ramda'
 import './dropdown.scss'
 import React, {
 	createRef,
 	RefObject,
 	ReactChild,
 } from 'react'
+import { validateChain } from '../../com'
 
+export type PersistType = {
+	clickOutside?: boolean,
+	clickInside?: boolean,
+}
 export type DropdownMeta = {
 	edge?: 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT',
 	align?: 'CENTER' | 'TOP' | 'BOTTOM' | 'LEFT' | 'RIGHT',
 	smart?: boolean,
-	persist?: boolean
+	persist?: PersistType,
 }
 export type DropdownType = {
 	child: ReactChild,
@@ -96,16 +101,22 @@ export class Dropdown extends React.Component<DropdownType> {
 		edge: 'TOP',
 		align: 'LEFT',
 		smart: true,
-		persist: false,
+		persist: {
+			clickInside: false,
+			clickOutside: false,
+		},
 	}
-	_meta = mergeRight(this.defaultMeta, this.props.meta)
+	_meta = mergeDeepRight(this.defaultMeta, this.props.meta)
 	isOpen = false || this.props.overrideStatus
 	refCont = createRef() as RefObject<HTMLDivElement>
 	refDrop = createRef() as RefObject<HTMLDivElement>
 	handleOutsideClick = (event: MouseEvent) => {
 		event.stopPropagation()
-		if(this.refDrop.current !== null)
-			if(!this.refDrop.current.contains(event.target as Node)) {
+		const currentRefDrop = this.refDrop.current
+		const currentRefCont = this.refCont.current
+		if (currentRefDrop !== null && currentRefCont !== null)
+			if (!currentRefDrop.contains(event.target as Node)
+			&& !currentRefCont.contains(event.target as Node)) {
 				this.isOpen = true
 				this.toggleState()
 			}
@@ -127,11 +138,11 @@ export class Dropdown extends React.Component<DropdownType> {
 		}
 	}
 	componentDidMount() {
-		if (this._meta.persist !== true)
+		if (!validateChain(this._meta, ['persist', 'clickOutside'], false))
 			document.addEventListener('mousedown', this.handleOutsideClick);
 	}
 	componentWillUnmount() {
-		if (this._meta.persist !== true)
+		if (!validateChain(this._meta, ['persist', 'clickOutside'], false))
 			document.removeEventListener('mousedown', this.handleOutsideClick);
 	}
 	render() {
@@ -139,7 +150,11 @@ export class Dropdown extends React.Component<DropdownType> {
 		return (
 			<div ref={this.refCont} className="dropdown_container">
 				<div onClick={this.toggleState} className="dropdown__ele" >{child}</div>
-				<div ref={this.refDrop} className="dropdown__drop" >
+				<div ref={this.refDrop}
+					className="dropdown__drop"
+					onClick={validateChain(this._meta, ['persist', 'clickInside'], false)
+						? undefined
+						: this.toggleState}>
 					{drop}
 				</div>
 			</div>
