@@ -2,6 +2,7 @@ import React, { FormEvent } from 'react'
 import { InputWithLabel } from '../comp/atom/form'
 import { withCurrentUser } from '../comp/hoc'
 import '../style/profile.scss'
+import 'react-input-range/lib/css/index.css'
 
 export const ProfileImage = (src: any) => {
 	return (
@@ -53,7 +54,6 @@ class _Profile extends React.Component<ProfileFormProps> {
 				...element,
 				formId: id,
 				id: `${index}`,
-				key: `${index}`,
 				disabled: index !== 0 ? !isCurrentUser : true
 			}
 		})
@@ -64,21 +64,25 @@ class _Profile extends React.Component<ProfileFormProps> {
 					<ProfileImage />
 					<div className="profile__cont--content">
 						{isCurrentUser
-							? InputWithLabel(inputs[0])
+							? <InputWithLabel {...inputs[0]} />
 							: null
 						}
-						{InputWithLabel(inputs[1])}
+						<InputWithLabel {...inputs[1]} />
 						{isCurrentUser
 							? <div className="profile__cont--pwd">
-								<div className="profile__cont--pwd--sub">{InputWithLabel(inputs[2])}</div>
-								<div className="profile__cont--pwd--sub">{InputWithLabel(inputs[3])}</div>
+								<div className="profile__cont--pwd--sub">
+									<InputWithLabel {...inputs[2]} />
+								</div>
+								<div className="profile__cont--pwd--sub">
+									<InputWithLabel {...inputs[3]} />
+								</div>
 							</div>
 							: null
 						}
 					</div>
 				</div>
-				{InputWithLabel(inputs[4])}
-				{InputWithLabel(inputs[5])}
+				<InputWithLabel {...inputs[4]} />
+				<InputWithLabel {...inputs[5]} />
 				{isCurrentUser
 					? <div className="profile__cont--act">
 						<input className="btn btn-success" type="submit" value="Hoàn tất" />
