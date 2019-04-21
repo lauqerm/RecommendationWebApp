@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactChild } from 'react'
+import React, { DetailedHTMLProps, LabelHTMLAttributes, ReactChild } from 'react'
 import { override } from '../../../com'
 
 export type InputWithLabelProps = {
@@ -7,22 +7,22 @@ export type InputWithLabelProps = {
 	id?: string,
 	key: string,
 	label: ReactChild,
-	onChange?: (e: ChangeEvent<HTMLInputElement>) => void
-	type: string,
+	inputProps?: DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+	labelProps?: DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>,
 	value?: string,
 }
 export const InputWithLabel = (props: InputWithLabelProps) => {
-	const { key, label, id, formId, value, disabled, ...spreadingProps } = props
+	const { key, label, id, formId, value, disabled, inputProps, labelProps } = props
 	const _id = override(key, id)
 	const ownId = `${formId}_${_id}`
 	return (
 		<React.Fragment key={`${ownId}`} >
-			<label htmlFor={ownId} form={formId} >
+			<label htmlFor={ownId} form={formId} {...labelProps}>
 				{label}
 			</label>
 			{disabled
 				? <div>{value}</div>
-				: <input name={key} id={ownId} form={formId} {...spreadingProps} />
+				: <input name={key} id={ownId} form={formId} {...inputProps} />
 			}
 		</React.Fragment>
 	)

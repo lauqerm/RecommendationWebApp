@@ -1,56 +1,47 @@
 import _ from 'lodash'
-import React, { ChangeEvent } from 'react'
+import React, { DetailedHTMLProps, LabelHTMLAttributes } from 'react'
 import './rateInput.scss'
 
 export type RateInputProps = {
 	name: string,
-	range: number,
 	disabled?: boolean,
-	labelList?: string[],
-	onChange?: (e: ChangeEvent<HTMLInputElement>) => void
-	onMouseOver?: (e: React.MouseEvent<HTMLLabelElement>) => void,
+	labelList: string[],
+	inputProps: DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+	labelProps: DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>,
 	styleClass?: string,
 	value?: number,
 	valueList?: string[],
 }
 export const RateInput = (props: RateInputProps) => {
 	const _props = _.merge({
-		range: 5,
+		labelList: [],
 		styleClass: 'rate--star',
 		disabled: false,
 	}, props)
-	const { name, disabled, range, value, valueList, labelList, onChange, styleClass, onMouseOver } = _props
-	let _range = range
-	let _rateList = []
-	for (let cnt = _range - 1; cnt >= 0; cnt--) {
-		_rateList.push({
-			onChange,
-			label: labelList !== undefined ? labelList[cnt] : '',
-			value: valueList !== undefined
-				? valueList[cnt]
-				: labelList !== undefined ? labelList[cnt] : cnt,
-			position: cnt,
-			checked: value === cnt + 1 ? true : undefined
-		})
-	}
+	const { name, disabled, value, valueList, labelList, styleClass, inputProps, labelProps } = _props
+	let range = labelList.length
 	return (
 		<div className={`rate${disabled === true ? '--disabled' : ''} ${styleClass}`}>
-			{_rateList.map((element) => {
-				const { position, label, onChange, value, checked } = element
+			{labelList.map((label, position) => {
+				const _position = range - 1 - position
 				return <React.Fragment key={position}>
 					<input
 						type="radio"
-						id={`${name}${position}`}
+						id={`${name}${_position}`}
 						name={name}
-						value={`${value}`}
-						onChange={onChange}
+						value={`${valueList !== undefined
+							? valueList[_position]
+							: labelList !== undefined ? labelList[_position] : _position}`}
 						disabled={disabled}
-						checked={checked}
-						title={disabled ? '' : label} />
+						checked={value !== undefined
+							&& disabled
+							&& value - 1 === _position ? true : undefined}
+						title={disabled ? '' : label}
+						{...inputProps} />
 					<label
-						onMouseOver={onMouseOver}
-						htmlFor={`${name}${position}`}
-						data-value={`${position}`}>
+						htmlFor={`${name}${_position}`}
+						data-value={`${_position}`}
+						{...labelProps}>
 						{label}
 					</label>
 				</React.Fragment>
