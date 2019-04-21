@@ -8,7 +8,9 @@ export const UserRoute = () => {
 	return (
 		<React.Fragment>
 			<Route exact path="/" render={(props: any) => {
-				return <Showroom />
+				return <React.Fragment>
+					<Showroom />
+				</React.Fragment>
 			}} />
 			<Route exact path="/trip/:tripId" render={(props: any) => {
 				const { tripId } = props.match.params
