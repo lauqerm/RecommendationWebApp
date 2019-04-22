@@ -2,6 +2,7 @@ import React, { FormEvent } from 'react'
 import { debounce } from '../../../com'
 import { Dropdown } from '..'
 import { PriceFilter, ReviewFilter, TagFilter } from '../filter'
+import { Range } from 'react-input-range'
 
 export class Search extends React.Component<any, any> {
 	constructor(props: any) {
@@ -15,6 +16,11 @@ export class Search extends React.Component<any, any> {
 			price: event.currentTarget.value
 		}), 75)
 	}
+	onChange = (value: number | Range):void => {
+		debounce(this.setState({
+			price: value
+		}), 75)
+	}
 	render() {
 		return (
 			<div>
@@ -24,7 +30,10 @@ export class Search extends React.Component<any, any> {
 					}}
 					child={<div>Magnifier</div>}
 					drop={<div className="ctn--stack p-1">
-						<PriceFilter onInput={this.onPriceInput} value={this.state.price} />
+						<PriceFilter
+							onChange={this.onChange}
+							onInput={this.onPriceInput}
+							value={this.state.price} />
 						<ReviewFilter />
 						<TagFilter />
 					</div>} />
