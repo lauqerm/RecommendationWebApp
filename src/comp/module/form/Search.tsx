@@ -20,9 +20,7 @@ export class Search extends React.Component<any, any> {
 			<div>
 				<Dropdown
 					meta={{
-						persist: {
-							clickInside: true,
-						}
+						persist: { clickInside: true, }
 					}}
 					child={<div>Magnifier</div>}
 					drop={<div className="ctn--stack p-1">

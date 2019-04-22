@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, { DetailedHTMLProps, LabelHTMLAttributes } from 'react'
 import './rateInput.scss'
 
-export type RateInputProps = {
+export type RateProps = {
 	name: string,
 	disabled?: boolean,
 	labelList: string[],
@@ -12,7 +12,7 @@ export type RateInputProps = {
 	value?: number,
 	valueList?: string[],
 }
-export const RateInput = (props: RateInputProps) => {
+export const Rate = (props: RateProps) => {
 	const _props = _.merge({
 		labelList: [],
 		styleClass: 'rate--star',

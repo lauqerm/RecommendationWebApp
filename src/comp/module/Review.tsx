@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react'
 import { NavLink } from 'react-router-dom'
 import { ProfileImage } from '../../layout/Profile'
-import { RateInput } from '../atom/form'
+import Input from '../atom/form'
 import { withCurrentUser } from '../hoc'
 import '../../style/review.scss'
 
@@ -42,7 +42,7 @@ class _Review extends React.Component<ReviewProps> {
 						<h4><NavLink to={`/profile/${userId}`}>Username</NavLink></h4>
 					</div>
 					<div>
-						<RateInput
+						<Input.Rate
 							name={userId}
 							labelList={reviewLabel}
 							disabled={disabled}

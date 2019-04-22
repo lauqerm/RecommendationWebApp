@@ -4,6 +4,7 @@ const TagFilter = () => {
 	return (
 		<div>
 			A picker that list tags
+			<input type="checkbox" />
 		</div>
 	)
 }

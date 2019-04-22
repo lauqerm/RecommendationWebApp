@@ -1,7 +1,10 @@
 import { InputWithLabel } from './InputWithLabel'
-import { RateInput } from './RateInput'
+import { Rate } from './Rate'
 
 export {
 	InputWithLabel,
-	RateInput,
+}
+
+export default {
+	Rate,
 }
