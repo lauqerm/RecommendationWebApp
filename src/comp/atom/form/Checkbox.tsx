@@ -11,7 +11,7 @@ export const Checkbox = (props: CheckboxProps) => {
         <label className="checkbox">
             {label}
             <input type="checkbox" {...inputProps} />
-            <span className="checkbox--mark"></span>
+            <span className="checkbox--mark" />
         </label>
     )
 }

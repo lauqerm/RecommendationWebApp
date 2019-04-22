@@ -10,9 +10,10 @@ export type InputWithLabelProps = {
 	inputProps?: DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
 	labelProps?: DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>,
 	value?: string,
+	customInput?: ReactChild,
 }
 export const InputWithLabel = (props: InputWithLabelProps) => {
-	const { key, label, id, formId, value, disabled, inputProps, labelProps } = props
+	const { key, label, id, formId, value, disabled, inputProps, labelProps, customInput } = props
 	const _id = override(key, id)
 	const ownId = `${formId}_${_id}`
 	return (
@@ -22,7 +23,14 @@ export const InputWithLabel = (props: InputWithLabelProps) => {
 			</label>
 			{disabled
 				? <div>{value}</div>
-				: <input name={ownId} id={ownId} form={formId} value={value} {...inputProps} />
+				: customInput !== undefined
+					? customInput
+					: <input
+						name={ownId}
+						id={ownId}
+						form={formId}
+						value={value}
+						{...inputProps} />
 			}
 		</React.Fragment>
 	)
