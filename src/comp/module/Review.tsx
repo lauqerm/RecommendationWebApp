@@ -1,7 +1,7 @@
+import Input from '../atom/form'
 import React, { ChangeEvent } from 'react'
 import { NavLink } from 'react-router-dom'
 import { ProfileImage } from '../../layout/Profile'
-import Input from '../atom/form'
 import { withCurrentUser } from '../hoc'
 import '../../style/review.scss'
 
@@ -11,14 +11,14 @@ type ReviewProps = {
 	disabled?: boolean,
 	value?: number,
 }
-const reviewLabel = [
+export const reviewLabel = [
 	'Không tốt',
 	'Cần cải thiện',
 	'Bình thường',
 	'Rất tốt',
 	'Tuyệt vời',
 ]
-class _Review extends React.Component<ReviewProps> {
+class $Review extends React.Component<ReviewProps> {
 	heldValue = -1
 	inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		console.log(e.currentTarget.value, e.currentTarget.name, e.currentTarget.title)
@@ -69,4 +69,4 @@ class _Review extends React.Component<ReviewProps> {
 	}
 }
 
-export const Review = withCurrentUser(_Review)
+export const Review = withCurrentUser($Review)

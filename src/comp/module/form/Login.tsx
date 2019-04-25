@@ -10,18 +10,18 @@ interface LoginFormProps extends RouteComponentProps {
 		auth: (token: string, userId: string) => AuthAction,
 	},
 }
-class _LoginForm extends React.Component<LoginFormProps> {
+class $LoginForm extends React.Component<LoginFormProps> {
 	formInputs = [
 		{
 			label: 'Email',
 			type: 'email',
-			key: 'email',
+			name: 'email',
 			required: true,
 		},
 		{
 			label: 'Mật khẩu',
 			type: 'password',
-			key: 'password',
+			name: 'password',
 			required: true,
 		},
 	]
@@ -58,18 +58,18 @@ class _LoginForm extends React.Component<LoginFormProps> {
 		return (
 			<form className="ctn--stack p-2 drop--shadow" style={{ width: '250px' }} id={id} onSubmit={this.submit} >
 				{this.formInputs.map((element, index) => {
-					return InputWithLabel({
-						formId: id,
-						id: `${index}`,
-						inputProps: {
+					return <InputWithLabel
+						formId={id}
+						id={`${index}`}
+						inputProps={{
 							onChange: this.onChange,
 							type: element.type,
 							required: element.required
-						},
-						value: this.formData[element.key],
-						label: element.label,
-						key: element.key
-					})
+						}}
+						label={element.label}
+						name={element.name}
+						key={element.name}
+					/>
 				})}
 				<div className="pt-1 text-danger">{
 					this.fetcherStatus.status === 404
@@ -82,4 +82,4 @@ class _LoginForm extends React.Component<LoginFormProps> {
 	}
 }
 
-export const LoginForm = withRouter(_LoginForm)
+export const LoginForm = withRouter($LoginForm)

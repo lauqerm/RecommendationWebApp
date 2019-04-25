@@ -8,10 +8,11 @@
   --sd0: rgba(0, 0, 0, 0.1);
   --bd0: #e5e5e5;
   --bd9: #dfdfdf;
+  --hr: #333333;
 }
 
 textarea {
-	min-height: 50px;
+  min-height: 50px;
 }
 input[type="text"],
 input[type="password"],
@@ -32,4 +33,10 @@ textarea {
 label {
   font-weight: 500;
   font-size: 1.2rem;
+}
+
+hr {
+  width: 100%;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
 }

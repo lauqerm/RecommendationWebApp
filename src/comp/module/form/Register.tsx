@@ -15,25 +15,25 @@ export class _RegisterForm extends React.Component<RegisterFormProps> {
 		{
 			label: 'Email',
 			type: 'email',
-			key: 'email',
+			name: 'email',
 			required: true,
 		},
 		{
 			label: 'Tên tài khoản',
 			type: 'text',
-			key: 'username',
+			name: 'username',
 			required: true,
 		},
 		{
 			label: 'Mật khẩu',
 			type: 'password',
-			key: 'password',
+			name: 'password',
 			required: true,
 		},
 		{
 			label: 'Xác nhận mật khẩu',
 			type: 'password',
-			key: 'repassword',
+			name: 'repassword',
 			required: true,
 		},
 	]
@@ -71,18 +71,18 @@ export class _RegisterForm extends React.Component<RegisterFormProps> {
 		return (
 			<form className="ctn--stack p-2 drop--shadow" style={{ width: '250px' }} id={id} onSubmit={this.submit} >
 				{this.formInputs.map((element, index) => {
-					return InputWithLabel({
-						formId: id,
-						id: `${index}`,
-						inputProps: {
+					return <InputWithLabel
+						formId={id}
+						id={`${index}`}
+						inputProps={{
 							onChange: this.onChange,
 							type: element.type,
 							required: element.required
-						},
-						value: this.formData[element.key],
-						label: element.label,
-						key: element.key
-					})
+						}}
+						label={element.label}
+						name={element.name}
+						key={element.name}
+					/>
 				})}
 				<div className="pt-1 text-danger">{
 					password !== repassword

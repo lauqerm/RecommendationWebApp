@@ -2,7 +2,7 @@
 .checkbox {
   display: block;
   position: relative;
-  padding-left: 30px;
+  padding-left: 30px !important;
   cursor: pointer;
   font-size: 1rem;
   -webkit-user-select: none;
@@ -37,24 +37,28 @@
 }
 
 /* When the checkbox is checked, add a blue background */
-.checkbox input:checked ~ .checkbox--mark {
+.checkbox input:checked ~ .checkbox--mark,
+.checkbox--mark--activated {
   background-color: #2196f3;
 }
 
 /* Create the checkbox--mark/indicator (hidden when not checked) */
-.checkbox--mark:after {
+.checkbox--mark:after,
+.checkbox--mark--activated:after {
   content: "";
   position: absolute;
   display: none;
 }
 
 /* Show the checkbox--mark when checked */
-.checkbox input:checked ~ .checkbox--mark:after {
+.checkbox input:checked ~ .checkbox--mark:after,
+.checkbox--mark--activated:after {
   display: block;
 }
 
 /* Style the checkbox--mark/indicator */
-.checkbox .checkbox--mark:after {
+.checkbox .checkbox--mark:after,
+.checkbox--mark--activated:after {
   left: 8px;
   top: 4px;
   width: 5px;

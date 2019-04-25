@@ -13,6 +13,7 @@ function* manipulateToken(action: AnyAction) {
 				break
 			}
 			case 'LOGOUT': {
+				console.log('LOGOUT')
 				yield call(() => window.localStorage.removeItem('TOKEN'))
 				yield call(() => window.localStorage.removeItem('ID'))
 				yield put({ type: 'LOGGED_OUT' })

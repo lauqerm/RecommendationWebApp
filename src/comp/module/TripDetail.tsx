@@ -15,7 +15,6 @@ type TripData = {
 	title: string,
 	price: number,
 }
-
 class TripDetail extends React.Component<TripProps> {
 	tripData: TripData = {
 		destinations: [],
@@ -28,12 +27,12 @@ class TripDetail extends React.Component<TripProps> {
 	}
 	fetch = () => {
 		const { id } = this.props
-		let { request, tokenSource } = Fetcher.GET({
+		const { request, tokenSource } = Fetcher.GET({
 			source: `travel/${id}`,
 		})
 		this.fetchStatus.cancelToken = tokenSource
 		request.then((response) => {
-			let { cancelToken } = this.fetchStatus
+			const { cancelToken } = this.fetchStatus
 			if (cancelToken)
 				this.fetchStatus.cancelToken = undefined
 			this.tripData = _.cloneDeep(response.data)

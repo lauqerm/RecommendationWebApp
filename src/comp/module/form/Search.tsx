@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import { debounce } from '../../../com'
 import { Dropdown } from '..'
 import { PriceFilter, ReviewFilter, TagFilter } from '../filter'
@@ -8,17 +8,18 @@ export class Search extends React.Component<any, any> {
 	constructor(props: any) {
 		super(props)
 		this.state = {
-			price: 3
+			price: 3,
+			review: 5,
 		}
 	}
-	onPriceInput = (event: FormEvent<HTMLInputElement>) => {
-		debounce(this.setState({
-			price: event.currentTarget.value
-		}), 75)
-	}
-	onChange = (value: number | Range):void => {
+	onPriceChange = (value: number | Range): void => {
 		debounce(this.setState({
 			price: value
+		}), 75)
+	}
+	onReviewChange = (value: number | Range): void => {
+		debounce(this.setState({
+			review: value
 		}), 75)
 	}
 	render() {
@@ -29,12 +30,15 @@ export class Search extends React.Component<any, any> {
 						persist: { clickInside: true, }
 					}}
 					child={<div>Magnifier</div>}
-					drop={<div className="ctn--stack p-1">
+					drop={<div className="ctn--stack p-2 drop--shadow">
 						<PriceFilter
-							onChange={this.onChange}
-							onInput={this.onPriceInput}
+							onChange={this.onPriceChange}
 							value={this.state.price} />
-						<ReviewFilter />
+						<hr />
+						<ReviewFilter
+							onChange={this.onReviewChange}
+							value={this.state.review} />
+						<hr />
 						<TagFilter />
 					</div>} />
 			</div>

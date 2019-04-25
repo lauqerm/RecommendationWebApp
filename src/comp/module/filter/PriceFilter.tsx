@@ -1,14 +1,13 @@
-import React, { FormEvent } from 'react'
-import { InputWithLabel } from '../../atom/form'
 import InputRange, { Range } from 'react-input-range'
+import React from 'react'
+import { InputWithLabel } from '../../atom/form'
 import 'react-input-range/lib/css/index.css'
 
 type PriceFilterProps = {
-	onInput?: (e: FormEvent<HTMLInputElement>) => void,
 	onChange: (value: number | Range) => void,
 	value: number
 }
-export const PriceType = [
+export const priceLabel = [
 	'Tiết kiệm',
 	'Bình dân',
 	'Trung bình',
@@ -16,17 +15,17 @@ export const PriceType = [
 	'Xa hoa'
 ]
 const PriceFilter = (props: PriceFilterProps) => {
-	const { onInput, value, onChange } = props
+	const { value, onChange } = props
 	return (
 		<React.Fragment>
 			<InputWithLabel
-				formId="header"
+				formId="search"
 				id="price"
-				label={PriceType[value - 1]}
+				label={priceLabel[value - 1]}
 				customInput={<InputRange
 					maxValue={5}
 					minValue={1}
-					formatLabel={value => ''}
+					formatLabel={() => ''}
 					value={value}
 					onChange={onChange} />}
 			/>

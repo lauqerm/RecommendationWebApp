@@ -1,11 +1,11 @@
-import { mergeRight, mergeDeepRight } from 'ramda'
+import { mergeDeepRight, mergeRight } from 'ramda'
+import { validateChain } from '../../com'
 import './dropdown.scss'
 import React, {
 	createRef,
 	RefObject,
 	ReactChild,
 } from 'react'
-import { validateChain } from '../../com'
 
 export type PersistType = {
 	clickOutside?: boolean,

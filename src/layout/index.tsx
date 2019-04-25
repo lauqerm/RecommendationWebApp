@@ -16,8 +16,10 @@ const _SiteContainer = (props: any) => {
 	const { auth } = props
 	const token = window.localStorage.getItem('TOKEN')
 	const id = window.localStorage.getItem('ID')
-	if (token !== null && id !== null)
+	if (token !== null && id !== null) {
+		console.log('REAUTH')
 		auth(token, id)
+	}
 	return (
 		<React.Fragment>
 			<div className="siteOverlay" />
