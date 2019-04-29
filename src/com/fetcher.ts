@@ -1,8 +1,8 @@
 import * as _ from 'lodash'
 import axios, { CancelTokenSource } from 'axios'
 
-// const API = 'http://10.1.1.90:3001/'
-const API = 'http://travel-recommendation-sihc.herokuapp.com/'
+const API = 'http://10.1.1.90:3001/'
+// const API = 'http://travel-recommendation-sihc.herokuapp.com/'
 
 interface GETHeader {
 	source: string,
@@ -16,6 +16,9 @@ interface GETHeader {
 interface POSTHeader extends GETHeader {
 	data: object
 }
+interface PATCHHeader extends GETHeader {
+	data: object
+}
 export type FetchStatusProps = {
 	ready?: boolean,
 	cancelToken: CancelTokenSource | undefined
@@ -26,8 +29,8 @@ const defaultFetcherProps = {
 	timeout: 10000,
 }
 const Fetcher = {
-	GET: (_props: GETHeader) => {
-		const props = _.merge(_.cloneDeep(defaultFetcherProps), _props)
+	GET: ($props: GETHeader) => {
+		const props = _.merge(_.cloneDeep(defaultFetcherProps), $props)
 		props.header['auth_token'] = window.localStorage.getItem('TOKEN')
 		const { source, header, params, timeout } = props
 		const CancelToken = axios.CancelToken
@@ -44,8 +47,8 @@ const Fetcher = {
 		}
 		return { request: axios(request), tokenSource: tokenSource }
 	},
-	POST: (_props: POSTHeader) => {
-		const props = _.merge(_.cloneDeep(defaultFetcherProps), _props)
+	POST: ($props: POSTHeader) => {
+		const props = _.merge(_.cloneDeep(defaultFetcherProps), $props)
 		props.header['auth_token'] = window.localStorage.getItem('TOKEN')
 		const { source, data, header, params, timeout } = props
 		const CancelToken = axios.CancelToken
@@ -53,6 +56,25 @@ const Fetcher = {
 
 		var request = {
 			method: 'POST',
+			url: API + source,
+			data: data,
+			headers: header,
+			params: params,
+			timeout: timeout,
+			json: true,
+			cancelToken: tokenSource.token
+		}
+		return { request: axios(request), tokenSource: tokenSource }
+	},
+	PATCH: ($props: PATCHHeader) => {
+		const props = _.merge(_.cloneDeep(defaultFetcherProps), $props)
+		props.header['auth_token'] = window.localStorage.getItem('TOKEN')
+		const { source, data, header, params, timeout } = props
+		const CancelToken = axios.CancelToken
+		const tokenSource = CancelToken.source()
+
+		var request = {
+			method: 'PATCH',
 			url: API + source,
 			data: data,
 			headers: header,

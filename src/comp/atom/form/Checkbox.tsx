@@ -1,4 +1,5 @@
 import React, { DetailedHTMLProps } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './checkbox.scss'
 
 type CheckboxProps = {
@@ -12,7 +13,12 @@ export const Checkbox = (props: CheckboxProps) => {
 		<label className="checkbox">
 			{label}
 			<input type="checkbox" {...inputProps} />
-			<span className={`checkbox--mark ${inputProps !== undefined && inputProps.defaultChecked ? 'checkbox--mark--activated' : ''}`} />
+			<span className={'checkbox--mark'}>
+				{inputProps && inputProps.defaultChecked === true
+					? <FontAwesomeIcon icon="check" />
+					: null
+				}
+			</span>
 		</label>
 	)
 }

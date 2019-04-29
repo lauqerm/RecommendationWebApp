@@ -24,7 +24,7 @@ export const UserRoute = () => {
 			}} />
 			<Route exact path="/profile/:userId" render={(props: RouteComponentProps<{ userId: string }>) => {
 				const { userId } = props.match.params
-				return <Profile id={userId} />
+				return <Profile id={`${userId}`} />
 			}} />
 			<Route exact path="/logout" render={(props: any) => {
 				return <Logout />

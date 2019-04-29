@@ -73,7 +73,7 @@ class TripDetail extends React.Component<TripProps> {
 					</div>
 				</div>
 				<div>
-					Google map, maybe
+					{/* Google map, maybe */}
 				</div>
 			</div>
 		)

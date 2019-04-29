@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export const override = (value: any, overrideValue: any) => {
 	return overrideValue === null || overrideValue === undefined
 		? value
@@ -23,6 +25,15 @@ export const objectToArray = (obj: { [key: string]: any }) => {
 		pair[`${key}`] = obj[key]
 		return pair
 	})
+}
+
+export const preservingMerge = (srcObj: any, $obj: any) => {
+	const keys = Object.keys(srcObj)
+	const obj: any = { ...srcObj }
+	keys.map((key: string) => {
+		if ($obj[key] !== undefined) obj[key] = $obj[key]
+	})
+	return obj
 }
 
 export const moneyFormatWholeVND = new Intl.NumberFormat('vi', {

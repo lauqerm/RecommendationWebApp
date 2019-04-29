@@ -36,6 +36,12 @@ class Showroom extends React.Component<any> {
 			this.fetch()
 		}
 	}
+	componentWillUnmount() {
+		let cancelToken
+		cancelToken = this.fetchStatus.cancelToken
+		if (cancelToken)
+			cancelToken.cancel()
+	}
 	render() {
 		return (
 			<div className="showroom">

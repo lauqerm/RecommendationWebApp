@@ -84,13 +84,14 @@ export class _RegisterForm extends React.Component<RegisterFormProps> {
 						key={element.name}
 					/>
 				})}
-				<div className="pt-1 text-danger">{
-					password !== repassword
+				<div className="pt-1 text-danger">
+					{password !== repassword
 						? 'Mật khẩu không khớp'
 						: this.fetcherStatus.status === 409
 							? 'Tài khoản đã tồn tại'
 							: <br />
-				}</div>
+					}
+				</div>
 				<input type="submit" className="btn btn-success" value="Gửi yêu cầu" />
 			</form>
 		)

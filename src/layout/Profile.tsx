@@ -1,9 +1,12 @@
 import _ from 'lodash'
-import React, { FormEvent } from 'react'
+import React, { ChangeEvent, FormEvent, ReactChild } from 'react'
 import { Checkbox } from '../comp/atom/form/Checkbox'
 import { Fetcher, FetchStatusProps } from '../com/fetcher'
 import { InputWithLabel } from '../comp/atom/form'
+import { Loader } from '../comp/atom'
+import { preservingMerge } from '../com/shorten'
 import { withCurrentUser } from '../comp/hoc'
+import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
 import '../style/profile.scss'
 import 'react-input-range/lib/css/index.css'
 
@@ -17,51 +20,130 @@ export const ProfileImage = (src: any) => {
 
 type ProfileFormProps = {
 	id: string,
-	currentUserId: string,
+} & WithCurrentUserProps
+type ProfileFromState = {
+	error: boolean,
+	errorCode: string,
+	success: boolean,
+	successCode: string,
 }
 type ProfileData = {
 	email: string,
 	gender: string,
-	role: string,
 	username: string,
+	oldpassword: string,
+	password: string,
+	repassword: string,
 }
-class $Profile extends React.Component<ProfileFormProps> {
+class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
+	constructor(props: ProfileFormProps) {
+		super(props)
+		this.state = {
+			error: false,
+			errorCode: '',
+			success: false,
+			successCode: '',
+		}
+	}
+	lang: { [key: string]: ReactChild } = {
+		mismatchPassword: 'Mật khẩu mới không khớp với mật khẩu xác nhận',
+		oldPasswordMissing: 'Vui lòng nhập mật khẩu cũ để thay đổi mật khẩu',
+		updated: 'Đã cập nhật'
+	}
 	formInputs = [
 		{
 			label: 'Email',
 			type: 'email',
+			name: 'email',
 		},
 		{
 			label: 'Tên tài khoản',
 			type: 'text',
+			name: 'username',
 		},
 		{
-			label: 'Mật khẩu',
+			label: 'Mật khẩu cũ',
 			type: 'password',
+			name: 'oldpassword',
+		},
+		{
+			label: 'Mật khẩu mới',
+			type: 'password',
+			name: 'password',
 		},
 		{
 			label: 'Xác nhận',
 			type: 'password',
+			name: 'repassword',
 		},
 		{
 			label: 'Địa điểm',
 			type: 'text',
+			name: 'location',
 		},
 		{
 			label: 'Ưa thích',
 			type: 'text',
+			name: 'preference',
 		},
 	]
-	submit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-	}
 	profileData: ProfileData = {
 		email: '',
 		gender: '',
-		role: '',
 		username: '',
+		oldpassword: '',
+		password: '',
+		repassword: '',
+	}
+	onChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const name = e.currentTarget.getAttribute('name') as string
+		const value = e.currentTarget.value
+		let combinedValue: any = {}
+		combinedValue[name] = value
+		this.profileData = preservingMerge(this.profileData, combinedValue)
+	}
+	submit = (e: FormEvent<HTMLInputElement>) => {
+		e.preventDefault()
+		const { id } = this.props
+		const { oldpassword, password, repassword } = this.profileData
+
+		if (oldpassword === '')
+			if (password !== repassword)
+				return this.setState({
+					error: true,
+					errorCode: 'oldPasswordMissing',
+				})
+
+		if (password !== repassword)
+			return this.setState({
+				error: true,
+				errorCode: 'mismatchPassword',
+			})
+
+		const { request, tokenSource } = Fetcher.PATCH({
+			source: `user?id=${id}`,
+			data: this.profileData
+		})
+		this.fetchStatus.cancelToken = tokenSource
+		request.then((response) => {
+			const { cancelToken } = this.fetchStatus
+			if (cancelToken)
+				this.fetchStatus.cancelToken = undefined
+
+			if (response.status === 200)
+				this.setState({
+					success: true,
+					successCode: 'updated'
+				})
+		})
+
+		this.setState({
+			error: false,
+			errorCode: '',
+		})
 	}
 	fetchStatus: FetchStatusProps = {
+		ready: false,
 		cancelToken: undefined,
 	}
 	fetch = () => {
@@ -75,22 +157,28 @@ class $Profile extends React.Component<ProfileFormProps> {
 			if (cancelToken)
 				this.fetchStatus.cancelToken = undefined
 
-			this.profileData = { ...response.data }
+			this.profileData = preservingMerge(this.profileData, response.data)
+			this.fetchStatus.ready = true
 			this.forceUpdate()
 		})
 	}
 	componentDidMount() {
-		if(this.props.currentUserId !== '')
+		if (this.props.currentUserId !== '' && this.fetchStatus.ready === false)
 			this.fetch()
 	}
 	componentDidUpdate() {
-		if(this.props.currentUserId !== '')
+		if (this.props.currentUserId !== '' && this.fetchStatus.ready === false)
 			this.fetch()
 	}
-	render() {
+	shouldComponentUpdate(nextProps: ProfileFormProps) {
+		if (nextProps.currentUserId !== '')
+			return true
+		return false
+	}
+	renderProfile() {
 		const { id, currentUserId } = this.props
+		const { error, errorCode, success, successCode } = this.state
 		const { email, gender, username } = this.profileData
-
 		const isCurrentUser = id === currentUserId
 		const inputs = this.formInputs.map((element, index) => {
 			return {
@@ -102,7 +190,7 @@ class $Profile extends React.Component<ProfileFormProps> {
 		})
 
 		return (
-			<div className="ctn--stack p-3 mt-1 profile">
+			<React.Fragment>
 				<div className="profile__cont--info">
 					<ProfileImage />
 					<div className="profile__cont--content">
@@ -113,7 +201,7 @@ class $Profile extends React.Component<ProfileFormProps> {
 						<InputWithLabel
 							disabledLabelProps={{ className: 'disabledValue' }}
 							value={username}
-							inputProps={{ type: 'text' }}
+							inputProps={{ type: 'text', onChange: this.onChange }}
 							{...inputs[1]} />
 						<InputWithLabel
 							label="Giới tính"
@@ -127,42 +215,66 @@ class $Profile extends React.Component<ProfileFormProps> {
 									key="male"
 									label="Nam"
 									inputProps={{
-										value: "Nam",
-										defaultChecked: gender === 'Nam' ? true : false
+										name: 'gender',
+										type: 'radio',
+										value: 'Nam',
+										defaultChecked: gender === 'Nam' ? true : false,
+										onChange: this.onChange
 									}} />
 								<Checkbox
 									key="female"
 									label="Nữ"
 									inputProps={{
-										value: "Nữ",
-										defaultChecked: gender === 'Nữ' ? true : false
+										name: 'gender',
+										type: 'radio',
+										value: 'Nữ',
+										defaultChecked: gender === 'Nữ' ? true : false,
+										onChange: this.onChange
 									}} />
 							</div>} />
 						{isCurrentUser
-							? <div className="profile__cont--pwd">
-								<div className="profile__cont--pwd--sub">
-									<InputWithLabel {...inputs[2]}
-										inputProps={{ type: 'password' }} />
-								</div>
-								<div className="profile__cont--pwd--sub">
-									<InputWithLabel {...inputs[3]}
-										inputProps={{ type: 'password' }} />
-								</div>
-							</div>
+							? <React.Fragment>
+								<InputWithLabel {...inputs[2]}
+									inputProps={{ type: 'password', onChange: this.onChange }} />
+								<InputWithLabel {...inputs[3]}
+									inputProps={{ type: 'password', onChange: this.onChange }} />
+								<InputWithLabel {...inputs[4]}
+									inputProps={{ type: 'password', onChange: this.onChange }} />
+							</React.Fragment>
 							: null
 						}
 					</div>
 				</div>
-				<InputWithLabel {...inputs[4]}
-					inputProps={{ type: 'password' }} />
 				<InputWithLabel {...inputs[5]}
-					inputProps={{ type: 'password' }} />
+					inputProps={{ type: 'text' }} />
+				<InputWithLabel {...inputs[6]}
+					inputProps={{ type: 'text' }} />
+				<div className="pt-1">
+					<div className="text-danger">
+						{error ? this.lang[errorCode] : null}
+					</div>
+					<div className="text-success">
+						{success ? this.lang[successCode] : null}
+					</div>
+				</div>
 				{isCurrentUser
 					? <div className="profile__cont--act">
-						<input className="btn btn-success" type="submit" value="Hoàn tất" />
+						<input onClick={this.submit} className="btn btn-success" type="submit" value="Hoàn tất" />
 						<button className="btn btn-danger">Hủy bỏ</button>
 					</div>
 					: null
+				}
+			</React.Fragment>
+		)
+	}
+	render() {
+		const { currentUserId } = this.props
+
+		return (
+			<div className="ctn--stack p-3 mt-1 profile">
+				{currentUserId === ''
+					? <Loader />
+					: this.renderProfile()
 				}
 			</div>
 		)

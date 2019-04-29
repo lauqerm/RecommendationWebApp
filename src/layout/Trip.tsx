@@ -21,7 +21,7 @@ class Trip extends React.Component<TripProps> {
 					<div></div>
 				</div>
 				<div className="tripSimilar">
-					Similar recommend
+					{/* Similar recommend */}
 				</div>
 			</div>
 		)

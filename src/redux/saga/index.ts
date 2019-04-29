@@ -1,3 +1,4 @@
+import history from '../../route/history'
 import { AnyAction } from 'redux'
 import { call, put, takeLatest } from 'redux-saga/effects'
 
@@ -13,9 +14,9 @@ function* manipulateToken(action: AnyAction) {
 				break
 			}
 			case 'LOGOUT': {
-				console.log('LOGOUT')
 				yield call(() => window.localStorage.removeItem('TOKEN'))
 				yield call(() => window.localStorage.removeItem('ID'))
+				yield history.push('/logout')
 				yield put({ type: 'LOGGED_OUT' })
 				break
 			}

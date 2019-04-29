@@ -1,7 +1,10 @@
 import { connect } from 'react-redux'
 
-const mapStateToProps = (state: any) => {
-	return { currentUserId: state.authorization.currentUserId }
+export type WithCurrentUserProps = {
+	currentUserId: string
+}
+const mapStateToProps = (state: any):WithCurrentUserProps => {
+	return { currentUserId: `${state.authorization.currentUserId}` }
 }
 
 export default connect(

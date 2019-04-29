@@ -6,7 +6,7 @@ import { Dropdown } from '../../comp/module'
 import { HeaderAvatar } from './HeaderAvatar'
 import { LoginForm, RegisterForm, Search } from '../../comp/module/form'
 import { NavLink } from 'react-router-dom'
-import { ReactComponent as Logo } from '../../logo.svg'
+import { Split } from '../../comp/atom/Split'
 import '../../style/site.scss'
 import '../../style/profile.scss'
 
@@ -25,9 +25,15 @@ const HeaderContainer = (props: any) => {
 	const { authStatus } = props
 	return (
 		<div className="siteHeader">
-			<NavLink to="/" >
-				<Logo className="siteHeader__logo" />
-			</NavLink>
+			<div style={{
+				borderRight: '2px solid var(--bd0)',
+				paddingRight: '1rem',
+				marginRight: '1rem',
+			}}>
+				<NavLink to="/" >
+					<img style={{ height: '60px' }} src={require('../../image/logo--full.png')} />
+				</NavLink>
+			</div>
 			<Search />
 			{authStatus === true
 				? <HeaderAvatar />

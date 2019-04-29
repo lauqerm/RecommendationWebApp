@@ -1,6 +1,7 @@
 import React from 'react'
 import { debounce } from '../../../com'
 import { Dropdown } from '..'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { PriceFilter, ReviewFilter, TagFilter } from '../filter'
 import { Range } from 'react-input-range'
 
@@ -29,7 +30,7 @@ export class Search extends React.Component<any, any> {
 					meta={{
 						persist: { clickInside: true, }
 					}}
-					child={<div>Magnifier</div>}
+					child={<div><FontAwesomeIcon icon="search" size="3x" className="mt-2 mb-2" /></div>}
 					drop={<div className="ctn--stack p-2 drop--shadow">
 						<PriceFilter
 							onChange={this.onPriceChange}
