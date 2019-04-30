@@ -3,12 +3,13 @@ import React, { ChangeEvent, FormEvent, ReactChild } from 'react'
 import { Checkbox } from '../comp/atom/form/Checkbox'
 import { Fetcher, FetchStatusProps } from '../com/fetcher'
 import { InputWithLabel } from '../comp/atom/form'
-import { Loader } from '../comp/atom'
+import { Loader, Card } from '../comp/atom'
 import { preservingMerge } from '../com/shorten'
 import { withCurrentUser } from '../comp/hoc'
 import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
 import '../style/profile.scss'
 import 'react-input-range/lib/css/index.css'
+import { retrieveInput } from '../com/event'
 
 export const ProfileImage = (src: any) => {
 	return (
@@ -96,11 +97,9 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 		repassword: '',
 	}
 	onChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const name = e.currentTarget.getAttribute('name') as string
-		const value = e.currentTarget.value
-		let combinedValue: any = {}
-		combinedValue[name] = value
-		this.profileData = preservingMerge(this.profileData, combinedValue)
+		const { value } = retrieveInput(e)
+		this.profileData = preservingMerge(this.profileData, value)
+		this.forceUpdate()
 	}
 	submit = (e: FormEvent<HTMLInputElement>) => {
 		e.preventDefault()
@@ -195,8 +194,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 					<ProfileImage />
 					<div className="profile__cont--content">
 						{isCurrentUser
-							? <InputWithLabel disabledLabelProps={{ className: 'disabledValue' }} type="text" value={email} {...inputs[0]} />
-							: null
+							&& <InputWithLabel disabledLabelProps={{ className: 'disabledValue' }} type="text" value={email} {...inputs[0]} />
 						}
 						<InputWithLabel
 							disabledLabelProps={{ className: 'disabledValue' }}
@@ -233,7 +231,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 									}} />
 							</div>} />
 						{isCurrentUser
-							? <React.Fragment>
+							&& <React.Fragment>
 								<InputWithLabel {...inputs[2]}
 									inputProps={{ type: 'password', onChange: this.onChange }} />
 								<InputWithLabel {...inputs[3]}
@@ -241,7 +239,6 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 								<InputWithLabel {...inputs[4]}
 									inputProps={{ type: 'password', onChange: this.onChange }} />
 							</React.Fragment>
-							: null
 						}
 					</div>
 				</div>
@@ -250,21 +247,17 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 				<InputWithLabel {...inputs[6]}
 					inputProps={{ type: 'text' }} />
 				<div className="pt-1">
-					<div className="text-danger">
-						{error ? this.lang[errorCode] : null}
-					</div>
-					<div className="text-success">
-						{success ? this.lang[successCode] : null}
-					</div>
+					{error && <Card.Error>{this.lang[errorCode]}abc</Card.Error>}
+					{success && <Card.Success>{this.lang[successCode]}</Card.Success>}
 				</div>
-				{isCurrentUser
-					? <div className="profile__cont--act">
+				{
+					isCurrentUser
+					&& <div className="profile__cont--act">
 						<input onClick={this.submit} className="btn btn-success" type="submit" value="Hoàn tất" />
 						<button className="btn btn-danger">Hủy bỏ</button>
 					</div>
-					: null
 				}
-			</React.Fragment>
+			</React.Fragment >
 		)
 	}
 	render() {
