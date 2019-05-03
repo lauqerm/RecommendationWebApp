@@ -42,6 +42,12 @@ class TripDetail extends React.Component<TripProps> {
 	componentDidMount() {
 		this.fetch()
 	}
+	componentWillUnmount() {
+		let cancelToken
+		cancelToken = this.fetchStatus.cancelToken
+		if (cancelToken)
+			cancelToken.cancel()
+	}
 	render() {
 		const { title, price, duration, destinations } = this.tripData
 		const { id } = this.props
@@ -50,7 +56,7 @@ class TripDetail extends React.Component<TripProps> {
 				<img className="tripDetail__img" src="/" />
 				<div className="tripDetail__info p-2">
 					<h2 className="tripDetail__header">
-					<NavLink to={`/trip/${id}`}>{title}</NavLink>
+						<NavLink to={`/trip/${id}`}>{title}</NavLink>
 					</h2>
 					<div className="tripDetail__summary">
 						<div className="tripDetail__review">

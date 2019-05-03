@@ -2,10 +2,11 @@ import _ from 'lodash'
 import React from 'react'
 import TripDetail from './TripDetail'
 import { Fetcher, FetchStatusProps } from '../../com/fetcher'
+import { Loader } from '../atom'
 import { withCurrentUser } from '../hoc'
 import './showroom.scss'
 
-class Showroom extends React.Component<any> {
+class $Showroom extends React.Component<any> {
 	suggestions = []
 	fetchStatus: FetchStatusProps = {
 		ready: false,
@@ -27,6 +28,7 @@ class Showroom extends React.Component<any> {
 		})
 	}
 	componentDidMount() {
+		console.log(this.props.currentUserId)
 		if (this.props.currentUserId !== '' && !this.fetchStatus.ready) {
 			this.fetch()
 		}
@@ -44,13 +46,15 @@ class Showroom extends React.Component<any> {
 	}
 	render() {
 		return (
-			<div className="showroom">
-				{this.suggestions.map((element) => {
-					return <TripDetail key={element} id={element} />
-				})}
-			</div>
+			this.fetchStatus.ready
+				? <div className="showroom">
+					{this.suggestions.map((element) => {
+						return <TripDetail key={element} id={element} />
+					})}
+				</div>
+				: <Loader />
 		)
 	}
 }
 
-export default withCurrentUser(Showroom)
+export default withCurrentUser($Showroom)

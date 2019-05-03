@@ -25,15 +25,12 @@ const Logout = (props: any) => {
 			},
 			data: {}
 		})
-		request.then((response) => {
+		request.then(() => {
 			const { logout } = props
-			const { status } = response.data
-			if (status === 200) {
-				logout()
-			}
+			logout()
 		})
 	}
-	return <Redirect to="/" />
+	return null
 }
 
 export default connect(

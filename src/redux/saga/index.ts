@@ -1,6 +1,13 @@
 import history from '../../route/history'
 import { AnyAction } from 'redux'
-import { call, put, takeLatest } from 'redux-saga/effects'
+import {
+	call,
+	put,
+	putResolve,
+	take,
+	takeEvery,
+	takeLatest
+	} from 'redux-saga/effects'
 
 function* manipulateToken(action: AnyAction) {
 	try {
@@ -14,10 +21,17 @@ function* manipulateToken(action: AnyAction) {
 				break
 			}
 			case 'LOGOUT': {
-				yield call(() => window.localStorage.removeItem('TOKEN'))
-				yield call(() => window.localStorage.removeItem('ID'))
-				yield history.push('/logout')
 				yield put({ type: 'LOGGED_OUT' })
+				yield call(() => {
+					window.localStorage.removeItem('TOKEN')
+					window.localStorage.removeItem('ID')
+				})
+				break
+			}
+			case 'LOGGED_OUT': {
+				yield call(() => {
+					history.push('/')
+				})
 				break
 			}
 		}
@@ -27,7 +41,7 @@ function* manipulateToken(action: AnyAction) {
 }
 
 function* sagaToken() {
-	yield takeLatest(['AUTH', 'LOGOUT'], manipulateToken);
+	yield takeEvery(['AUTH', 'LOGOUT', 'LOGGED_OUT'], manipulateToken)
 }
 
 export default sagaToken

@@ -1,24 +1,80 @@
 import _ from 'lodash'
 import React from 'react'
+import { Fetcher, FetchStatusProps } from '../com/fetcher'
+import { Loader } from '../comp/atom'
 import { Review, TripDetail } from '../comp/module'
+import { withCurrentUser } from '../comp/hoc'
+import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
 
 type TripProps = {
 	id: string
-}
-class Trip extends React.Component<TripProps> {
-	render() {
+} & WithCurrentUserProps
+class $Trip extends React.Component<TripProps> {
+	reviews = []
+	fetchStatus: FetchStatusProps = {
+		ready: false,
+		cancelToken: undefined,
+	}
+	fetch = () => {
 		const { id } = this.props
+		let { request, tokenSource } = Fetcher.GET({
+			source: `travel_comments/${id}`,
+		})
+		this.fetchStatus.cancelToken = tokenSource
+		request.then((response) => {
+			let { cancelToken } = this.fetchStatus
+			if (cancelToken)
+				this.fetchStatus.cancelToken = undefined
+			this.fetchStatus.ready = true
+			// console.log(response)
+			this.reviews = _.cloneDeep(response.data.comments)
+			this.forceUpdate()
+		})
+	}
+	componentDidMount() {
+		if (this.props.currentUserId !== '' && !this.fetchStatus.ready) {
+			this.fetch()
+		}
+	}
+	componentDidUpdate() {
+		if (this.props.currentUserId !== '' && !this.fetchStatus.ready) {
+			this.fetch()
+		}
+	}
+	componentWillUnmount() {
+		let cancelToken
+		cancelToken = this.fetchStatus.cancelToken
+		if (cancelToken)
+			cancelToken.cancel()
+	}
+	render() {
+		const { id, currentUserId } = this.props
+		const { ready } = this.fetchStatus
+
 		return (
 			<div className="trip">
 				<div style={{ gridArea: 'detail' }}>
 					<TripDetail id={id} />
 				</div>
 				<div className="tripReview">
-					<Review userId="123" />
-					<Review userId="321" value={1} disabled />
-					<Review userId="443" value={3} disabled />
-					<Review userId="111" value={5} disabled />
-					<div></div>
+					{currentUserId && <Review id="0" tripId={id} userId={currentUserId} />}
+					{ready
+						? this.reviews.map((review) => {
+							const { id, user_id, content, updated_at, rating, username } = review
+
+							return <Review
+								key={id}
+								id={id}
+								userId={user_id}
+								username={username}
+								tripId={id}
+								comment={content}
+								updatedDate={updated_at}
+								defaultRating={rating}
+								disabled
+								{...review} />
+						})
+						: <Loader />}
 				</div>
 				<div className="tripSimilar">
 					{/* Similar recommend */}
@@ -28,4 +84,4 @@ class Trip extends React.Component<TripProps> {
 	}
 }
 
-export default Trip
+export default withCurrentUser($Trip)

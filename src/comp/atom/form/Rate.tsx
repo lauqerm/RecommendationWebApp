@@ -9,7 +9,7 @@ export type RateProps = {
 	inputProps: DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
 	labelProps: DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>,
 	styleClass?: string,
-	value?: number,
+	rating?: number,
 	valueList?: string[],
 }
 export const Rate = ($props: RateProps) => {
@@ -18,29 +18,31 @@ export const Rate = ($props: RateProps) => {
 		styleClass: 'rate--star',
 		disabled: false,
 	}, $props)
-	const { name, disabled, value, valueList, labelList, styleClass, inputProps, labelProps } = props
-	let range = labelList.length
+	const { name, disabled, rating, valueList, labelList, styleClass, inputProps, labelProps } = props
+	const range = labelList.length
+
 	return (
 		<div className={`rate${disabled === true ? '--disabled' : ''} ${styleClass}`}>
 			{labelList.map((label, $position) => {
-				const position = range - 1 - $position
+				const position = range - $position
+				if (label === '')
+					return null
 				return <React.Fragment key={$position}>
 					<input
 						type="radio"
 						id={`${name}${position}`}
 						name={name}
-						value={`${valueList !== undefined
-							? valueList[position]
-							: labelList !== undefined ? labelList[position] : position}`}
+						value={position}
 						disabled={disabled}
-						checked={value !== undefined
+						checked={rating !== undefined
 							&& disabled
-							&& value - 1 === position ? true : undefined}
+							&& rating === position ? true : undefined}
+						data-value={(valueList && rating) && valueList[rating]}
 						title={disabled ? '' : label}
 						{...inputProps} />
 					<label
 						htmlFor={`${name}${position}`}
-						data-value={`${position}`}
+						data-value={position}
 						{...labelProps}>
 						{label}
 					</label>

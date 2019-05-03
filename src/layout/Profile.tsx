@@ -1,15 +1,15 @@
 import _ from 'lodash'
+import Input from '../comp/atom/form'
 import React, { ChangeEvent, FormEvent, ReactChild } from 'react'
-import { Checkbox } from '../comp/atom/form/Checkbox'
+import { Card, Loader } from '../comp/atom'
 import { Fetcher, FetchStatusProps } from '../com/fetcher'
 import { InputWithLabel } from '../comp/atom/form'
-import { Loader, Card } from '../comp/atom'
 import { preservingMerge } from '../com/shorten'
+import { retrieveInput } from '../com/event'
 import { withCurrentUser } from '../comp/hoc'
 import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
 import '../style/profile.scss'
 import 'react-input-range/lib/css/index.css'
-import { retrieveInput } from '../com/event'
 
 export const ProfileImage = (src: any) => {
 	return (
@@ -22,7 +22,7 @@ export const ProfileImage = (src: any) => {
 type ProfileFormProps = {
 	id: string,
 } & WithCurrentUserProps
-type ProfileFromState = {
+type ProfileFormState = {
 	error: boolean,
 	errorCode: string,
 	success: boolean,
@@ -36,7 +36,7 @@ type ProfileData = {
 	password: string,
 	repassword: string,
 }
-class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
+class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 	constructor(props: ProfileFormProps) {
 		super(props)
 		this.state = {
@@ -162,17 +162,23 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 		})
 	}
 	componentDidMount() {
-		if (this.props.currentUserId !== '' && this.fetchStatus.ready === false)
+		if (this.props.currentUserId !== '' && !this.fetchStatus.ready)
 			this.fetch()
 	}
 	componentDidUpdate() {
-		if (this.props.currentUserId !== '' && this.fetchStatus.ready === false)
+		if (this.props.currentUserId !== '' && !this.fetchStatus.ready)
 			this.fetch()
 	}
 	shouldComponentUpdate(nextProps: ProfileFormProps) {
 		if (nextProps.currentUserId !== '')
 			return true
 		return false
+	}
+	componentWillUnmount() {
+		let cancelToken
+		cancelToken = this.fetchStatus.cancelToken
+		if (cancelToken)
+			cancelToken.cancel()
 	}
 	renderProfile() {
 		const { id, currentUserId } = this.props
@@ -209,7 +215,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 							value={gender}
 							disabledLabelProps={{ className: 'disabledValue' }}
 							customInput={<div>
-								<Checkbox
+								<Input.Checkbox
 									key="male"
 									label="Nam"
 									inputProps={{
@@ -219,7 +225,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 										defaultChecked: gender === 'Nam' ? true : false,
 										onChange: this.onChange
 									}} />
-								<Checkbox
+								<Input.Checkbox
 									key="female"
 									label="Nữ"
 									inputProps={{
@@ -247,7 +253,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 				<InputWithLabel {...inputs[6]}
 					inputProps={{ type: 'text' }} />
 				<div className="pt-1">
-					{error && <Card.Error>{this.lang[errorCode]}abc</Card.Error>}
+					{error && <Card.Error>{this.lang[errorCode]}</Card.Error>}
 					{success && <Card.Success>{this.lang[successCode]}</Card.Success>}
 				</div>
 				{
@@ -261,13 +267,13 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFromState> {
 		)
 	}
 	render() {
-		const { currentUserId } = this.props
+		const { ready } = this.fetchStatus
 
 		return (
 			<div className="ctn--stack p-3 mt-1 profile">
-				{currentUserId === ''
-					? <Loader />
-					: this.renderProfile()
+				{ready
+					? this.renderProfile()
+					: <Loader />
 				}
 			</div>
 		)

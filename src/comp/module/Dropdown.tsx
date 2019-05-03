@@ -1,4 +1,4 @@
-import { mergeDeepRight, mergeRight } from 'ramda'
+import { mergeDeepRight } from 'ramda'
 import { validateChain } from '../../com'
 import './dropdown.scss'
 import React, {

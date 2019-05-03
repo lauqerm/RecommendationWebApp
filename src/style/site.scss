@@ -24,8 +24,8 @@
     box-shadow: 0 0 2px 1px var(--sd0);
     padding: 10px;
     grid-area: header;
-	grid-template-columns: max-content 1fr 250px 0.5em;
-	z-index: 10;
+    grid-template-columns: max-content 1fr 250px 0.5em;
+    z-index: 10;
     &__logo {
       @include squareShape(60px);
     }
@@ -37,6 +37,7 @@
       font-size: 1.6em;
       font-weight: 100;
       cursor: pointer;
+      user-select: none;
       text-align: left;
       line-height: 60px;
     }
@@ -46,12 +47,12 @@
     grid-area: footer;
     grid-template-columns: 1fr max-content;
     box-shadow: 0 0 2px 1px var(--sd0);
-	z-index: 10;
+    z-index: 10;
   }
   &View {
     @include site;
     grid-area: view;
-	background-color: #fefefe;
-	background-image: url('../image/bg--noise.png')
+    background-color: #fefefe;
+    background-image: url("../image/bg--noise.png");
   }
 }
