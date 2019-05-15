@@ -1,30 +1,32 @@
 import history from '../../route/history'
 import { AnyAction } from 'redux'
+import { AuthAction } from '../action/auth'
 import {
 	call,
 	put,
-	putResolve,
-	take,
 	takeEvery,
-	takeLatest
 	} from 'redux-saga/effects'
 
 function* manipulateToken(action: AnyAction) {
 	try {
 		const { type } = action
-		const { token, id } = action
+		const { token, id, username, role } = action
 		switch (type) {
 			case 'AUTH': {
 				yield call((token: string) => window.localStorage.setItem('TOKEN', token), token)
 				yield call((id: string) => window.localStorage.setItem('ID', id), id)
-				yield put({ type: 'AUTH_WRITTEN', token, id })
+				yield call((username: string) => window.localStorage.setItem('USERNAME', username), username)
+				yield call((role: string) => window.localStorage.setItem('ROLE', role), role)
+				yield put<AuthAction>({ type: 'AUTH_WRITTEN', token, id, username, role })
 				break
 			}
 			case 'LOGOUT': {
-				yield put({ type: 'LOGGED_OUT' })
+				yield put<AuthAction>({ type: 'LOGGED_OUT' })
 				yield call(() => {
 					window.localStorage.removeItem('TOKEN')
 					window.localStorage.removeItem('ID')
+					window.localStorage.removeItem('USERNAME')
+					window.localStorage.removeItem('ROLE')
 				})
 				break
 			}
@@ -36,7 +38,7 @@ function* manipulateToken(action: AnyAction) {
 			}
 		}
 	} catch (e) {
-		yield put({ type: 'AUTH_WRITTEN', token: '', id: '' })
+		yield put<AuthAction>({ type: 'AUTH_WRITTEN', token: '', id: '', username: '', role: 'user' })
 	}
 }
 

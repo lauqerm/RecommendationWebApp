@@ -4,15 +4,19 @@ export interface AuthorizeState {
 	authStatus: boolean,
 	token: string,
 	currentUserId: string,
+	username: string,
+	role: string,
 }
 
-const _authorization = {
+const $authorization = {
 	authStatus: false,
 	token: '',
 	currentUserId: '',
+	username: '',
+	role: 'user',
 }
 
-export const authorization = (state = _authorization, action: AuthAction): AuthorizeState => {
+export const authorization = (state = $authorization, action: AuthAction): AuthorizeState => {
 	switch (action.type) {
 		case 'ADD_TOKEN': return {
 			...state,
@@ -26,15 +30,19 @@ export const authorization = (state = _authorization, action: AuthAction): Autho
 		}
 		case 'LOGGED_OUT': return {
 			...state,
-			authStatus: false,
-			token: '',
-			currentUserId: '',
+			...$authorization,
 		}
-		case 'AUTH_WRITTEN': return {
-			...state,
-			authStatus: true,
-			currentUserId: action.id,
-			token: action.token
+		case 'AUTH_WRITTEN': {
+			const { id, username, token, role } = action
+
+			return {
+				...state,
+				authStatus: true,
+				currentUserId: id,
+				username: username,
+				token: token,
+				role: role,
+			}
 		}
 		default: return state
 	}
