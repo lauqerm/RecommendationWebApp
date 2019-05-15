@@ -1,24 +1,19 @@
 import FooterBar from './Footer'
 import Header from './Header'
-import React, { Dispatch } from 'react'
+import React from 'react'
 import View from './View'
-import { auth } from '../redux/action'
 import { connect } from 'react-redux'
+import { mapAuthDispatchToProps } from '../comp/hoc'
 import '../style/site.scss'
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-	return {
-		auth: (token: string, userId: string) => dispatch(auth(token, userId)),
-	}
-}
-
-const _SiteContainer = (props: any) => {
+const $SiteContainer = (props: any) => {
 	const { auth } = props
 	const token = window.localStorage.getItem('TOKEN')
 	const id = window.localStorage.getItem('ID')
-	if (token !== null && id !== null) {
-		console.log('REAUTH')
-		auth(token, id)
+	const username = window.localStorage.getItem('USERNAME')
+	const role = window.localStorage.getItem('ROLE')
+	if (token !== null && id !== null && username !== null && role !== null) {
+		auth(token, id, username, role)
 	}
 	return (
 		<React.Fragment>
@@ -34,5 +29,5 @@ const _SiteContainer = (props: any) => {
 
 export const SiteContainer = connect(
 	null,
-	mapDispatchToProps,
-)(_SiteContainer)
+	mapAuthDispatchToProps,
+)($SiteContainer)

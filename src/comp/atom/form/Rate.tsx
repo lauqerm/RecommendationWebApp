@@ -6,8 +6,8 @@ export type RateProps = {
 	name: string,
 	disabled?: boolean,
 	labelList: string[],
-	inputProps: DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
-	labelProps: DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>,
+	inputProps?: DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+	labelProps?: DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>,
 	styleClass?: string,
 	rating?: number,
 	valueList?: string[],
@@ -34,11 +34,11 @@ export const Rate = ($props: RateProps) => {
 						name={name}
 						value={position}
 						disabled={disabled}
-						checked={rating !== undefined
+						defaultChecked={rating !== undefined
 							&& disabled
 							&& rating === position ? true : undefined}
 						data-value={(valueList && rating) && valueList[rating]}
-						title={disabled ? '' : label}
+						title={rating ? labelList[rating] : label}
 						{...inputProps} />
 					<label
 						htmlFor={`${name}${position}`}

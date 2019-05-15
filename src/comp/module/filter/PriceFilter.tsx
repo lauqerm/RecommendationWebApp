@@ -8,6 +8,7 @@ type PriceFilterProps = {
 	value: number
 }
 export const priceLabel = [
+	'',
 	'Tiết kiệm',
 	'Bình dân',
 	'Trung bình',
@@ -21,7 +22,7 @@ const PriceFilter = (props: PriceFilterProps) => {
 			<InputWithLabel
 				formId="search"
 				id="price"
-				label={priceLabel[value - 1]}
+				label={priceLabel[value]}
 				customInput={<InputRange
 					maxValue={5}
 					minValue={1}

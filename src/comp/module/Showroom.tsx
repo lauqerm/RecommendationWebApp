@@ -28,7 +28,6 @@ class $Showroom extends React.Component<any> {
 		})
 	}
 	componentDidMount() {
-		console.log(this.props.currentUserId)
 		if (this.props.currentUserId !== '' && !this.fetchStatus.ready) {
 			this.fetch()
 		}

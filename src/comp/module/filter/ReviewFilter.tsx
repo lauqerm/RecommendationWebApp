@@ -1,7 +1,7 @@
 import InputRange, { Range } from 'react-input-range'
 import React from 'react'
 import { InputWithLabel } from '../../atom/form'
-import { reviewLabel } from '../Review'
+import { ReviewLabel } from '../../lang'
 import 'react-input-range/lib/css/index.css'
 
 type ReviewFilterProps = {
@@ -15,7 +15,7 @@ const ReviewFilter = (props: ReviewFilterProps) => {
 			<InputWithLabel
 				formId="search"
 				id="review"
-				label={reviewLabel[value - 1]}
+				label={ReviewLabel[value]}
 				customInput={<InputRange
 					maxValue={5}
 					minValue={1}

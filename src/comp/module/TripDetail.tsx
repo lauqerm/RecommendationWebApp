@@ -1,26 +1,54 @@
 import _ from 'lodash'
+import Input from '../atom/form'
 import React from 'react'
 import { Fetcher, FetchStatusProps } from '../../com/fetcher'
-import { moneyFormatWholeVND } from '../../com/shorten'
+import { GoogleMap } from '../atom'
 import { NavLink } from 'react-router-dom'
+import { ReviewLabel } from '../lang'
 import './tripDetail.scss'
 import '../../style/trip.scss'
 
 type TripProps = {
-	id: string
+	id: string,
+	showMap?: boolean,
+}
+type TripInfo = {
+	address: string,
+	created_at: string,
+	description: string,
+	id: number,
+	link: string | null,
+	location: string,
+	lower_price: number,
+	rating: number,
+	title: string,
+	updated_at: string,
+	upper_price: number,
 }
 type TripData = {
 	destinations: string[],
-	duration: number,
-	title: string,
-	price: number,
+	status: number,
+	travel: TripInfo,
+	type: string[],
 }
 class TripDetail extends React.Component<TripProps> {
 	tripData: TripData = {
 		destinations: [],
-		duration: 0,
-		title: '',
-		price: 0,
+		status: 0,
+		travel: {
+			address: '',
+			created_at: '',
+			description: '',
+			id: 0,
+			link: '',
+			location: '',
+			lower_price: 0,
+			rating: 0,
+			title: '',
+			updated_at: '',
+			upper_price: 0,
+		},
+		type: [],
 	}
 	fetchStatus: FetchStatusProps = {
 		cancelToken: undefined,
@@ -28,7 +56,7 @@ class TripDetail extends React.Component<TripProps> {
 	fetch = () => {
 		const { id } = this.props
 		const { request, tokenSource } = Fetcher.GET({
-			source: `travel/${id}`,
+			source: `travel?id=${id}`,
 		})
 		this.fetchStatus.cancelToken = tokenSource
 		request.then((response) => {
@@ -49,37 +77,57 @@ class TripDetail extends React.Component<TripProps> {
 			cancelToken.cancel()
 	}
 	render() {
-		const { title, price, duration, destinations } = this.tripData
+		const { travel, type } = this.tripData
+		const { address, description, location, rating, title, lower_price, upper_price } = travel
 		const { id } = this.props
+
 		return (
 			<div className="tripDetail">
-				<img className="tripDetail__img" src="/" />
+				<div className="tripDetail__img" style={{
+					backgroundImage: `url(${description})`
+				}} />
 				<div className="tripDetail__info p-2">
 					<h2 className="tripDetail__header">
 						<NavLink to={`/trip/${id}`}>{title}</NavLink>
 					</h2>
-					<div className="tripDetail__summary">
+					<div className="tripDetail__summary ctn--stack">
 						<div className="tripDetail__review">
-							Total score
-							Sum of review
-					</div>
+							<div>
+								<label>Đánh giá chung: </label>
+								<Input.Rate
+									disabled
+									rating={rating}
+									labelList={ReviewLabel}
+									name={`tripReview${id}`}
+									labelProps={{
+										title: ReviewLabel[rating]
+									}} />
+							</div>
+							<div>
+								<label>Số đánh giá: </label>
+							</div>
+							<div>
+								<label>Tầm giá: </label>
+								<div>
+									Từ {lower_price} đến {upper_price}
+								</div>
+							</div>
+						</div>
 						<div className="tripDetail__price">
-							{moneyFormatWholeVND(price)}
+							<label>Địa chỉ: </label>
+							<div>
+								{address}
+							</div>
+						</div>
+						<div className="tripDetail__des">
+							<p>
+								{description ? description : ''}
+							</p>
 						</div>
 					</div>
-					<div className="tripDetail__des">
-						<p>
-							Thời gian: {duration} ngày
-						</p>
-						<ul>
-							{destinations.map((element, value) => {
-								return <li key={`${value}`}>{element}</li>
-							})}
-						</ul>
-					</div>
 				</div>
-				<div>
-					{/* Google map, maybe */}
+				<div className="tripDetail__map">
+					{location ? <GoogleMap meta={location} width="100%" /> : null}
 				</div>
 			</div>
 		)

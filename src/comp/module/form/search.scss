@@ -1,0 +1,10 @@
+.search__container {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  .search__label {
+    font-weight: bold;
+    padding-left: 5px;
+	margin-top: 0.5rem;
+	font-size: 1.4rem;
+  }
+}

@@ -5,6 +5,7 @@ import { Fetcher, FetchStatusProps } from '../../com/fetcher'
 import { NavLink } from 'react-router-dom'
 import { ProfileImage } from '../../layout/Profile'
 import { retrieveInput } from '../../com/event'
+import { ReviewLabel } from '../lang'
 import { withCurrentUser } from '../hoc'
 import '../../style/review.scss'
 
@@ -25,14 +26,6 @@ type ReviewState = {
 	success: boolean,
 	successCode: string,
 }
-export const reviewLabel = [
-	'',
-	'Không tốt',
-	'Cần cải thiện',
-	'Bình thường',
-	'Rất tốt',
-	'Tuyệt vời',
-]
 class $Review extends React.Component<ReviewProps, ReviewState> {
 	constructor(props: ReviewProps) {
 		super(props)
@@ -142,16 +135,17 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 					<div>
 						<Input.Rate
 							name={`rate${id}`}
-							labelList={reviewLabel}
+							labelList={ReviewLabel}
 							disabled={disabled}
 							inputProps={{
 								onChange: this.inputOnChange
 							}}
 							labelProps={{
-								onMouseOver: !(disabled) ? this.inputOnMouseover : undefined
+								onMouseOver: !(disabled) ? this.inputOnMouseover : undefined,
+								title: disabled ? ReviewLabel[_value] : ''
 							}}
 							rating={_value} />
-						{_value !== undefined ? reviewLabel[_value] : ''}
+						{_value !== undefined ? ReviewLabel[_value] : ''}
 					</div>
 					<Split dir="hor" />
 					{disabled

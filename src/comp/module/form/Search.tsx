@@ -4,6 +4,7 @@ import { Dropdown } from '..'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { PriceFilter, ReviewFilter, TagFilter } from '../filter'
 import { Range } from 'react-input-range'
+import './search.scss'
 
 export class Search extends React.Component<any, any> {
 	constructor(props: any) {
@@ -28,19 +29,28 @@ export class Search extends React.Component<any, any> {
 			<div>
 				<Dropdown
 					meta={{
+						edge: 'LEFT',
+						align: 'TOP',
 						persist: { clickInside: true, }
 					}}
-					child={<div><FontAwesomeIcon icon="search" size="3x" className="mt-2 mb-2" /></div>}
-					drop={<div className="ctn--stack p-2 drop--shadow">
-						<PriceFilter
-							onChange={this.onPriceChange}
-							value={this.state.price} />
-						<hr />
-						<ReviewFilter
-							onChange={this.onReviewChange}
-							value={this.state.review} />
-						<hr />
-						<TagFilter />
+					child={<div><FontAwesomeIcon icon="search" size="3x" className="m-2" /></div>}
+					drop={<div className="search__container p-2 drop--shadow">
+						<div className="ctn--stack pr-3">
+							<label className="search__label">Giá cả</label>
+							<PriceFilter
+								onChange={this.onPriceChange}
+								value={this.state.price} />
+							<hr />
+							<label className="search__label">Đánh giá</label>
+							<ReviewFilter
+								onChange={this.onReviewChange}
+								value={this.state.review} />
+							<div></div>
+						</div>
+						<div className="ctn--stack">
+							<label className="search__label">Loại hình</label>
+							<TagFilter />
+						</div>
 					</div>} />
 			</div>
 		)

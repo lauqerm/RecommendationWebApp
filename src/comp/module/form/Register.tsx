@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent } from 'react'
-import { AuthAction } from '../../../redux/action/auth'
+import { AuthDispatcher } from '../../hoc/setCurrentUser'
 import { Fetcher } from '../../../com/fetcher'
 import { InputWithLabel } from '../../atom/form'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -7,7 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router'
 interface RegisterFormProps extends RouteComponentProps {
 	id: string,
 	method: {
-		auth: (token: string, userId: string) => AuthAction,
+		auth: AuthDispatcher,
 	},
 }
 export class _RegisterForm extends React.Component<RegisterFormProps> {
@@ -54,11 +54,11 @@ export class _RegisterForm extends React.Component<RegisterFormProps> {
 			data: Fetcher.makeBody(this.formData)
 		})
 		request.then((response: any) => {
-			const { auth_token, id, status } = response.data
+			const { auth_token, id, status, role, username } = response.data
 			const { auth } = this.props.method
 			this.fetcherStatus.status = status
 			if (status === 201) {
-				auth(auth_token, id as string)
+				auth(auth_token, id as string, username, role)
 				this.props.history.push('/')
 			} else {
 				this.forceUpdate()

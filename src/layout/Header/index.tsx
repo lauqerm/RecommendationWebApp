@@ -1,20 +1,12 @@
 import React from 'react'
-import { auth } from '../../redux/action'
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import { Dropdown } from '../../comp/module'
 import { HeaderAvatar } from './HeaderAvatar'
 import { LoginForm, RegisterForm, Search } from '../../comp/module/form'
+import { mapAuthDispatchToProps } from '../../comp/hoc'
 import { NavLink } from 'react-router-dom'
-import { Split } from '../../comp/atom/Split'
 import '../../style/site.scss'
 import '../../style/profile.scss'
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-	return {
-		auth: (token: string, userId: string) => dispatch(auth(token, userId)),
-	}
-}
 
 const mapStateToProps = (state: any) => {
 	return { authStatus: state.authorization.authStatus }
@@ -68,5 +60,5 @@ const HeaderContainer = (props: any) => {
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps
+	mapAuthDispatchToProps
 )(HeaderContainer)
