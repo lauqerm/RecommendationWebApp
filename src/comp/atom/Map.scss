@@ -1,0 +1,11 @@
+.map {
+  &__container {
+    position: relative;
+    text-align: right;
+  }
+  &__canvas {
+    overflow: hidden;
+    border: 0;
+    background: none !important;
+  }
+}
