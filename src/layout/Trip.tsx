@@ -54,7 +54,7 @@ class $Trip extends React.Component<TripProps> {
 		return (
 			<div className="trip">
 				<div style={{ gridArea: 'detail' }}>
-					<TripDetail id={id} />
+					<TripDetail id={id} showMap />
 				</div>
 				<div className="tripReview">
 					{currentUserId && <Review id="0" tripId={id} userId={currentUserId} />}

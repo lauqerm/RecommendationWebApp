@@ -12,6 +12,11 @@ export const UserRoute = () => {
 					<Showroom />
 				</React.Fragment>
 			}} />
+			<Route exact path="/search" render={(props: any) => {
+				return <React.Fragment>
+					<Showroom externalQuery={`search${props.location.search}`} />
+				</React.Fragment>
+			}} />
 			<Route exact path="/trip/:tripId" render={(props: any) => {
 				const { tripId } = props.match.params
 				return <Trip id={tripId} />

@@ -8,14 +8,14 @@ type CheckboxProps = {
 }
 export const Checkbox = (props: CheckboxProps) => {
 	const { label, inputProps } = props
-	const { defaultChecked } = inputProps
+	const { defaultChecked, checked } = inputProps
 
 	return (
 		<label className="checkbox">
 			{label}
 			<input type="checkbox" {...inputProps} />
 			<span className={'checkbox--mark'}>
-				{defaultChecked === true
+				{checked === true || defaultChecked === true
 					? <FontAwesomeIcon icon="check" />
 					: null
 				}

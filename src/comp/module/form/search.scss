@@ -1,10 +1,20 @@
-.search__container {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  .search__label {
+.search {
+  &__container {
+    display: grid;
+    grid-template-columns: 1fr 225px;
+    width: 500px;
+    label {
+      width: 100%;
+    }
+  }
+  &__range {
+    display: grid;
+    grid-template-rows: min-content min-content 1fr min-content;
+  }
+  &__label {
     font-weight: bold;
     padding-left: 5px;
-	margin-top: 0.5rem;
-	font-size: 1.4rem;
+    margin-top: 0.5rem;
+    font-size: 1.4rem;
   }
 }

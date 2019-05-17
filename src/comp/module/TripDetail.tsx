@@ -2,9 +2,16 @@ import _ from 'lodash'
 import Input from '../atom/form'
 import React from 'react'
 import { Fetcher, FetchStatusProps } from '../../com/fetcher'
-import { GoogleMap } from '../atom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { GoogleMap, Tag } from '../atom'
 import { NavLink } from 'react-router-dom'
-import { ReviewLabel } from '../lang'
+import {
+	PriceColorScheme,
+	PriceLabel,
+	ReviewLabel,
+	TagColorScheme,
+	TagLabel
+	} from '../lang'
 import './tripDetail.scss'
 import '../../style/trip.scss'
 
@@ -79,7 +86,7 @@ class TripDetail extends React.Component<TripProps> {
 	render() {
 		const { travel, type } = this.tripData
 		const { address, description, location, rating, title, lower_price, upper_price } = travel
-		const { id } = this.props
+		const { id, showMap } = this.props
 
 		return (
 			<div className="tripDetail">
@@ -92,29 +99,37 @@ class TripDetail extends React.Component<TripProps> {
 					</h2>
 					<div className="tripDetail__summary ctn--stack">
 						<div className="tripDetail__review">
+							<label>Đánh giá chung</label>
+							<Input.Rate
+								disabled
+								rating={rating}
+								labelList={ReviewLabel}
+								name={`tripReview${id}`}
+								labelProps={{
+									title: ReviewLabel[rating]
+								}} />
+							<label>Số đánh giá</label>
 							<div>
-								<label>Đánh giá chung: </label>
-								<Input.Rate
-									disabled
-									rating={rating}
-									labelList={ReviewLabel}
-									name={`tripReview${id}`}
-									labelProps={{
-										title: ReviewLabel[rating]
-									}} />
+								0
 							</div>
-							<div>
-								<label>Số đánh giá: </label>
-							</div>
-							<div>
-								<label>Tầm giá: </label>
-								<div>
-									Từ {lower_price} đến {upper_price}
-								</div>
-							</div>
-						</div>
-						<div className="tripDetail__price">
-							<label>Địa chỉ: </label>
+							{lower_price !== 0 && upper_price !== 0
+								? <React.Fragment>
+									<label>Tầm giá</label>
+									<div>
+										<Tag color={PriceColorScheme[lower_price]}>{PriceLabel[lower_price]}</Tag>
+										{lower_price === 0 || upper_price === 0 || lower_price === upper_price
+											? null
+											: <FontAwesomeIcon icon="arrow-right" className="pl-1 pr-1" size="lg" />
+										}
+										{lower_price === upper_price
+											? null
+											: <Tag color={PriceColorScheme[upper_price]}>{PriceLabel[upper_price]}</Tag>
+										}
+									</div>
+								</React.Fragment>
+								: null
+							}
+							<label>Địa chỉ</label>
 							<div>
 								{address}
 							</div>
@@ -124,11 +139,22 @@ class TripDetail extends React.Component<TripProps> {
 								{description ? description : ''}
 							</p>
 						</div>
+						<div className="tripDetail__tag">
+							{type && type.length > 0
+								? type.map((type) => {
+									const index = TagLabel.indexOf(type)
+
+									return <Tag key={type} color={TagColorScheme[index]} mode="OUTLINE">{TagLabel[index]}</Tag>
+								})
+								: null}
+						</div>
 					</div>
 				</div>
-				<div className="tripDetail__map">
-					{location ? <GoogleMap meta={location} width="100%" /> : null}
-				</div>
+				{showMap
+					? <div className="tripDetail__map">
+						{location ? <GoogleMap meta={location} width="100%" /> : null}
+					</div>
+					: null}
 			</div>
 		)
 	}

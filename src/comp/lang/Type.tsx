@@ -1,0 +1,33 @@
+export const TagLabel = [
+	'Tâm linh',
+	'Di tích',
+	'Tham quan',
+	'Thắng cảnh',
+	'Ẩm thực',
+	'Giải trí',
+	'Nghỉ dưỡng',
+	'Mạo hiểm',
+	'Hồ sông suối',
+	'Đô thị',
+	'Nông thôn',
+	'Đồi núi',
+	'Biển',
+	'Rừng',
+]
+
+export const TagColorScheme = [
+	'ORANGERED',
+	'#EEB700',
+	'PLUM',
+	'SLATEGRAY',
+	'DARKKHAKI',
+	'DARKORANGE',
+	'HOTPINK',
+	'RED',
+	'ROYALBLUE',
+	'DARKVIOLET',
+	'LIGHTSEAGREEN',
+	'SANDYBROWN',
+	'DARKTURQUOISE',
+	'LIMEGREEN',
+]

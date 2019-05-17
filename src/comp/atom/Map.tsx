@@ -15,6 +15,7 @@ export const GoogleMap = ($props: GoogleMapProps) => {
 	const { meta, width, height } = props
 
 	return <div className="map__container" style={{ width: width, height: height }}>
+		<div className="map__underlay">Google Map</div>
 		<iframe style={{ width: '100%', height: '100%' }}
 			className="map__canvas"
 			src={`https://maps.google.com/maps?q=${meta}&ie=UTF8&iwloc=&output=embed`}
