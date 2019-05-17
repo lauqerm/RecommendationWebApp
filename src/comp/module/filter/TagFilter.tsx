@@ -1,30 +1,26 @@
 import Input from '../../atom/form'
-import React from 'react'
+import React, { ChangeEvent } from 'react'
+import { TagLabel } from '../../lang'
+import './Filter.scss'
 
-export const Tags = [
-	'Tâm linh',
-	'Di tích',
-	'Tham quan',
-	'Thắng cảnh',
-	'Ẩm thực',
-	'Giải trí',
-	'Nghỉ dưỡng',
-	'Mạo hiểm',
-	'Hồ sông suối',
-	'Đô thị',
-	'Nông thôn',
-	'Đồi núi',
-	'Biển',
-	'Rừng',
-]
-const TagFilter = () => {
+type TagFilterProps = {
+	onChange: (value: ChangeEvent<HTMLInputElement>) => void,
+	checkedList: boolean[]
+}
+const TagFilter = (props: TagFilterProps) => {
+	const { checkedList, onChange } = props
+
 	return (
-		<div>
-			{Tags.map((element) => {
+		<div className="tagFilter--column">
+			{TagLabel.map((element, index) => {
 				return <Input.Checkbox
+					key={element}
 					label={element}
 					inputProps={{
+						name: `${index}`,
 						value: element,
+						onChange,
+						defaultChecked: checkedList[index] === false ? false : true
 					}}
 				/>
 			})}

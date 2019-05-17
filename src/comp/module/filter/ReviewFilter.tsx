@@ -1,28 +1,22 @@
-import InputRange, { Range } from 'react-input-range'
-import React from 'react'
-import { InputWithLabel } from '../../atom/form'
+import Input from '../../atom/form/index'
+import React, { ChangeEvent } from 'react'
 import { ReviewLabel } from '../../lang'
 import 'react-input-range/lib/css/index.css'
 
 type ReviewFilterProps = {
-	onChange: (value: number | Range) => void,
+	onChange: (value: ChangeEvent<HTMLInputElement>) => void,
 	value: number
 }
 const ReviewFilter = (props: ReviewFilterProps) => {
 	const { value, onChange } = props
 	return (
 		<React.Fragment>
-			<InputWithLabel
-				formId="search"
-				id="review"
-				label={ReviewLabel[value]}
-				customInput={<InputRange
-					maxValue={5}
-					minValue={1}
-					formatLabel={() => ''}
-					value={value}
-					onChange={onChange} />}
-			/>
+			<Input.Rate
+				name="search--review"
+				labelList={ReviewLabel}
+				inputProps={{
+					onChange
+				}} />
 		</React.Fragment>
 	)
 }
