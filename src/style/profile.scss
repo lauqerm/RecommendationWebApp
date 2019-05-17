@@ -11,6 +11,7 @@
   width: 60%;
   &__avatar {
     @include circleShape(60px);
+    user-select: none;
   }
   &__cont {
     &--info {

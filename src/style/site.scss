@@ -53,6 +53,7 @@
     @include site;
     grid-area: view;
     background-color: #fefefe;
-    background-image: url("../image/bg--noise.png");
+	background-image: url("../image/bg--noise.png");
+	grid-template-rows: min-content 1fr;
   }
 }
