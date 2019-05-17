@@ -13,9 +13,9 @@ class $Showroom extends React.Component<any> {
 		cancelToken: undefined,
 	}
 	fetch = () => {
-		const { currentUserId } = this.props
+		const { currentUserId, externalQuery } = this.props
 		let { request, tokenSource } = Fetcher.GET({
-			source: `suggestion/${currentUserId}`,
+			source: externalQuery ? externalQuery : `suggestion/${currentUserId}`,
 		})
 		this.fetchStatus.cancelToken = tokenSource
 		request.then((response) => {
@@ -47,9 +47,11 @@ class $Showroom extends React.Component<any> {
 		return (
 			this.fetchStatus.ready
 				? <div className="showroom">
-					{this.suggestions.map((element) => {
-						return <TripDetail key={element} id={element} />
-					})}
+					{this.suggestions
+						? this.suggestions.map((element) => {
+							return <TripDetail key={element} id={element} />
+						})
+						: <Loader />}
 				</div>
 				: <Loader />
 		)
