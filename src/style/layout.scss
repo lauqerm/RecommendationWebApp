@@ -1,0 +1,18 @@
+.ctn {
+  &--stack {
+    display: grid;
+    box-sizing: border-box;
+    grid-template-columns: 1fr;
+    background-color: var(--bg0);
+  }
+}
+
+.ratio--2--1 {
+  position: relative;
+  padding-top: 30%;
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

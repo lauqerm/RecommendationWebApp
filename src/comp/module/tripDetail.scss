@@ -1,0 +1,45 @@
+.tripDetail {
+  box-shadow: 0 0 4px 1px var(--sd0);
+  display: grid;
+  grid-row-gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+  height: min-content;
+  min-width: 500px;
+  text-align: left;
+  background-color: white;
+  width: 100%;
+  &__info {
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    grid-column: 2;
+  }
+  &__combine {
+    grid-row: 1 / span 2;
+  }
+  &__img {
+    background-size: cover;
+    background-position: center;
+    min-height: 300px;
+  }
+  &__summary {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+  }
+  &__review {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    > label {
+      font-weight: bold;
+      padding-right: 10px;
+      // margin-top: 0.5rem;
+    }
+  }
+}
+
+.tripReview {
+  grid-area: review;
+}
+
+.tripSimilar {
+  grid-area: similar;
+}

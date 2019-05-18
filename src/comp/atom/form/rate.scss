@@ -1,0 +1,56 @@
+.rate,
+.rate--disabled {
+  display: inline-block;
+  width: max-content;
+  height: 21px;
+}
+
+.rate:not(:checked) > input,
+.rate--disabled:not(:checked) > input {
+  position: absolute;
+  top: -9999px;
+}
+
+.rate:not(:checked) > label {
+  cursor: pointer;
+}
+.rate:not(:checked) > label,
+.rate--disabled:not(:checked) > label {
+  color: #ccc;
+  float: right;
+  font-size: 25px;
+  line-height: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 1em;
+}
+
+.rate--star {
+  --checked: #ffc700;
+  --pending: #c59b08;
+  --glowing: #deb217;
+}
+
+.rate--star:not(:checked) > label:before {
+  content: "★ ";
+}
+
+.rate > input:checked ~ label,
+.rate--disabled > input:checked ~ label {
+  color: var(--checked);
+}
+
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: var(--glowing);
+}
+
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+  color: var(--pending);
+}
+
+/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */

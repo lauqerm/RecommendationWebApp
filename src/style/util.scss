@@ -1,0 +1,17 @@
+// Process
+@mixin squareShape($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin circleShape($size) {
+  @include squareShape($size);
+  border-radius: 50%;
+}
+
+// Block
+@mixin site {
+  display: grid;
+  position: relative;
+  box-sizing: border-box;
+}

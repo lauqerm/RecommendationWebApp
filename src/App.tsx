@@ -1,18 +1,28 @@
+import createSagaMiddleware from 'redux-saga'
 import React from 'react'
-import root from './logic/reducer'
-import SiteWrapper from './layout'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { createStore } from 'redux'
+import rootReducer from './redux/reducer'
+import sagaToken from './redux/saga'
+import { applyMiddleware, createStore } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import { faArrowRight, faCheck, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core'
 import { Provider } from 'react-redux'
+import { SiteContainer } from './layout'
+import { withRootRouter } from './route'
 
-const store = createStore(root)
+library.add(faCheck, faSearch, faArrowRight)
+
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(rootReducer, composeWithDevTools(
+	applyMiddleware(sagaMiddleware)
+))
+
+sagaMiddleware.run(sagaToken)
 
 const App = () => {
 	return (
 		<Provider store={store}>
-			<Router>
-				<SiteWrapper />
-			</Router>
+			{withRootRouter(<SiteContainer />)}
 		</Provider>
 	)
 }

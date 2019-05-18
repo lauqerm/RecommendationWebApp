@@ -1,0 +1,10 @@
+.split {
+  &--ver {
+    border-left: 2px solid var(--bd0);
+    display: inline-block;
+    height: 100%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 0;
+  }
+}

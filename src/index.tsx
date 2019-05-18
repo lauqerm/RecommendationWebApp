@@ -3,6 +3,10 @@ import App from './App'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
+import './style/theme.scss'
+import './style/layout.scss'
+import './style/override.scss'
+import 'bootstrap/dist/css/bootstrap.css'
 
 ReactDOM.render(<App />, document.getElementById('root'))
 
