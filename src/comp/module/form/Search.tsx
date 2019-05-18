@@ -15,6 +15,18 @@ type SearchState = {
 	checkedList: boolean[],
 }
 
+export const makeQuery = (review: number, price: Range, types: string[]) => {
+	let queryURL = `/search?`
+	let queries = []
+	if (!isNaN(review))
+		queries.push(`rating=${review}`)
+	if (!isNaN(price.min) && !isNaN(price.max))
+		queries.push(`lower_price=${price.min === 1 ? 0 : price.min}&upper_price=${price.max}`)
+	if (types.length !== 0)
+		queries.push(`type=${types.join(',')}`)
+	return `${queryURL}${queries.join('&')}`
+}
+
 export class Search extends React.Component<any, SearchState> {
 	constructor(props: any) {
 		super(props)
@@ -38,16 +50,8 @@ export class Search extends React.Component<any, SearchState> {
 			if (type !== false)
 				types.push(`${index + 1}`)
 		})
-		let queryURL = `/search?`
-		let queries = []
-		if (!isNaN(review))
-			queries.push(`rating=${review}`)
-		if (!isNaN(price.min) && !isNaN(price.max))
-			queries.push(`lower_price=${price.min === 1 ? 0 : price.min}&upper_price=${price.max}`)
-		if (types.length !== 0)
-			queries.push(`type=${types.join(',')}`)
-		queryURL = `${queryURL}${queries.join('&')}`
-		window.location.href = queryURL
+
+		window.location.href = makeQuery(review, price, types)
 	}
 	onPriceChange = (value: number | Range): void => {
 		debounce(this.setState({
@@ -82,7 +86,7 @@ export class Search extends React.Component<any, SearchState> {
 					}}
 					child={<div><FontAwesomeIcon icon="search" size="3x" className="m-2" /></div>}
 					drop={<form
-						className="search__container p-2 drop--shadow"
+						className="drop--shadow search__container p-2"
 						onSubmit={this.onSubmit}>
 						<div className="ctn--stack">
 							<label className="search__label">Loại hình</label>

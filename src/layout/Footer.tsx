@@ -2,9 +2,11 @@ import React from 'react'
 
 const FooterBar = () => {
 	return (
-		<div className="siteFooter">
+		<div className="siteFooter pr-3 pb-1 pt-1">
 			<address>
-				This is the contact info
+				Đồ án tốt nghiệp: 
+				<br />
+				Sinh viên thực hiện: Nguyễn Thanh Bằng
 			</address>
 		</div>
 	)

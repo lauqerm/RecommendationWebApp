@@ -4,7 +4,7 @@ import React from 'react'
 import View from './View'
 import { connect } from 'react-redux'
 import { mapAuthDispatchToProps } from '../comp/hoc'
-import '../style/site.scss'
+import './index.scss'
 
 const $SiteContainer = (props: any) => {
 	const { auth } = props

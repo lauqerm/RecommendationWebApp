@@ -7,7 +7,7 @@ import { ProfileImage } from '../../layout/Profile'
 import { retrieveInput } from '../../com/event'
 import { ReviewLabel } from '../lang'
 import { withCurrentUser } from '../hoc'
-import '../../style/review.scss'
+import './Review.scss'
 
 type ReviewProps = {
 	id: string,

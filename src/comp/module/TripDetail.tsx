@@ -4,6 +4,7 @@ import React from 'react'
 import { Fetcher, FetchStatusProps } from '../../com/fetcher'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { GoogleMap, Tag } from '../atom'
+import { makeQuery } from './form/Search'
 import { NavLink } from 'react-router-dom'
 import {
 	PriceColorScheme,
@@ -13,7 +14,6 @@ import {
 	TagLabel
 	} from '../lang'
 import './tripDetail.scss'
-import '../../style/trip.scss'
 
 type TripProps = {
 	id: string,
@@ -93,7 +93,7 @@ class TripDetail extends React.Component<TripProps> {
 				<div className="tripDetail__img" style={{
 					backgroundImage: `url(${description})`
 				}} />
-				<div className="tripDetail__info p-2">
+				<div className={`tripDetail__info ${showMap ? 'tripDetail__combine' : ''} pt-2 pl-2 pr-2`}>
 					<h2 className="tripDetail__header">
 						<NavLink to={`/trip/${id}`}>{title}</NavLink>
 					</h2>
@@ -139,12 +139,18 @@ class TripDetail extends React.Component<TripProps> {
 								{description ? description : ''}
 							</p>
 						</div>
-						<div className="tripDetail__tag">
+						<div className="tripDetail__tag pb-2">
 							{type && type.length > 0
 								? type.map((type) => {
 									const index = TagLabel.indexOf(type)
 
-									return <Tag key={type} color={TagColorScheme[index]} mode="OUTLINE">{TagLabel[index]}</Tag>
+									return (
+										<Tag key={type} color={TagColorScheme[index]} mode="OUTLINE">
+											<NavLink style={{ textDecoration: 'inherit', color: 'inherit' }} to={makeQuery(0, { min: 0, max: 5 }, [`${index + 1}`])}>
+												{TagLabel[index]}
+											</NavLink>
+										</Tag>
+									)
 								})
 								: null}
 						</div>

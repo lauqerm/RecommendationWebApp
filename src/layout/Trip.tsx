@@ -5,6 +5,7 @@ import { Loader } from '../comp/atom'
 import { Review, TripDetail } from '../comp/module'
 import { withCurrentUser } from '../comp/hoc'
 import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
+import './Trip.scss'
 
 type TripProps = {
 	id: string

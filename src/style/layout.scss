@@ -8,11 +8,11 @@
 }
 
 .ratio--2--1 {
-	position: relative;
-	padding-top: 30%;
-	> * {
-		position: absolute;
-		top: 0;
-		left: 0;
-	}
+  position: relative;
+  padding-top: 30%;
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }

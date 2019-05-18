@@ -8,7 +8,7 @@ import { preservingMerge } from '../com/shorten'
 import { retrieveInput } from '../com/event'
 import { withCurrentUser } from '../comp/hoc'
 import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
-import '../style/profile.scss'
+import './Profile.scss'
 import 'react-input-range/lib/css/index.css'
 
 export const ProfileImage = (src: any) => {

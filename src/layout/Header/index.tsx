@@ -5,8 +5,8 @@ import { HeaderAvatar } from './HeaderAvatar'
 import { LoginForm, RegisterForm, Search } from '../../comp/module/form'
 import { mapAuthDispatchToProps } from '../../comp/hoc'
 import { NavLink } from 'react-router-dom'
-import '../../style/site.scss'
-import '../../style/profile.scss'
+import '../index.scss'
+import '../Profile.scss'
 
 const mapStateToProps = (state: any) => {
 	return { authStatus: state.authorization.authStatus }
