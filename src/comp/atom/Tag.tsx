@@ -11,12 +11,12 @@ export const Tag = (props: React.PropsWithChildren<TagProps>) => {
 	let color, bgColor
 	switch (mode) {
 		case 'OUTLINE':
-			color = baseColor
+			color = `${baseColor}`
 			bgColor = 'white'
 			break;
 		default:
 			color = 'white'
-			bgColor = baseColor
+			bgColor = `${baseColor}`
 			break;
 	}
 
