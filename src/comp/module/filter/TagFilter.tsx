@@ -1,6 +1,7 @@
 import Input from '../../atom/form'
 import React, { ChangeEvent } from 'react'
-import { TagLabel } from '../../lang'
+import { Tag } from '../../atom'
+import { TagColorScheme, TagLabel } from '../../lang'
 import './Filter.scss'
 
 type TagFilterProps = {
@@ -15,7 +16,7 @@ const TagFilter = (props: TagFilterProps) => {
 			{TagLabel.map((element, index) => {
 				return <Input.Checkbox
 					key={element}
-					label={element}
+					label={<Tag color={TagColorScheme[index]} className="ctn--fluid" mode="OUTLINE">{element}</Tag>}
 					inputProps={{
 						name: `${index}`,
 						value: element,

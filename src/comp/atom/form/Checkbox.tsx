@@ -1,9 +1,9 @@
-import React, { DetailedHTMLProps } from 'react'
+import React, { DetailedHTMLProps, ReactChild } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './checkbox.scss'
 
 type CheckboxProps = {
-	label?: string,
+	label?: ReactChild,
 	inputProps: DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 }
 export const Checkbox = (props: CheckboxProps) => {

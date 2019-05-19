@@ -5,6 +5,12 @@
     grid-template-columns: 1fr;
     background-color: var(--bg0);
   }
+  &--fluid {
+    width: 100%;
+  }
+  &--gridRowFluid {
+    grid-row: 1 / -1;
+  }
 }
 
 .ratio--2--1 {

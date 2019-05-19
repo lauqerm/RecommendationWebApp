@@ -6,7 +6,16 @@ import { Loader } from '../atom'
 import { withCurrentUser } from '../hoc'
 import './showroom.scss'
 
-class $Showroom extends React.Component<any> {
+class $Showroom extends React.Component<any, any> {
+	constructor(props: any) {
+		super(props)
+		this.state = {
+			error: false,
+			errorCode: '',
+			success: false,
+			successCode: '',
+		}
+	}
 	suggestions = []
 	fetchStatus: FetchStatusProps = {
 		ready: false,
@@ -24,7 +33,13 @@ class $Showroom extends React.Component<any> {
 				this.fetchStatus.cancelToken = undefined
 			this.fetchStatus.ready = true
 			this.suggestions = _.cloneDeep(response.data.suggestions)
-			this.forceUpdate()
+			this.setState({
+				success: true
+			})
+		}).catch(() => {
+			this.setState({
+				error: true
+			})
 		})
 	}
 	componentDidMount() {
@@ -46,13 +61,13 @@ class $Showroom extends React.Component<any> {
 	render() {
 		return (
 			this.fetchStatus.ready
-				? <div className="showroom">
-					{this.suggestions
-						? this.suggestions.map((element) => {
+				? this.state.success && this.suggestions
+					? <div className="showroom">
+						{this.suggestions.map((element) => {
 							return <TripDetail key={element} id={element} />
-						})
-						: <Loader />}
-				</div>
+						})}
+					</div>
+					: <div className="ctn--gridRowFluid">Đã xảy ra lỗi</div>
 				: <Loader />
 		)
 	}
