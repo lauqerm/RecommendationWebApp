@@ -31,12 +31,13 @@ class $Showroom extends React.Component<any, any> {
 			let { cancelToken } = this.fetchStatus
 			if (cancelToken)
 				this.fetchStatus.cancelToken = undefined
-			this.fetchStatus.ready = true
 			this.suggestions = _.cloneDeep(response.data.suggestions)
+			this.fetchStatus.ready = true
 			this.setState({
 				success: true
 			})
 		}).catch(() => {
+			this.fetchStatus.ready = true
 			this.setState({
 				error: true
 			})
@@ -67,7 +68,7 @@ class $Showroom extends React.Component<any, any> {
 							return <TripDetail key={element} id={element} />
 						})}
 					</div>
-					: <div className="ctn--gridRowFluid">Đã xảy ra lỗi</div>
+					: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message">Đã xảy ra lỗi</div>
 				: <Loader />
 		)
 	}

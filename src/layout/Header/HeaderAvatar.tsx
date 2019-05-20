@@ -16,11 +16,16 @@ type _HeaderAvatarProps = {
 }
 const _HeaderAvatar = (props: _HeaderAvatarProps) => {
 	const { currentUserId } = props
+	const username = window.localStorage.getItem('USERNAME')
+
 	return <Dropdown
 		meta={{
 			align: 'RIGHT'
 		}}
-		child={<img className="profile__avatar" src={require('../../image/user--noAvatar.png')} />}
+		child={<div>{username !== null ? <div className="siteHeader__username">
+			<label>Xin chào</label>
+			<h2>{username}</h2>
+		</div> : ''}</div>}
 		drop={<AvatarDropdown currentUserId={currentUserId} />} />
 }
 

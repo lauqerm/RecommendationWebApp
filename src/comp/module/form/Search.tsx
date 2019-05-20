@@ -112,7 +112,7 @@ export class Search extends React.Component<any, SearchState> {
 							</div>
 							<div></div>
 							<div>
-								<input type="submit" className="btn btn-success" value="Tìm kiếm" />
+								<input type="submit" className="btn btn-success ctn--fluid" value="Tìm kiếm" />
 							</div>
 						</div>
 					</form>} />

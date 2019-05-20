@@ -1,11 +1,13 @@
 import _ from 'lodash'
+import history from '../route/history'
 import Input from '../comp/atom/form'
 import React, { ChangeEvent, FormEvent, ReactChild } from 'react'
-import { Card, Loader } from '../comp/atom'
+import { Card, Loader, Tag } from '../comp/atom'
 import { Fetcher, FetchStatusProps } from '../com/fetcher'
 import { InputWithLabel } from '../comp/atom/form'
 import { preservingMerge } from '../com/shorten'
 import { retrieveInput } from '../com/event'
+import { TagColorScheme, TagLabel } from '../comp/lang'
 import { withCurrentUser } from '../comp/hoc'
 import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
 import './Profile.scss'
@@ -35,6 +37,7 @@ type ProfileData = {
 	oldpassword: string,
 	password: string,
 	repassword: string,
+	favorites: number[],
 }
 class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 	constructor(props: ProfileFormProps) {
@@ -78,13 +81,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 			name: 'repassword',
 		},
 		{
-			label: 'Địa điểm',
-			type: 'text',
-			name: 'location',
-		},
-		{
 			label: 'Ưa thích',
-			type: 'text',
 			name: 'preference',
 		},
 	]
@@ -95,16 +92,26 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 		oldpassword: '',
 		password: '',
 		repassword: '',
+		favorites: [],
 	}
 	onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value } = retrieveInput(e)
 		this.profileData = preservingMerge(this.profileData, value)
 		this.forceUpdate()
 	}
+	onFavoriteChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { rawValue, checked } = retrieveInput(e)
+		const value = parseInt(rawValue)
+		if (checked)
+			this.profileData.favorites.push(value)
+		else this.profileData.favorites.filter((currentValue) => currentValue === value)
+		console.log(checked, this.profileData.favorites)
+		this.forceUpdate()
+	}
 	submit = (e: FormEvent<HTMLInputElement>) => {
 		e.preventDefault()
 		const { id } = this.props
-		const { oldpassword, password, repassword } = this.profileData
+		const { email, gender, username, oldpassword, password, repassword, favorites } = this.profileData
 
 		if (oldpassword === '')
 			if (password !== repassword)
@@ -121,7 +128,15 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 
 		const { request, tokenSource } = Fetcher.PATCH({
 			source: `user?id=${id}`,
-			data: this.profileData
+			data: {
+				email,
+				gender,
+				username,
+				oldpassword,
+				password,
+				repassword,
+				favorites: favorites.join(','),
+			}
 		})
 		this.fetchStatus.cancelToken = tokenSource
 		request.then((response) => {
@@ -158,7 +173,14 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 
 			this.profileData = preservingMerge(this.profileData, response.data)
 			this.fetchStatus.ready = true
-			this.forceUpdate()
+			this.setState({
+				success: true
+			})
+		}).catch(() => {
+			this.fetchStatus.ready = true
+			this.setState({
+				error: true
+			})
 		})
 	}
 	componentDidMount() {
@@ -183,7 +205,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 	renderProfile() {
 		const { id, currentUserId } = this.props
 		const { error, errorCode, success, successCode } = this.state
-		const { email, gender, username } = this.profileData
+		const { email, gender, username, favorites } = this.profileData
 		const isCurrentUser = id === currentUserId
 		const inputs = this.formInputs.map((element, index) => {
 			return {
@@ -197,7 +219,6 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 		return (
 			<React.Fragment>
 				<div className="profile__cont--info">
-					<ProfileImage />
 					<div className="profile__cont--content">
 						{isCurrentUser
 							&& <InputWithLabel disabledLabelProps={{ className: 'disabledValue' }} type="text" value={email} {...inputs[0]} />
@@ -249,9 +270,20 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 					</div>
 				</div>
 				<InputWithLabel {...inputs[5]}
-					inputProps={{ type: 'text' }} />
-				<InputWithLabel {...inputs[6]}
-					inputProps={{ type: 'text' }} />
+					customInput={<div className="profile__cont--tag">
+						{TagLabel.map((element, index) => {
+							return <Input.Checkbox
+								key={element}
+								label={<Tag color={TagColorScheme[index]} className="ctn--fluid" mode="OUTLINE">{element}</Tag>}
+								inputProps={{
+									name: `${index}`,
+									value: index,
+									onChange: this.onFavoriteChange,
+									defaultChecked: favorites.indexOf(index) === -1 ? false : true
+								}}
+							/>
+						})}
+					</div>} />
 				<div className="pt-1">
 					{error && <Card.Error>{this.lang[errorCode]}</Card.Error>}
 					{success && <Card.Success>{this.lang[successCode]}</Card.Success>}
@@ -260,7 +292,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 					isCurrentUser
 					&& <div className="profile__cont--act">
 						<input onClick={this.submit} className="btn btn-success" type="submit" value="Hoàn tất" />
-						<button className="btn btn-danger">Hủy bỏ</button>
+						<button onClick={() => history.push('/')} className="btn btn-danger">Hủy bỏ</button>
 					</div>
 				}
 			</React.Fragment >
@@ -272,7 +304,9 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 		return (
 			<div className="ctn--stack p-3 mt-1 profile">
 				{ready
-					? this.renderProfile()
+					? this.state.success
+						? this.renderProfile()
+						: <div className="ctn--gridRowFluid p-3 mt-1 profile__message">Đã xảy ra lỗi</div>
 					: <Loader />
 				}
 			</div>
