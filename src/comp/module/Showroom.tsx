@@ -23,8 +23,9 @@ class $Showroom extends React.Component<any, any> {
 	}
 	fetch = () => {
 		const { currentUserId, externalQuery } = this.props
+
 		let { request, tokenSource } = Fetcher.GET({
-			source: externalQuery ? externalQuery : `suggestion/${currentUserId}`,
+			source: externalQuery ? externalQuery : `suggestion${currentUserId !== '' ? `?user_id=${currentUserId}` : ''}`,
 		})
 		this.fetchStatus.cancelToken = tokenSource
 		request.then((response) => {
@@ -44,12 +45,12 @@ class $Showroom extends React.Component<any, any> {
 		})
 	}
 	componentDidMount() {
-		if (this.props.currentUserId !== '' && !this.fetchStatus.ready) {
+		if (!this.fetchStatus.ready) {
 			this.fetch()
 		}
 	}
 	componentDidUpdate() {
-		if (this.props.currentUserId !== '' && !this.fetchStatus.ready) {
+		if (!this.fetchStatus.ready) {
 			this.fetch()
 		}
 	}

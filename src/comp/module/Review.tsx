@@ -86,8 +86,8 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 			if (cancelToken)
 				this.fetchStatus.cancelToken = undefined
 
-			// if (response.status === 200)
-			// 	location.reload()
+			if (response.status === 200)
+				location.reload()
 		})
 
 		this.setState({
@@ -119,7 +119,7 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 
 		return (
 			<div className="review p-1">
-				<div className="review__Header">
+				<div className="reviewHeader">
 					<h3>
 						<NavLink className="review__Username" to={`/profile/${userId}`}>{username}</NavLink>
 					</h3>

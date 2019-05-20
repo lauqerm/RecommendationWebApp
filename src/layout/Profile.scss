@@ -37,7 +37,7 @@
     &--tag {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      grid-column-gap: 5px;
+      grid-column-gap: 3rem;
     }
     &--act {
       display: grid;

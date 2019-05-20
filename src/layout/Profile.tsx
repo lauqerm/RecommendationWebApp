@@ -101,10 +101,12 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 	}
 	onFavoriteChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { rawValue, checked } = retrieveInput(e)
+		const { favorites } = this.profileData
 		const value = parseInt(rawValue)
 		if (checked)
-			this.profileData.favorites.push(value)
-		else this.profileData.favorites.filter((currentValue) => currentValue === value)
+			favorites.push(value)
+		else this.profileData.favorites = favorites.filter((currentValue) => currentValue !== value)
+			.filter((currentValue, index, self) => self.indexOf(currentValue) === index)
 		console.log(checked, this.profileData.favorites)
 		this.forceUpdate()
 	}

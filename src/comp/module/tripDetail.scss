@@ -23,6 +23,10 @@
     background-size: cover;
     background-position: center;
     min-height: 300px;
+    &Container {
+      background-repeat: no-repeat;
+      background-position: center;
+    }
   }
   &__summary {
     display: grid;
