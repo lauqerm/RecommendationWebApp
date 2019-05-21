@@ -3,11 +3,12 @@ import './Tag.scss'
 
 export type TagProps = {
 	color: string,
-	mode?: 'OUTLINE' | 'SOLID'
+	mode?: 'OUTLINE' | 'SOLID',
+	disabled?: boolean,
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const Tag = (props: React.PropsWithChildren<TagProps>) => {
-	const { children, color: baseColor, mode, className, ...rest } = props
+	const { children, color: baseColor, mode, className, disabled, ...rest } = props
 	let color: string, bgColor
 	switch (mode) {
 		case 'OUTLINE':
@@ -28,10 +29,10 @@ export const Tag = (props: React.PropsWithChildren<TagProps>) => {
 				borderColor: baseColor,
 			}}
 			onMouseEnter={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-				if(mode === 'OUTLINE') event.currentTarget.style.boxShadow = `0 0 1px 1px ${color} inset`
+				if(mode === 'OUTLINE' && disabled !== true) event.currentTarget.style.boxShadow = `0 0 1px 1px ${color} inset`
 			}}
 			onMouseLeave={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-				if(mode === 'OUTLINE') event.currentTarget.style.boxShadow = `none`
+				if(mode === 'OUTLINE' && disabled !== true) event.currentTarget.style.boxShadow = `none`
 			}}
 			{...rest}
 		>

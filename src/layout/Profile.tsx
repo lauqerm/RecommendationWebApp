@@ -1,8 +1,15 @@
 import _ from 'lodash'
 import history from '../route/history'
 import Input from '../comp/atom/form'
-import React, { ChangeEvent, FormEvent, ReactChild } from 'react'
+import React, {
+	ChangeEvent,
+	Dispatch,
+	FormEvent,
+	ReactChild
+	} from 'react'
 import { Card, Loader, Tag } from '../comp/atom'
+import { changeUsername, ProfileAction } from '../redux/action/profile'
+import { connect } from 'react-redux'
 import { Fetcher, FetchStatusProps } from '../com/fetcher'
 import { InputWithLabel } from '../comp/atom/form'
 import { preservingMerge } from '../com/shorten'
@@ -12,6 +19,14 @@ import { withCurrentUser } from '../comp/hoc'
 import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
 import './Profile.scss'
 import 'react-input-range/lib/css/index.css'
+
+const mapProfileDispatchtoProps = (dispatch: Dispatch<ProfileAction>) => {
+	return {
+		change: (username: string) => {
+			return dispatch(changeUsername(username))
+		},
+	}
+}
 
 export const ProfileImage = (src: any) => {
 	return (
@@ -23,7 +38,9 @@ export const ProfileImage = (src: any) => {
 
 type ProfileFormProps = {
 	id: string,
-} & WithCurrentUserProps
+} & WithCurrentUserProps & {
+	change: (username: string) => void
+}
 type ProfileFormState = {
 	error: boolean,
 	errorCode: string,
@@ -112,7 +129,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 	}
 	submit = (e: FormEvent<HTMLInputElement>) => {
 		e.preventDefault()
-		const { id } = this.props
+		const { id, change } = this.props
 		const { email, gender, username, oldpassword, password, repassword, favorites } = this.profileData
 
 		if (oldpassword === '')
@@ -146,11 +163,13 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 			if (cancelToken)
 				this.fetchStatus.cancelToken = undefined
 
-			if (response.status === 200)
+			if (response.status === 200) {
+				change(username)
 				this.setState({
 					success: true,
 					successCode: 'updated'
 				})
+			}
 		})
 
 		this.setState({
@@ -272,15 +291,20 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 					</div>
 				</div>
 				<InputWithLabel {...inputs[5]}
+					disabled={false}
 					customInput={<div className="profile__cont--tag">
 						{TagLabel.map((element, index) => {
 							return <Input.Checkbox
 								key={element}
-								label={<Tag color={TagColorScheme[index]} className="ctn--fluid" mode="OUTLINE">{element}</Tag>}
+								label={<Tag color={TagColorScheme[index]}
+									className="ctn--fluid"
+									mode="OUTLINE"
+									disabled={isCurrentUser ? false : true}>{element}</Tag>}
 								inputProps={{
 									name: `${index}`,
 									value: index,
-									onChange: this.onFavoriteChange,
+									onChange: isCurrentUser ? this.onFavoriteChange : undefined,
+									disabled: isCurrentUser ? false : true,
 									defaultChecked: favorites.indexOf(index) === -1 ? false : true
 								}}
 							/>
@@ -316,4 +340,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 	}
 }
 
-export const Profile = withCurrentUser($Profile)
+export const Profile = withCurrentUser(connect(
+	null,
+	mapProfileDispatchtoProps
+)($Profile))

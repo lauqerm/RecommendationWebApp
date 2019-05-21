@@ -1,16 +1,16 @@
 import history from '../../route/history'
 import { AnyAction } from 'redux'
 import { AuthAction } from '../action/auth'
+import { ProfileAction } from '../action/profile'
 import {
 	call,
 	put,
 	takeEvery,
-	} from 'redux-saga/effects'
+} from 'redux-saga/effects'
 
 function* manipulateToken(action: AnyAction) {
 	try {
-		const { type } = action
-		const { token, id, username, role } = action
+		const { type, token, id, username, role } = action
 		switch (type) {
 			case 'AUTH': {
 				yield call((token: string) => window.localStorage.setItem('TOKEN', token), token)
@@ -36,6 +36,11 @@ function* manipulateToken(action: AnyAction) {
 				})
 				break
 			}
+			case 'CHANGE_USERNAME': {
+				yield call((username: string) => window.localStorage.setItem('USERNAME', username), username)
+				yield put<ProfileAction>({ type: 'CHANGE_USERNAME_SUCCEED', username })
+				break
+			}
 		}
 	} catch (e) {
 		yield put<AuthAction>({ type: 'AUTH_WRITTEN', token: '', id: '', username: '', role: 'user' })
@@ -43,7 +48,7 @@ function* manipulateToken(action: AnyAction) {
 }
 
 function* sagaToken() {
-	yield takeEvery(['AUTH', 'LOGOUT', 'LOGGED_OUT'], manipulateToken)
+	yield takeEvery(['AUTH', 'LOGOUT', 'LOGGED_OUT', 'CHANGE_USERNAME'], manipulateToken)
 }
 
 export default sagaToken
