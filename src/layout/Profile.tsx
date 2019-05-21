@@ -272,15 +272,20 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 					</div>
 				</div>
 				<InputWithLabel {...inputs[5]}
+					disabled={false}
 					customInput={<div className="profile__cont--tag">
 						{TagLabel.map((element, index) => {
 							return <Input.Checkbox
 								key={element}
-								label={<Tag color={TagColorScheme[index]} className="ctn--fluid" mode="OUTLINE">{element}</Tag>}
+								label={<Tag color={TagColorScheme[index]}
+									className="ctn--fluid"
+									mode="OUTLINE"
+									disabled={isCurrentUser ? false : true}>{element}</Tag>}
 								inputProps={{
 									name: `${index}`,
 									value: index,
-									onChange: this.onFavoriteChange,
+									onChange: isCurrentUser ? this.onFavoriteChange : undefined,
+									disabled: isCurrentUser ? false : true,
 									defaultChecked: favorites.indexOf(index) === -1 ? false : true
 								}}
 							/>

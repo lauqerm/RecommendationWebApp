@@ -14,7 +14,7 @@ type ReviewProps = {
 	userId: string,
 	tripId: string,
 	currentUserId: string,
-	username?: string,
+	name?: string,
 	disabled?: boolean,
 	defaultRating?: number,
 	content?: string,
@@ -58,6 +58,7 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 	onSubmit = (e: FormEvent<HTMLInputElement>) => {
 		e.preventDefault()
 		const { conmented, rated, content } = this.reviewData
+		const { currentUserId } = this.props
 
 		if (!conmented)
 			return this.setState({
@@ -78,7 +79,10 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 
 		const { request, tokenSource } = Fetcher.POST({
 			source: `comment`,
-			data: this.reviewData
+			data: {
+				...this.reviewData,
+				user_id: currentUserId
+			}
 		})
 		this.fetchStatus.cancelToken = tokenSource
 		request.then((response) => {
@@ -111,7 +115,7 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 		}
 	}
 	render() {
-		const { id, defaultRating, disabled, userId, content, updatedDate, username } = this.props
+		const { id, defaultRating, disabled, userId, content, updatedDate, name } = this.props
 		const { tempRating } = this.reviewData
 		const { error, errorCode, success, successCode } = this.state
 		const _updatedDate = updatedDate === undefined ? undefined : new Date(updatedDate)
@@ -121,7 +125,7 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 			<div className="review p-1">
 				<div className="reviewHeader">
 					<h3>
-						<NavLink className="review__Username" to={`/profile/${userId}`}>{username}</NavLink>
+						<NavLink className="review__Username" to={`/profile/${userId}`}>{name}</NavLink>
 					</h3>
 					<div className="review__Date">
 						{_updatedDate !== undefined

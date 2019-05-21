@@ -52,16 +52,16 @@ class $Trip extends React.Component<TripProps> {
 		const { id, currentUserId } = this.props
 		const { ready } = this.fetchStatus
 		const isAlreadyCommented = this.reviews.filter((review: any) => {
-			return currentUserId && review.user_id === currentUserId
+			return currentUserId && `${review.user_id}` === currentUserId
 		})
-
+		console.log(isAlreadyCommented, currentUserId)
 		return (
 			<div className="trip">
 				<div style={{ gridArea: 'detail' }}>
 					<TripDetail id={id} showMap />
 				</div>
 				<div className="tripReview">
-					{(currentUserId && isAlreadyCommented.length > 0) || this.reviews.length === 0
+					{(currentUserId && isAlreadyCommented.length === 0) || this.reviews.length === 0
 						? <Review id="0" tripId={id} userId={currentUserId} />
 						: null
 					}
@@ -73,7 +73,7 @@ class $Trip extends React.Component<TripProps> {
 								key={id}
 								id={id}
 								userId={user_id}
-								username={username}
+								name={username}
 								tripId={id}
 								comment={content}
 								updatedDate={updated_at}

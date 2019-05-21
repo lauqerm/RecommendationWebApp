@@ -73,6 +73,7 @@ class TripDetail extends React.Component<TripProps> {
 			if (cancelToken)
 				this.fetchStatus.cancelToken = undefined
 			this.tripData = _.cloneDeep(response.data)
+			this.tripData.travel.rating = Math.round(response.data.travel.rating)
 			this.forceUpdate()
 		})
 	}
