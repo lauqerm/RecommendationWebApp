@@ -26,6 +26,10 @@
     grid-area: header;
     grid-template-columns: max-content 1fr 250px 0.5em;
     z-index: 10;
+    &__username {
+      text-overflow: ellipsis;
+      user-select: none;
+    }
     &__logo {
       @include squareShape(60px);
     }

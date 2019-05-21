@@ -13,11 +13,11 @@
     @include circleShape(60px);
     user-select: none;
   }
+  &__message {
+    text-align: center;
+    color: red;
+  }
   &__cont {
-    &--info {
-      display: grid;
-      grid-template-columns: max-content 1fr;
-    }
     &--content {
       display: grid;
       grid-row-gap: 0.5rem;
@@ -33,6 +33,11 @@
         display: grid;
         grid-template-columns: 150px minmax(150px, 1fr);
       }
+    }
+    &--tag {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-column-gap: 3rem;
     }
     &--act {
       display: grid;

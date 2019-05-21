@@ -51,6 +51,9 @@ class $Trip extends React.Component<TripProps> {
 	render() {
 		const { id, currentUserId } = this.props
 		const { ready } = this.fetchStatus
+		const isAlreadyCommented = this.reviews.filter((review: any) => {
+			return currentUserId && review.user_id === currentUserId
+		})
 
 		return (
 			<div className="trip">
@@ -58,7 +61,10 @@ class $Trip extends React.Component<TripProps> {
 					<TripDetail id={id} showMap />
 				</div>
 				<div className="tripReview">
-					{currentUserId && <Review id="0" tripId={id} userId={currentUserId} />}
+					{(currentUserId && isAlreadyCommented.length > 0) || this.reviews.length === 0
+						? <Review id="0" tripId={id} userId={currentUserId} />
+						: null
+					}
 					{ready
 						? this.reviews.map((review) => {
 							const { id, user_id, content, updated_at, rating, username } = review
@@ -75,7 +81,8 @@ class $Trip extends React.Component<TripProps> {
 								disabled
 								{...review} />
 						})
-						: <Loader />}
+						: <Loader />
+					}
 				</div>
 				<div className="tripSimilar">
 					{/* Similar recommend */}

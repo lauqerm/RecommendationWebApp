@@ -33,6 +33,7 @@ type TripInfo = {
 	upper_price: number,
 }
 type TripData = {
+	comment_amounts: number,
 	destinations: string[],
 	status: number,
 	travel: TripInfo,
@@ -40,6 +41,7 @@ type TripData = {
 }
 class TripDetail extends React.Component<TripProps> {
 	tripData: TripData = {
+		comment_amounts: 0,
 		destinations: [],
 		status: 0,
 		travel: {
@@ -84,15 +86,19 @@ class TripDetail extends React.Component<TripProps> {
 			cancelToken.cancel()
 	}
 	render() {
-		const { travel, type } = this.tripData
+		const { travel, type, comment_amounts } = this.tripData
 		const { address, description, location, rating, title, lower_price, upper_price } = travel
 		const { id, showMap } = this.props
 
 		return (
 			<div className="tripDetail">
-				<div className="tripDetail__img" style={{
-					backgroundImage: `url(${description})`
-				}} />
+				<div className="tripDetail__imgContainer" style={{
+						backgroundImage: `url(${require('../../comp/atom/Loader/loading.gif')})`
+					}}>
+					<div className="tripDetail__img" style={{
+						backgroundImage: `url(${description})`
+					}} />
+				</div>
 				<div className={`tripDetail__info ${showMap ? 'tripDetail__combine' : ''} pt-2 pl-2 pr-2`}>
 					<h2 className="tripDetail__header">
 						<NavLink to={`/trip/${id}`}>{title}</NavLink>
@@ -110,7 +116,7 @@ class TripDetail extends React.Component<TripProps> {
 								}} />
 							<label>Số đánh giá</label>
 							<div>
-								0
+								{comment_amounts}
 							</div>
 							{lower_price !== 0 && upper_price !== 0
 								? <React.Fragment>
@@ -145,10 +151,16 @@ class TripDetail extends React.Component<TripProps> {
 									const index = TagLabel.indexOf(type)
 
 									return (
-										<Tag key={type} color={TagColorScheme[index]} mode="OUTLINE">
-											<NavLink style={{ textDecoration: 'inherit', color: 'inherit' }} to={makeQuery(0, { min: 0, max: 5 }, [`${index + 1}`])}>
-												{TagLabel[index]}
-											</NavLink>
+										<Tag
+											key={type}
+											color={TagColorScheme[index]}
+											mode="OUTLINE"
+											onClick={() => {
+												window.location.href = makeQuery(0, { min: 0, max: 5 }, [`${index + 1}`])
+											}}
+											className="tripDetail__clickable"
+										>
+											{TagLabel[index]}
 										</Tag>
 									)
 								})

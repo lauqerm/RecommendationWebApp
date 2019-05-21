@@ -8,6 +8,9 @@
   text-align: left;
   background-color: white;
   width: 100%;
+  &__clickable {
+    cursor: pointer;
+  }
   &__info {
     display: grid;
     grid-template-rows: min-content 1fr;
@@ -20,6 +23,10 @@
     background-size: cover;
     background-position: center;
     min-height: 300px;
+    &Container {
+      background-repeat: no-repeat;
+      background-position: center;
+    }
   }
   &__summary {
     display: grid;

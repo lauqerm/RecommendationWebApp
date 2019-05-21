@@ -86,8 +86,8 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 			if (cancelToken)
 				this.fetchStatus.cancelToken = undefined
 
-			// if (response.status === 200)
-			// 	location.reload()
+			if (response.status === 200)
+				location.reload()
 		})
 
 		this.setState({
@@ -119,54 +119,53 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 
 		return (
 			<div className="review p-1">
-				<ProfileImage />
-				<div className="review__detail">
-					<div className="review__detailHeader">
-						<NavLink className="review__detailUsername" to={`/profile/${userId}`}>{username}</NavLink>
-						<div className="review__detailDate">
-							{_updatedDate !== undefined
-								? `${_updatedDate.toLocaleString('vn-VN', {
-									hour12: false
-								})}`
-								: null
-							}
-						</div>
+				<div className="reviewHeader">
+					<h3>
+						<NavLink className="review__Username" to={`/profile/${userId}`}>{username}</NavLink>
+					</h3>
+					<div className="review__Date">
+						{_updatedDate !== undefined
+							? `${_updatedDate.toLocaleString('vn-VN', {
+								hour12: false
+							})}`
+							: null
+						}
 					</div>
-					<div>
-						<Input.Rate
-							name={`rate${id}`}
-							labelList={ReviewLabel}
-							disabled={disabled}
-							inputProps={{
-								onChange: this.inputOnChange
-							}}
-							labelProps={{
-								onMouseOver: !(disabled) ? this.inputOnMouseover : undefined,
-								title: disabled ? ReviewLabel[_value] : ''
-							}}
-							rating={_value} />
-						{_value !== undefined ? ReviewLabel[_value] : ''}
-					</div>
-					<Split dir="hor" />
-					{disabled
-						? content
-						: <textarea
-							placeholder={this.lang.placeholder.toString()}
-							name={`cmt${id}`}
-							onChange={this.textareaOnChange} />
-					}
-					<div className="pt-1">
-						{error && <Card.Error>{this.lang[errorCode]}</Card.Error>}
-						{success && <Card.Success>{this.lang[successCode]}</Card.Success>}
-					</div>
-					{!disabled
-						&& <input
-							className="btn btn-success"
-							onClick={this.onSubmit}
-							type="submit"
-							value="Đăng" />
-					}
 				</div>
+				<div>
+					<Input.Rate
+						name={`rate${id}`}
+						labelList={ReviewLabel}
+						disabled={disabled}
+						inputProps={{
+							onChange: this.inputOnChange
+						}}
+						labelProps={{
+							onMouseOver: !(disabled) ? this.inputOnMouseover : undefined,
+							title: disabled ? ReviewLabel[_value] : ''
+						}}
+						rating={_value} />
+					{_value !== undefined ? ReviewLabel[_value] : ''}
+				</div>
+				<Split dir="hor" />
+				{disabled
+					? content
+					: <textarea
+						placeholder={this.lang.placeholder.toString()}
+						name={`cmt${id}`}
+						onChange={this.textareaOnChange} />
+				}
+				<div className="pt-1">
+					{error && <Card.Error>{this.lang[errorCode]}</Card.Error>}
+					{success && <Card.Success>{this.lang[successCode]}</Card.Success>}
+				</div>
+				{!disabled
+					&& <input
+						className="btn btn-success"
+						onClick={this.onSubmit}
+						type="submit"
+						value="Đăng" />
+				}
 			</div>
 		)
 	}
