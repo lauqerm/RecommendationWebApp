@@ -27,7 +27,7 @@ class $Trip extends React.Component<TripProps> {
 			if (cancelToken)
 				this.fetchStatus.cancelToken = undefined
 			this.fetchStatus.ready = true
-			// console.log(response)
+
 			this.reviews = _.cloneDeep(response.data.comments)
 			this.forceUpdate()
 		})
@@ -54,7 +54,7 @@ class $Trip extends React.Component<TripProps> {
 		const isAlreadyCommented = this.reviews.filter((review: any) => {
 			return currentUserId && `${review.user_id}` === currentUserId
 		})
-		console.log(isAlreadyCommented, currentUserId)
+
 		return (
 			<div className="trip">
 				<div style={{ gridArea: 'detail' }}>
