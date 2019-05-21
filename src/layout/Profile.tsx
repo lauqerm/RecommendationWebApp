@@ -8,7 +8,6 @@ import React, {
 	ReactChild
 	} from 'react'
 import { Card, Loader, Tag } from '../comp/atom'
-import { changeUsername, ProfileAction } from '../redux/action/profile'
 import { connect } from 'react-redux'
 import { Fetcher, FetchStatusProps } from '../com/fetcher'
 import { InputWithLabel } from '../comp/atom/form'
@@ -19,8 +18,9 @@ import { withCurrentUser } from '../comp/hoc'
 import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
 import './Profile.scss'
 import 'react-input-range/lib/css/index.css'
+import { AuthAction, changeUsername } from '../redux/action/auth'
 
-const mapProfileDispatchtoProps = (dispatch: Dispatch<ProfileAction>) => {
+const mapProfileDispatchtoProps = (dispatch: Dispatch<AuthAction>) => {
 	return {
 		change: (username: string) => {
 			return dispatch(changeUsername(username))

@@ -5,6 +5,8 @@ export type AuthAction =
 	| { type: 'AUTH_WRITTEN'; token: string, id: string, username: string, role: string, }
 	| { type: 'LOGOUT' }
 	| { type: 'LOGGED_OUT' }
+	| { type: 'CHANGE_USERNAME'; username: string }
+	| { type: 'CHANGE_USERNAME_SUCCEED'; username: string }
 
 export const addToken = (token: string): AuthAction => ({
 	token,
@@ -26,4 +28,9 @@ export const auth = (token: string, id: string, username: string, role: string):
 	username,
 	role,
 	type: 'AUTH',
+})
+
+export const changeUsername = (username: string): AuthAction => ({
+	username,
+	type: 'CHANGE_USERNAME',
 })

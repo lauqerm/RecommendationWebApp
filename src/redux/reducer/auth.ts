@@ -44,6 +44,10 @@ export const authorization = (state = $authorization, action: AuthAction): Autho
 				role: role,
 			}
 		}
+		case 'CHANGE_USERNAME_SUCCEED': return {
+			...state,
+			username: action.username
+		}
 		default: return state
 	}
 }
