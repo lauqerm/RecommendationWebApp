@@ -1,7 +1,6 @@
 import history from '../../route/history'
 import { AnyAction } from 'redux'
 import { AuthAction } from '../action/auth'
-import { ProfileAction } from '../action/profile'
 import {
 	call,
 	put,
@@ -38,7 +37,7 @@ function* manipulateToken(action: AnyAction) {
 			}
 			case 'CHANGE_USERNAME': {
 				yield call((username: string) => window.localStorage.setItem('USERNAME', username), username)
-				yield put<ProfileAction>({ type: 'CHANGE_USERNAME_SUCCEED', username })
+				yield put<AuthAction>({ type: 'CHANGE_USERNAME_SUCCEED', username })
 				break
 			}
 		}
