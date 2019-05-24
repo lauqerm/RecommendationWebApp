@@ -3,19 +3,16 @@ import Trip from '../layout/Trip'
 import { Logout, Showroom } from '../comp/module'
 import { Profile } from '../layout/Profile'
 import { Route, RouteComponentProps } from 'react-router'
+import { Search } from '../comp/module/form'
 
 export const UserRoute = () => {
 	return (
 		<React.Fragment>
 			<Route exact path="/" render={(props: any) => {
-				return <React.Fragment>
-					<Showroom />
-				</React.Fragment>
+				return <Showroom />
 			}} />
 			<Route exact path="/search" render={(props: any) => {
-				return <React.Fragment>
-					<Showroom externalQuery={`search${props.location.search}`} />
-				</React.Fragment>
+				return <Showroom externalQuery={`search${props.location.search}`} />
 			}} />
 			<Route exact path="/trip/:tripId" render={(props: any) => {
 				const { tripId } = props.match.params

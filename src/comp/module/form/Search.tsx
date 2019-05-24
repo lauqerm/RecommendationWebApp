@@ -1,17 +1,22 @@
 import React, { ChangeEvent } from 'react'
-import { debounce } from '../../../com'
+import { BareSearch } from './BareSearch'
+import { debounce } from 'lodash'
 import { Dropdown } from '..'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { PriceFilter, ReviewFilter, TagFilter } from '../filter'
 import { Range } from 'react-input-range'
-import { retrieveInput } from '../../../com/event'
-import { ReviewLabel, TagLabel } from '../../lang'
+import { TagLabel } from '../../lang'
 import './search.scss'
 
 type SearchState = {
 	price: Range,
 	review: number,
 	checkedList: boolean[],
+}
+
+type SearchProps = {
+	externalQuery?: string,
+	formId: string,
+	display?: 'COLUMN'
 }
 
 export const makeQuery = (review: number, price: Range, types: string[]) => {
@@ -26,7 +31,7 @@ export const makeQuery = (review: number, price: Range, types: string[]) => {
 	return `${queryURL}${queries.join('&')}`
 }
 
-export class Search extends React.Component<any, SearchState> {
+export class Search extends React.Component<SearchProps, SearchState> {
 	constructor(props: any) {
 		super(props)
 		const initialCheckedList = []
@@ -53,68 +58,99 @@ export class Search extends React.Component<any, SearchState> {
 		window.location.href = makeQuery(review, price, types)
 	}
 	onPriceChange = (value: number | Range): void => {
-		debounce(this.setState({
+		this.setState({
 			price: (value as Range)
-		}), 25)
+		})
 	}
-	onReviewChange = (value: ChangeEvent<HTMLInputElement>): void => {
-		debounce(this.setState({
-			review: Number.parseInt(value.currentTarget.value, 10)
-		}), 25)
+	onReviewChange = (value: string): void => {
+		this.setState({
+			review: Number.parseInt(value, 10)
+		})
 	}
-	onTagChange = (event: ChangeEvent<HTMLInputElement>): void => {
+	onTagChange = (name: string | null, checked: boolean): void => {
 		const _checkedList = this.state.checkedList
-		let pos = event.currentTarget.getAttribute('name')
+		let pos = name
 		if (pos !== null)
-			_checkedList[parseInt(pos)] = retrieveInput(event).checked
+			_checkedList[parseInt(pos)] = checked
 
-		debounce(this.setState({
+		this.setState({
 			checkedList: _checkedList
-		}), 25)
+		})
+	}
+	event = {
+		onPriceChange: debounce(this.onPriceChange, 25),
+		onReviewChange: debounce(this.onReviewChange, 25),
+		onTagChange: debounce(this.onTagChange, 25),
+	}
+	componentDidMount() {
+		try {
+			if (this.props.externalQuery) {
+				let query = this.props.externalQuery
+				query = query.replace('search?', '')
+				const paramList = query.split('&')
+				const paramObject: any = {}
+				paramList.forEach((param) => {
+					const [name, value] = param.split('=')
+					paramObject[name] = value
+				})
+				let newState: any = {}
+				if (paramObject.rating) newState.review = Number.parseInt(paramObject.rating, 10)
+				if (paramObject.lower_price && paramObject.upper_price) newState.price = {
+					min: Math.max(1, Number.parseInt(paramObject.lower_price, 10)),
+					max: Number.parseInt(paramObject.upper_price, 10),
+				}
+				if (paramObject.type) {
+					const keyList = paramObject.type.split(',')
+					let checkedList = []
+					for (let cnt = 0; cnt < TagLabel.length; cnt++)
+						checkedList.push(false)
+					keyList.forEach((pos: any) => {
+						checkedList[parseInt(pos, 10) - 1] = true
+					})
+					newState.checkedList = checkedList
+				}
+				this.setState(newState)
+			}
+		}
+		catch {}
+	}
+	componentWillUnmount() {
+		this.event.onPriceChange.cancel()
+		this.event.onReviewChange.cancel()
+		this.event.onTagChange.cancel()
 	}
 	render() {
 		const { price, review, checkedList } = this.state
+		const { display, formId } = this.props
+		const SearchModule = <BareSearch
+			formId={formId}
+			onPriceChange={this.event.onPriceChange}
+			onReviewChange={this.event.onReviewChange}
+			onSubmit={this.onSubmit}
+			onTagChange={this.event.onTagChange}
+			checkedList={checkedList}
+			price={price}
+			review={review}
+			display={display === undefined ? '' : display}
+		/>
 
 		return (
 			<div>
 				<Dropdown
 					meta={{
-						edge: 'LEFT',
-						align: 'TOP',
+						edge: display === 'COLUMN' ? 'BOTTOM' : 'LEFT',
+						align: display === 'COLUMN' ? 'CENTER' : 'TOP',
 						persist: { clickInside: true, }
 					}}
-					child={<div><FontAwesomeIcon icon="search" size="3x" className="m-2" /></div>}
-					drop={<form
-						className="drop--shadow search__container p-2"
-						onSubmit={this.onSubmit}>
-						<div className="ctn--stack">
-							<label className="search__label">Loại hình</label>
-							<TagFilter checkedList={checkedList} onChange={this.onTagChange} />
-						</div>
-						<div className="search__range ctn--stack pr-2 pl-3">
-							<div>
-								<label className="search__label">Giá cả</label>
-								<PriceFilter
-									onChange={this.onPriceChange}
-									value={price} />
-								<hr />
-							</div>
-							<div>
-								<label className="search__label">Đánh giá</label>
-								<div>
-									<ReviewFilter
-										onChange={this.onReviewChange}
-										value={review} />
-									<br />
-									{`${review < 5 && review !== 0 ? 'Trên mức ' : ''}${review !== 0 ? ReviewLabel[review] : ''}`}
-								</div>
-							</div>
-							<div></div>
-							<div>
-								<input type="submit" className="btn btn-success ctn--fluid" value="Tìm kiếm" />
-							</div>
-						</div>
-					</form>} />
+					containerClassname={display === 'COLUMN' ? 'ctn--fluid' : ''}
+					dropClassname={display === 'COLUMN' ? 'ctn--fluid' : ''}
+					overrideStatus={display === 'COLUMN' ? true : undefined}
+					child={display === 'COLUMN'
+						? <div></div>
+						: <div>
+							<FontAwesomeIcon icon="search" size="3x" className="m-2" />
+						</div>}
+					drop={SearchModule} />
 			</div>
 		)
 	}

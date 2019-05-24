@@ -46,8 +46,8 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 		user_id: parseInt(this.props.userId),
 		travel_id: parseInt(this.props.tripId),
 		rated: false,
-		rating: -1,
-		tempRating: -1,
+		rating: 5,
+		tempRating: 5,
 		conmented: false,
 		content: '',
 	}

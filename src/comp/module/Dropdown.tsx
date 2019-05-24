@@ -21,7 +21,9 @@ export type DropdownType = {
 	child: ReactChild,
 	drop: ReactChild,
 	meta?: DropdownMeta,
-	overrideStatus?: boolean
+	overrideStatus?: boolean,
+	containerClassname?: string,
+	dropClassname?: string,
 }
 
 // value already valid in withDropdown
@@ -107,7 +109,7 @@ export class Dropdown extends React.Component<DropdownType> {
 		},
 	}
 	_meta = mergeDeepRight(this.defaultMeta, this.props.meta)
-	isOpen = false || this.props.overrideStatus
+	isOpen = false
 	refCont = createRef() as RefObject<HTMLDivElement>
 	refDrop = createRef() as RefObject<HTMLDivElement>
 	handleOutsideClick = (event: MouseEvent) => {
@@ -116,13 +118,15 @@ export class Dropdown extends React.Component<DropdownType> {
 		const currentRefCont = this.refCont.current
 		if (currentRefDrop !== null && currentRefCont !== null)
 			if (!currentRefDrop.contains(event.target as Node)
-			&& !currentRefCont.contains(event.target as Node)) {
+				&& !currentRefCont.contains(event.target as Node)) {
 				this.isOpen = true
 				this.toggleState()
 			}
 	}
 	toggleState = () => {
-		this.isOpen = !this.isOpen
+		if (this.props.overrideStatus !== undefined) {
+			this.isOpen = this.props.overrideStatus
+		} else this.isOpen = !this.isOpen
 		const currentCont = this.refCont.current
 		const currentDrop = this.refDrop.current
 
@@ -138,6 +142,9 @@ export class Dropdown extends React.Component<DropdownType> {
 		}
 	}
 	componentDidMount() {
+		if(this.props.overrideStatus !== undefined) {
+			this.toggleState()
+		}
 		if (!validateChain(this._meta, ['persist', 'clickOutside'], false))
 			document.addEventListener('mousedown', this.handleOutsideClick);
 	}
@@ -146,15 +153,15 @@ export class Dropdown extends React.Component<DropdownType> {
 			document.removeEventListener('mousedown', this.handleOutsideClick);
 	}
 	render() {
-		const { child, drop } = this.props
+		const { child, drop, containerClassname, dropClassname } = this.props
 		return (
-			<div ref={this.refCont} className="dropdown_container">
-				<div onClick={this.toggleState} className="dropdown__ele" >{child}</div>
+			<div ref={this.refCont} className={`dropdown__container ${containerClassname}`}>
+				<div onClick={() => this.toggleState()} className="dropdown__ele" >{child}</div>
 				<div ref={this.refDrop}
-					className="dropdown__drop"
+					className={`dropdown__drop ${dropClassname}`}
 					onClick={validateChain(this._meta, ['persist', 'clickInside'], false)
 						? undefined
-						: this.toggleState}>
+						: () => this.toggleState()}>
 					{drop}
 				</div>
 			</div>

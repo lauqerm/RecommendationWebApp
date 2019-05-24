@@ -26,7 +26,7 @@ const HeaderContainer = (props: any) => {
 					<img style={{ height: '60px' }} src={require('../../image/logo--full.png')} />
 				</NavLink>
 			</div>
-			<Search />
+			<Search formId="top-search" />
 			{authStatus === true
 				? <HeaderAvatar />
 				: null
