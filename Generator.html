@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<style>
+		textarea {
+			height: 250px;
+		}
+	</style>
+</head>
+
+<body>
+	Comment người dùng
+	<textarea style="width: 100%" id="comment"></textarea>
+	Sở thích người dùng
+	<textarea style="width: 100%" id="interest"></textarea>
+	<script>
+		function log(id, content) {
+			document.querySelector(`#${id}`).value = content
+		}
+		function rand(x, y) {
+			let range = Math.abs(y - x) + 1
+			return Math.floor(Math.random() * range) + Math.min(x, y)
+		}
+		let reviews = [
+			[{ rating: 4, comment: 'Sẽ quay lại lần nữa.' },
+			{ rating: 3, comment: 'khá hài lòng' },
+			{ rating: 2, comment: 'khá thất vọng' },
+			{ rating: 2, comment: 'không như quảng cáo' },
+			{ rating: 3, comment: 'đi 1 lần rồi thôi' },
+			{ rating: 5, comment: 'rất tuyệt với' },
+			{ rating: 2, comment: 'Khá thất vọng, không được như mình tưởng' }],
+			[{ rating: 5, comment: 'Kiến trúc rất đẹp.' },
+			{ rating: 5, comment: 'Không khí rất trang nghiêm' },
+			{ rating: 4, comment: 'rất ấn tượng' },
+			{ rating: 3, comment: 'đông người quá nên trải nghiệm không tốt lắm' },
+			{ rating: 3, comment: 'không hoành tráng lắm' },
+			{ rating: 1, comment: 'nên coi lại không tác dọn dẹp' },
+			{ rating: 4, comment: 'đẹp hơn mình tưởng nhiều' },
+			{ rating: 2, comment: 'khá ghét những người bán rong.' }],
+			[{ rating: 4, comment: 'cảnh lên hình đẹp.' },
+			{ rating: 5, comment: 'đi nhiều nơi rồi chưa nơi nào được như nơi này.' },
+			{ rating: 3, comment: 'Nên có biện pháp xử lý những người bán rong chèo kéo khách.' },
+			{ rating: 4, comment: 'Rất thích hợp để sống ảo.' }],
+			[{ rating: 4, comment: 'chụp được rất nhiều hình đẹp, khá thích.' },
+			{ rating: 4, comment: 'Những ai chưa đi đều nên đến đây một lần.' },
+			{ rating: 3, comment: 'Không đẹp bằng những chỗ khác' },
+			{ rating: 5, comment: 'Nhiều địa điểm chụp ảnh đẹp, mình rất thích.' },
+			{ rating: 3, comment: 'Đi một lần rồi thôi' }],
+			[{ rating: 5, comment: 'Cảnh đẹp như tranh vậy' },
+			{ rating: 5, comment: 'ai chưa đi đều nên đi một lần cho biết' },
+			{ rating: 4, comment: 'nhìn tận mắt còn đẹp hơn xem qua ảnh' },
+			{ rating: 4, comment: 'Nhiều địa điểm chụp ảnh đẹp, mình rất thích.' },
+			{ rating: 3, comment: 'không có gì đặc sắc lắm.' },
+			{ rating: 2, comment: 'nhìn khá chán, nhiều rác nữa' },
+			{ rating: 1, comment: 'rác bừa bãi, rất thất vọng' }],
+			[{ rating: 4, comment: 'món ăn ngon, giá phải chăng' },
+			{ rating: 5, comment: 'Vừa ngon vừa bổ vừa rẻ.' },
+			{ rating: 4, comment: 'Món ăn ngon, trình bày đẹp' },
+			{ rating: 5, comment: 'sẽ giới thiệu thêm bạn bè tới' },
+			{ rating: 3, comment: 'ăn một lần cho biết vị thôi, chắc sẽ không quay lại' },
+			{ rating: 3, comment: 'Đồ ăn cũng tạm được, giá hợp lý.' },
+			{ rating: 2, comment: 'ăn không bao nhiêu mà chờ lâu quá' },
+			{ rating: 3, comment: 'Đồ ăn thì cũng ngon đó cơ mà giá chát quá' },
+			{ rating: 2, comment: 'Cũng tạm tạm, không đặc sắc lắm so với mấy quán khác.' },
+			{ rating: 1, comment: 'Phục vụ rất tồi, vệ sinh không tốt lắm.' },
+			{ rating: 4, comment: 'Đúng chuẩn đặc sản' }],
+			[{ rating: 5, comment: 'chơi rất vui' },
+			{ rating: 5, comment: 'khá mệt nhưng rất vui.' },
+			{ rating: 4, comment: 'nên đi nhiều người' },
+			{ rating: 3, comment: 'không đặc sắc lắm' }],
+			[{ rating: 5, comment: 'Dịch vụ rất chuyên ngiệp.' },
+			{ rating: 4, comment: 'Rất thoải mái' },
+			{ rating: 5, comment: 'Dịch vụ rất tốt.' },
+			{ rating: 5, comment: 'Rất tuyệt vời, sẽ giới thiệu thêm người quen.' },
+			{ rating: 4, comment: 'Dịch vụ khá thường.' },
+			{ rating: 5, comment: 'Chất lượng chưa tương xứng với danh tiếng.' },
+			{ rating: 3, comment: 'Thái độ phục vụ không tốt lắm.' }],
+			[{ rating: 5, comment: 'Chơi rất vui' },
+			{ rating: 5, comment: 'Cực kỳ tuyệt vời' },
+			{ rating: 4, comment: 'Trang thiết bị nhìn hơi cũ tí ạ' }],
+			[{ rating: 5, comment: 'Rất đẹp và thơ mộng' },
+			{ rating: 3, comment: 'Nước nhìn hơi đục, có rác nữa' },
+			{ rating: 4, comment: 'Nên có thêm dịch vụ đi kèm' }],
+			[{ rating: 5, comment: 'Rất sầm uất và nhộn nhịp.' },
+			{ rating: 5, comment: 'Không khí rất tuyệt vời, sẽ quay lại' },
+			{ rating: 3, comment: 'hơi đông người quá' }],
+			[{ rating: 5, comment: 'Rất yên bình' },
+			{ rating: 5, comment: 'Cảm giác được hòa mình với thiên nhiên.' },
+			{ rating: 4, comment: 'nên có thêm những nơi như thế này' },
+			{ rating: 4, comment: 'Đường đi xa nhưng khi tới nơi cảm giác rất thoải mái' },
+			{ rating: 3, comment: 'Nên có thêm các dịch vụ kèm theo' }],
+			[{ rating: 5, comment: 'Cảm giác được hòa mình với thiên nhiên.' },
+			{ rating: 5, comment: 'Không khí rất dễ chịu' },
+			{ rating: 5, comment: 'Luôn thích những nơi hoang sơ như thế này' },
+			{ rating: 4, comment: 'rất hùng vĩ' },
+			{ rating: 4, comment: 'đáng với công sức bỏ ra' }],
+			[{ rating: 4, comment: 'Không khí rất dễ chịu' },
+			{ rating: 5, comment: 'Cảm giác được hòa mình với thiên nhiên.' },
+			{ rating: 4, comment: 'rất thoáng đãng và mát mẻ' },
+			{ rating: 3, comment: 'nhiều nơi có rác' },
+			{ rating: 3, comment: 'nên có thêm những trạm ứng cứu ven bờ' },
+			{ rating: 4, comment: 'Nên phát triển thêm các dịch vụ đi kèm.' }],
+			[{ rating: 5, comment: 'Cảm giác được hòa mình với thiên nhiên.' },
+			{ rating: 4, comment: 'thích những nơi hoang sơ' },
+			{ rating: 3, comment: 'không khí rất dễ chịu' },
+			{ rating: 3, comment: 'nhiều nơi có rác' }]
+		]
+		let reviewCount = [
+			0,
+			15,
+			11,
+			12,
+			14,
+			18,
+			11,
+			14,
+			10,
+			10,
+			10,
+			12,
+			12,
+			13,
+			11]
+		let travelTypes = [[],
+		[6, 5, 8],
+		[6, 5, 3, 4],
+		[13],
+		[13],
+		[9, 6, 4],
+		[8, 9, 4, 6],
+		[3],
+		[4, 8, 12],
+		[4],
+		[4, 12],
+		[3],
+		[3],
+		[4, 5, 13, 6],
+		[4, 5, 6, 13],
+		[4, 6, 9],
+		[3],
+		[4, 13],
+		[2, 3, 11],
+		[3, 11],
+		[4, 5, 9, 14],
+		[4, 5, 6, 13],
+		[4, 9],
+		[4, 12, 14],
+		[3, 12],
+		[4, 9],
+		[1],
+		[4, 12],
+		[3],
+		[3],
+		[3],
+		[5],
+		[5],
+		[5],
+		[5],
+		[5],
+		[5],
+		[5],
+		[5],
+		[5],
+		[5],
+		[6, 7, 13, 10],
+		[6, 10, 13],
+		[6, 7, 13, 12],
+		[6, 7, 13],
+		[6, 7, 13],
+		[3],
+		[5],
+		[7],
+		[3, 6],
+		[13],
+		[1],
+		[1],
+		[1]]
+		function generate() {
+			let typeFavourites = []
+			let personalFavourites = []
+			let travelBias = []
+			let commentMap = []
+			let userCount = 100
+			let typeCount = 14
+			let lostRate = 0.07
+			let percentOfPersonal = 0.65
+			let travelCount = travelTypes.length
+			let genericReviewCount = reviews[0].length
+			// Initialize typeFavourites
+			for (let cnt = 0; cnt <= typeCount; cnt++) {
+				typeFavourites.push([])
+			}
+			// Initialize travelBias
+			for (let cnt = 0; cnt <= travelCount; cnt++) {
+				travelBias.push(Math.random())
+			}
+			// Initialise personalFavourites
+			for (let cnt = 0; cnt <= userCount; cnt++) {
+				personalFavourites.push([])
+			}
+			// Generate user favourites
+			for (let userCnt = 1; userCnt <= userCount; userCnt++) {
+				// RANDOMLY generate acceptance rate
+				let acceptanceRate = rand(2, 10)
+				let percentOfAcceptance = acceptanceRate / typeCount
+				for (let typeCnt = 1; typeCnt <= typeCount; typeCnt++) {
+					// RANDOMLY accept type as favourite for a user base on acceptance rate
+					let acceptanceStatus = percentOfAcceptance - Math.random()
+					if (acceptanceStatus > 0) {
+						typeFavourites[typeCnt].push(userCnt)
+						// RANDOMLY add type as personal favourite
+						let personalStatus = percentOfPersonal - Math.random()
+						if (personalStatus > 0)
+							personalFavourites[userCnt].push(typeCnt)
+					}
+				}
+			}
+			// Generate travel comment
+			for (let travelCnt = 1; travelCnt < travelCount; travelCnt++) {
+				// Get all types from a single travel position
+				let travelType = travelTypes[travelCnt]
+				let travelTypeLength = travelType.length
+				let percentOfBias = travelBias[travelCnt]
+				// Generate comment rate
+				let commentRate = 1 - travelTypeLength * lostRate
+				let commentList = []
+				for (let typeCnt = 0; typeCnt < travelTypeLength; typeCnt++) {
+					// Get userbase for each type gotten
+					let type = travelType[typeCnt]
+					let typeFavourite = typeFavourites[type]
+					for (let userCnt = 0; userCnt < typeFavourite.length; userCnt++) {
+						// RANDOMLY push comment matching travel and user
+						let commentStatus = commentRate - Math.random()
+						if (commentStatus > 0) {
+							// RANDOMLY choose from comment list
+							let reviewIndex = rand(1, reviewCount[type])
+							let review
+							if (reviewIndex <= genericReviewCount) {
+								review = reviews[0][reviewIndex - 1]
+							} else {
+								review = reviews[type][reviewIndex - genericReviewCount - 1]
+							}
+							// RANDOMLY modify rating
+							let modifyStatus = percentOfBias - Math.random()
+							// Comment for each user each travel will not be duplicated
+							if (commentList[typeFavourite[userCnt]] === undefined) {
+								commentList[typeFavourite[userCnt]] = {
+									travel_id: travelCnt,
+									user_id: typeFavourite[userCnt],
+									rating: modifyStatus > 0
+										? Math.min(review.rating + 1, 5)
+										: Math.max(review.rating - 1, 1),
+									comment: review.comment
+								}
+							}
+						}
+					}
+				}
+				// Cross-select user
+				for (let cnt = 1; cnt <= userCount; cnt++) {
+					if (commentList[cnt] !== undefined) continue
+					// RANDOMLY cross-select user
+					let addStatus = 0.5 - Math.random()
+					if (addStatus > 0) {
+						// RANDOMLY choose review field
+						let type = travelType[Math.floor(Math.random() * travelType.length)]
+						// RANDOMLY choose from comment list
+						let reviewIndex = rand(1, reviewCount[type])
+						let review
+						if (reviewIndex <= genericReviewCount) {
+							review = reviews[0][reviewIndex - 1]
+						} else {
+							review = reviews[type][reviewIndex - genericReviewCount - 1]
+						}
+						// RANDOMLY modify rating
+						let modifyStatus = percentOfBias - Math.random()
+						// Comment for each user each travel will not be duplicated
+						if (commentList[cnt] === undefined) {
+							commentList[cnt] = {
+								travel_id: travelCnt,
+								user_id: cnt,
+								rating: modifyStatus > 0
+									? Math.min(review.rating + 1, 5)
+									: Math.max(review.rating - 1, 1),
+								comment: review.comment
+							}
+						}
+					}
+				}
+				// Remove empty
+				commentList = commentList.filter((value) => value !== undefined)
+				// Randomly remove comment with ratio 20%
+				commentList = commentList.filter(() => Math.random() < 0.25)
+				commentMap = [...commentMap, ...commentList]
+			}
+			// Analysis
+			let userCounts = []
+			for (let cnt = 0; cnt < commentMap.length; cnt++) {
+				let review = commentMap[cnt]
+				if (userCounts[review.user_id] !== undefined) userCounts[review.user_id] += 1
+				else userCounts[review.user_id] = 1
+			}
+			userCounts = userCounts.filter((value) => value !== undefined)
+			let status = (userCounts.filter((count) => count <= 3)).length !== 0 ? 'FAIL' : 'SUCCESS'
+
+			// Log
+			let comment = 'travel_id,user_id,rating,comment'
+			for (let cnt = 0; cnt < commentMap.length; cnt++) {
+				let review = commentMap[cnt]
+				comment += `${review.travel_id},${review.user_id},${review.rating},"${review.comment}"\n`
+			}
+			let interest = 'user_id,favorites'
+			for (let cnt = 1; cnt < personalFavourites.length; cnt++) {
+				interest += `${cnt},"${personalFavourites[cnt].join(' ')}"\n`
+			}
+			return { status, comment, userCounts, commentMap, interest }
+		}
+		for (let cnt = 0; cnt < 10; cnt++) {
+			let result = generate()
+			if (result.status === 'SUCCESS') {
+				alert('SUCCESS')
+				console.log(result.userCounts)
+				console.log(result.commentMap)
+				log('comment', result.comment)
+				log('interest', result.interest)
+				break
+			}
+		}
+	</script>
+</body>
+
+</html>
