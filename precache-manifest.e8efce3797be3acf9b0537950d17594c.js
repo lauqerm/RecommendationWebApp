@@ -16,15 +16,15 @@ self.__precacheManifest = [
     "url": "/RecommendationWebApp/static/js/runtime~main.f4b86ac8.js"
   },
   {
-    "revision": "9acb433ca7f4c70c8bb0",
-    "url": "/RecommendationWebApp/static/js/main.a53568b8.chunk.js"
+    "revision": "8085b9519f932a29c998",
+    "url": "/RecommendationWebApp/static/js/main.ace2098e.chunk.js"
   },
   {
     "revision": "d2cdc28dc5505c2a8596",
     "url": "/RecommendationWebApp/static/js/2.7f8b8c59.chunk.js"
   },
   {
-    "revision": "9acb433ca7f4c70c8bb0",
+    "revision": "8085b9519f932a29c998",
     "url": "/RecommendationWebApp/static/css/main.5560f138.chunk.css"
   },
   {
@@ -32,7 +32,7 @@ self.__precacheManifest = [
     "url": "/RecommendationWebApp/static/css/2.2450a9d8.chunk.css"
   },
   {
-    "revision": "90cd2789cdadeb93fe620c1322d5c022",
+    "revision": "2e082240b97991292be47f88f13b547a",
     "url": "/RecommendationWebApp/index.html"
   }
 ];
