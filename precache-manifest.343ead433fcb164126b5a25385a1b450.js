@@ -32,7 +32,7 @@ self.__precacheManifest = [
     "url": "/RecommendationWebApp/static/css/2.2450a9d8.chunk.css"
   },
   {
-    "revision": "4d897d605fe016063ebc667957a10db7",
+    "revision": "d3d1991df18dffe8944064dbca4d22a0",
     "url": "/RecommendationWebApp/index.html"
   }
 ];
