@@ -16,23 +16,23 @@ self.__precacheManifest = [
     "url": "/RecommendationWebApp/static/js/runtime~main.f4b86ac8.js"
   },
   {
-    "revision": "2a07e7dedaa4f0668c3e",
-    "url": "/RecommendationWebApp/static/js/main.5c4f0704.chunk.js"
+    "revision": "66b65a3b6e98892cc397",
+    "url": "/RecommendationWebApp/static/js/main.999d2610.chunk.js"
   },
   {
-    "revision": "71d33303ce7bef1d0222",
-    "url": "/RecommendationWebApp/static/js/2.c4e6f2fd.chunk.js"
+    "revision": "ea24930ccaba05ee03a8",
+    "url": "/RecommendationWebApp/static/js/2.11903083.chunk.js"
   },
   {
-    "revision": "2a07e7dedaa4f0668c3e",
-    "url": "/RecommendationWebApp/static/css/main.c7fb58a9.chunk.css"
+    "revision": "66b65a3b6e98892cc397",
+    "url": "/RecommendationWebApp/static/css/main.93fbab47.chunk.css"
   },
   {
-    "revision": "71d33303ce7bef1d0222",
+    "revision": "ea24930ccaba05ee03a8",
     "url": "/RecommendationWebApp/static/css/2.2450a9d8.chunk.css"
   },
   {
-    "revision": "404966d31299aaf77c66314af954885d",
+    "revision": "ea3629fc562fc3f9a2e187f9a16958bb",
     "url": "/RecommendationWebApp/index.html"
   }
 ];
