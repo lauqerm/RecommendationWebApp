@@ -33,12 +33,7 @@ class $Trip extends React.Component<TripProps> {
 		})
 	}
 	componentDidMount() {
-		if (this.props.currentUserId !== '' && !this.fetchStatus.ready) {
-			this.fetch()
-		}
-	}
-	componentDidUpdate() {
-		if (this.props.currentUserId !== '' && !this.fetchStatus.ready) {
+		if (!this.fetchStatus.ready) {
 			this.fetch()
 		}
 	}

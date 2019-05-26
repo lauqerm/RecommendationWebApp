@@ -2,11 +2,7 @@ import _ from 'lodash'
 import axios, { CancelTokenSource } from 'axios'
 
 // const API = 'http://10.1.1.90:3001/'
-<<<<<<< HEAD
 const API = 'https://travel-recommendation-sihc.herokuapp.com/'
-=======
-const API = 'http://travel-recommendation-sihc.herokuapp.com/'
->>>>>>> 9dd983ab6fd537b05d940a72ceff9647035bcb29
 
 interface GETHeader {
 	source: string,
