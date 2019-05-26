@@ -2,14 +2,27 @@
   &__container {
     display: grid;
     grid-template-columns: 1fr 200px;
+    grid-template-areas: "tag slider" "space space";
     width: 500px;
     label {
       width: 100%;
+    }
+    &--COLUMN {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: min-content min-content 1fr;
+      grid-template-areas: "slider" "tag" "space";
+      border-radius: 0;
     }
   }
   &__range {
     display: grid;
     grid-template-rows: min-content min-content 1fr min-content;
+    grid-template-areas: "price" "review" "spacing" "action";
+    &--column {
+      grid-template-rows: min-content min-content min-content min-content;
+      grid-template-areas: "action" "price" "review" "spacing";
+    }
   }
   &__label {
     font-weight: bold;

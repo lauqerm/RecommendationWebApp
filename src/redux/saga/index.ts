@@ -1,4 +1,3 @@
-import history from '../../route/history'
 import { AnyAction } from 'redux'
 import { AuthAction } from '../action/auth'
 import {
@@ -29,12 +28,6 @@ function* manipulateToken(action: AnyAction) {
 				})
 				break
 			}
-			case 'LOGGED_OUT': {
-				yield call(() => {
-					history.push('/')
-				})
-				break
-			}
 			case 'CHANGE_USERNAME': {
 				yield call((username: string) => window.localStorage.setItem('USERNAME', username), username)
 				yield put<AuthAction>({ type: 'CHANGE_USERNAME_SUCCEED', username })
@@ -47,7 +40,7 @@ function* manipulateToken(action: AnyAction) {
 }
 
 function* sagaToken() {
-	yield takeEvery(['AUTH', 'LOGOUT', 'LOGGED_OUT', 'CHANGE_USERNAME'], manipulateToken)
+	yield takeEvery(['AUTH', 'LOGOUT', 'CHANGE_USERNAME'], manipulateToken)
 }
 
 export default sagaToken

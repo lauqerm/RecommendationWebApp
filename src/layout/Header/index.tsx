@@ -9,7 +9,9 @@ import '../index.scss'
 import '../Profile.scss'
 
 const mapStateToProps = (state: any) => {
-	return { authStatus: state.authorization.authStatus }
+	return {
+		authStatus: state.authorization.authStatus
+	}
 }
 
 const HeaderContainer = (props: any) => {
@@ -26,7 +28,7 @@ const HeaderContainer = (props: any) => {
 					<img style={{ height: '60px' }} src={require('../../image/logo--full.png')} />
 				</NavLink>
 			</div>
-			<Search />
+			<Search formId="top-search" />
 			{authStatus === true
 				? <HeaderAvatar />
 				: null

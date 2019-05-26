@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import React, { DetailedHTMLProps, LabelHTMLAttributes } from 'react'
+import { element } from 'prop-types'
 import './rate.scss'
 
 export type RateProps = {
@@ -20,7 +21,9 @@ export const Rate = ($props: RateProps) => {
 	}, $props)
 	const { name, disabled, rating, valueList, labelList, styleClass, inputProps, labelProps } = props
 	const range = labelList.length
-
+	document.querySelectorAll<HTMLInputElement>(`[name="${name}"]`).forEach((element) => {
+		element.removeAttribute('checked')
+	})
 	return (
 		<div className={`rate${disabled === true ? '--disabled' : ''} ${styleClass}`}>
 			{labelList.map((label, $position) => {
@@ -35,7 +38,6 @@ export const Rate = ($props: RateProps) => {
 						value={position}
 						disabled={disabled}
 						defaultChecked={rating !== undefined
-							&& disabled
 							&& rating === position ? true : undefined}
 						data-value={(valueList && rating) && valueList[rating]}
 						title={rating ? labelList[rating] : label}

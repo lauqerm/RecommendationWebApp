@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import history from '../route/history'
 import Input from '../comp/atom/form'
 import React, {
 	ChangeEvent,
@@ -7,18 +6,20 @@ import React, {
 	FormEvent,
 	ReactChild
 	} from 'react'
+import { AuthAction } from '../redux/action/auth'
 import { Card, Loader, Tag } from '../comp/atom'
+import { changeUsername } from '../redux/action'
 import { connect } from 'react-redux'
 import { Fetcher, FetchStatusProps } from '../com/fetcher'
 import { InputWithLabel } from '../comp/atom/form'
 import { preservingMerge } from '../com/shorten'
 import { retrieveInput } from '../com/event'
+import { RouteComponentProps, withRouter } from 'react-router'
 import { TagColorScheme, TagLabel } from '../comp/lang'
 import { withCurrentUser } from '../comp/hoc'
 import { WithCurrentUserProps } from '../comp/hoc/withCurrentUser'
 import './Profile.scss'
 import 'react-input-range/lib/css/index.css'
-import { AuthAction, changeUsername } from '../redux/action/auth'
 
 const mapProfileDispatchtoProps = (dispatch: Dispatch<AuthAction>) => {
 	return {
@@ -40,7 +41,7 @@ type ProfileFormProps = {
 	id: string,
 } & WithCurrentUserProps & {
 	change: (username: string) => void
-}
+} & RouteComponentProps
 type ProfileFormState = {
 	error: boolean,
 	errorCode: string,
@@ -124,7 +125,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 			favorites.push(value)
 		else this.profileData.favorites = favorites.filter((currentValue) => currentValue !== value)
 			.filter((currentValue, index, self) => self.indexOf(currentValue) === index)
-		console.log(checked, this.profileData.favorites)
+
 		this.forceUpdate()
 	}
 	submit = (e: FormEvent<HTMLInputElement>) => {
@@ -318,7 +319,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 					isCurrentUser
 					&& <div className="profile__cont--act">
 						<input onClick={this.submit} className="btn btn-success" type="submit" value="Hoàn tất" />
-						<button onClick={() => history.push('/')} className="btn btn-danger">Hủy bỏ</button>
+						<button onClick={() => this.props.history.push('/')} className="btn btn-danger">Hủy bỏ</button>
 					</div>
 				}
 			</React.Fragment >
@@ -343,4 +344,4 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 export const Profile = withCurrentUser(connect(
 	null,
 	mapProfileDispatchtoProps
-)($Profile))
+)(withRouter($Profile)))

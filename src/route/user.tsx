@@ -7,15 +7,11 @@ import { Route, RouteComponentProps } from 'react-router'
 export const UserRoute = () => {
 	return (
 		<React.Fragment>
-			<Route exact path="/" render={(props: any) => {
-				return <React.Fragment>
-					<Showroom />
-				</React.Fragment>
+			<Route exact path="/" component={() => {
+				return <Showroom />
 			}} />
 			<Route exact path="/search" render={(props: any) => {
-				return <React.Fragment>
-					<Showroom externalQuery={`search${props.location.search}`} />
-				</React.Fragment>
+				return <Showroom externalQuery={`search${props.location.search}`} />
 			}} />
 			<Route exact path="/trip/:tripId" render={(props: any) => {
 				const { tripId } = props.match.params

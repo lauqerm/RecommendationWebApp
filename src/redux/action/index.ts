@@ -2,8 +2,8 @@ import {
 	addToken,
 	addUserId,
 	auth,
-	logout,
 	changeUsername,
+	logout
 	} from './auth'
 
 export {

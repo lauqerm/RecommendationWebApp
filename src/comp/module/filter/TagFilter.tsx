@@ -21,7 +21,7 @@ const TagFilter = (props: TagFilterProps) => {
 						name: `${index}`,
 						value: element,
 						onChange,
-						defaultChecked: checkedList[index] === false ? false : true
+						defaultChecked: checkedList[index] === false ? false : true,
 					}}
 				/>
 			})}

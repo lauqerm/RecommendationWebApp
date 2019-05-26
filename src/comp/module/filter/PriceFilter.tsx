@@ -19,21 +19,17 @@ const PriceFilter = (props: PriceFilterProps) => {
 	const { value, onChange } = props
 	return (
 		<React.Fragment>
-			<InputWithLabel
-				formId="search"
-				id="price"
-				label={<div className="priceFilter">
-					<Tag color={PriceColorScheme[value.min]}>{PriceLabel[value.min]}</Tag>
-					<FontAwesomeIcon icon="arrow-right" className="pl-1 pr-1" size="lg" />
-					<Tag color={PriceColorScheme[value.max]}>{PriceLabel[value.max]}</Tag>
-				</div>}
-				customInput={<InputRange
-					maxValue={5}
-					minValue={1}
-					formatLabel={() => ''}
-					value={value}
-					onChange={onChange} />}
-			/>
+			<div className="priceFilter pb-1">
+				<Tag color={PriceColorScheme[value.min]}>{PriceLabel[value.min]}</Tag>
+				<FontAwesomeIcon icon="arrow-right" className="pl-1 pr-1" size="lg" />
+				<Tag color={PriceColorScheme[value.max]}>{PriceLabel[value.max]}</Tag>
+			</div>
+			<InputRange
+				maxValue={5}
+				minValue={1}
+				formatLabel={() => ''}
+				value={value}
+				onChange={onChange} />
 		</React.Fragment>
 	)
 }

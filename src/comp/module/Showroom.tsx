@@ -3,6 +3,7 @@ import React from 'react'
 import TripDetail from './TripDetail'
 import { Fetcher, FetchStatusProps } from '../../com/fetcher'
 import { Loader } from '../atom'
+import { Search } from './form'
 import { withCurrentUser } from '../hoc'
 import './showroom.scss'
 
@@ -49,11 +50,6 @@ class $Showroom extends React.Component<any, any> {
 			this.fetch()
 		}
 	}
-	componentDidUpdate() {
-		if (!this.fetchStatus.ready) {
-			this.fetch()
-		}
-	}
 	componentWillUnmount() {
 		let cancelToken
 		cancelToken = this.fetchStatus.cancelToken
@@ -62,15 +58,23 @@ class $Showroom extends React.Component<any, any> {
 	}
 	render() {
 		return (
-			this.fetchStatus.ready
-				? this.state.success && this.suggestions
-					? <div className="showroom">
-						{this.suggestions.map((element) => {
-							return <TripDetail key={element} id={element} />
-						})}
+			<div className="siteView--2col">
+				{this.fetchStatus.ready
+					? this.state.success && this.suggestions
+						? <React.Fragment>
+							<Search display="COLUMN" externalQuery={this.props.externalQuery} formId="inline-search" />
+							<div className="showroom">
+								{this.suggestions.map((element) => {
+									return <TripDetail key={element} id={element} />
+								})}
+							</div>
+						</React.Fragment>
+						: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message">Đã xảy ra lỗi</div>
+					: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message">
+						<Loader />
 					</div>
-					: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message">Đã xảy ra lỗi</div>
-				: <Loader />
+				}
+			</div>
 		)
 	}
 }
