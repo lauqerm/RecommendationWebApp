@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import React, { DetailedHTMLProps, LabelHTMLAttributes } from 'react'
-import { element } from 'prop-types'
 import './rate.scss'
 
 export type RateProps = {
