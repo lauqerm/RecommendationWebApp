@@ -17,6 +17,7 @@ class $Showroom extends React.Component<any, any> {
 			successCode: '',
 		}
 	}
+	currentShowroomId = '-'
 	suggestions = []
 	fetchStatus: FetchStatusProps = {
 		ready: false,
@@ -46,7 +47,14 @@ class $Showroom extends React.Component<any, any> {
 		})
 	}
 	componentDidMount() {
-		if (!this.fetchStatus.ready) {
+		if (this.currentShowroomId !== this.props.currentUserId && !this.fetchStatus.ready) {
+			this.currentShowroomId = this.props.currentUserId
+			this.fetch()
+		}
+	}
+	componentDidUpdate() {
+		if (this.currentShowroomId !== this.props.currentUserId && !this.fetchStatus.ready) {
+			this.currentShowroomId = this.props.currentUserId
 			this.fetch()
 		}
 	}

@@ -19,13 +19,13 @@ function* manipulateToken(action: AnyAction) {
 				break
 			}
 			case 'LOGOUT': {
-				yield put<AuthAction>({ type: 'LOGGED_OUT' })
 				yield call(() => {
 					window.localStorage.removeItem('TOKEN')
 					window.localStorage.removeItem('ID')
 					window.localStorage.removeItem('USERNAME')
 					window.localStorage.removeItem('ROLE')
 				})
+				yield put<AuthAction>({ type: 'LOGGED_OUT' })
 				break
 			}
 			case 'CHANGE_USERNAME': {
