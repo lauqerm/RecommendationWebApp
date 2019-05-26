@@ -16,6 +16,7 @@ const mapStateToProps = (state: any) => {
 }
 
 class Logout extends React.Component<any, any> {
+	didmount = false
 	componentDidMount() {
 		const { token } = this.props
 		if (token !== '') {
@@ -28,12 +29,15 @@ class Logout extends React.Component<any, any> {
 			})
 			request.then(() => {
 				const { logout } = this.props
+				this.didmount = true
 				logout()
 			})
 		}
 	}
 	render() {
-		return <Redirect to="/" />
+		return this.didmount
+			? <Redirect to="/" />
+			: ''
 	}
 }
 
