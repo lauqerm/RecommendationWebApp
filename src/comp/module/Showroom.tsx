@@ -50,11 +50,6 @@ class $Showroom extends React.Component<any, any> {
 			this.fetch()
 		}
 	}
-	componentDidUpdate() {
-		if (!this.fetchStatus.ready) {
-			this.fetch()
-		}
-	}
 	componentWillUnmount() {
 		let cancelToken
 		cancelToken = this.fetchStatus.cancelToken

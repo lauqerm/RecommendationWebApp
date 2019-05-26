@@ -4,6 +4,7 @@ import { debounce } from 'lodash'
 import { Dropdown } from '..'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Range } from 'react-input-range'
+import { RouteComponentProps, withRouter } from 'react-router'
 import { TagLabel } from '../../lang'
 import './search.scss'
 
@@ -17,7 +18,7 @@ type SearchProps = {
 	externalQuery?: string,
 	formId: string,
 	display?: 'COLUMN'
-}
+} & RouteComponentProps
 
 export const makeQuery = (review: number, price: Range, types: string[]) => {
 	let queryURL = `/search?`
@@ -31,7 +32,7 @@ export const makeQuery = (review: number, price: Range, types: string[]) => {
 	return `${queryURL}${queries.join('&')}`
 }
 
-export class Search extends React.Component<SearchProps, SearchState> {
+class $Search extends React.Component<SearchProps, SearchState> {
 	constructor(props: any) {
 		super(props)
 		const initialCheckedList = []
@@ -55,7 +56,8 @@ export class Search extends React.Component<SearchProps, SearchState> {
 				types.push(`${index + 1}`)
 		})
 
-		window.location.href = makeQuery(review, price, types)
+		this.props.history.push(makeQuery(review, price, types))
+		window.location.reload()
 	}
 	onPriceChange = (value: number | Range): void => {
 		this.setState({
@@ -155,3 +157,5 @@ export class Search extends React.Component<SearchProps, SearchState> {
 		)
 	}
 }
+
+export const Search = withRouter($Search)

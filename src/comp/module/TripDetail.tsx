@@ -93,12 +93,12 @@ class TripDetail extends React.Component<TripProps> {
 
 		return (
 			<div className="tripDetail">
-				<div className="tripDetail__imgContainer" style={{
+				<div className="tripDetail__imgContainer">
+					<div className="tripDetail__imgLoader" style={{
 						backgroundImage: `url(${require('../../comp/atom/Loader/loading.gif')})`
 					}}>
-					<div className="tripDetail__img" style={{
-						backgroundImage: `url(${description})`
-					}} />
+						<img src={description} className="tripDetail__img" />
+					</div>
 				</div>
 				<div className={`tripDetail__info ${showMap ? 'tripDetail__combine' : ''} pt-2 pl-2 pr-2`}>
 					<h2 className="tripDetail__header">

@@ -2,9 +2,9 @@ import {
 	addToken,
 	addUserId,
 	auth,
+	changeUsername,
 	logout
 	} from './auth'
-import { changeUsername } from './profile'
 
 export {
 	addToken,

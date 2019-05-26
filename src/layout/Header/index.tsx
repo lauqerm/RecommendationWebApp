@@ -9,7 +9,9 @@ import '../index.scss'
 import '../Profile.scss'
 
 const mapStateToProps = (state: any) => {
-	return { authStatus: state.authorization.authStatus }
+	return {
+		authStatus: state.authorization.authStatus
+	}
 }
 
 const HeaderContainer = (props: any) => {

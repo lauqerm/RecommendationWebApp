@@ -12,10 +12,11 @@ const AvatarDropdown = (props: _HeaderAvatarProps) => {
 }
 
 type _HeaderAvatarProps = {
-	currentUserId: string
+	currentUserId: string,
+	username?: string,
 }
 const _HeaderAvatar = (props: _HeaderAvatarProps) => {
-	const { currentUserId } = props
+	const { currentUserId, username: us } = props
 	const username = window.localStorage.getItem('USERNAME')
 
 	return <Dropdown

@@ -28,8 +28,6 @@ export const Rate = ($props: RateProps) => {
 		<div className={`rate${disabled === true ? '--disabled' : ''} ${styleClass}`}>
 			{labelList.map((label, $position) => {
 				const position = range - $position
-				console.log(rating, position, rating !== undefined
-					&& rating === position ? true : undefined)
 				if (label === '')
 					return null
 				return <React.Fragment key={$position}>

@@ -3,12 +3,11 @@ import Trip from '../layout/Trip'
 import { Logout, Showroom } from '../comp/module'
 import { Profile } from '../layout/Profile'
 import { Route, RouteComponentProps } from 'react-router'
-import { Search } from '../comp/module/form'
 
 export const UserRoute = () => {
 	return (
 		<React.Fragment>
-			<Route exact path="/" render={(props: any) => {
+			<Route exact path="/" component={() => {
 				return <Showroom />
 			}} />
 			<Route exact path="/search" render={(props: any) => {

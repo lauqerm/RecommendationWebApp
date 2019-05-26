@@ -15,22 +15,26 @@ const mapStateToProps = (state: any) => {
 	return { token: state.authorization.token }
 }
 
-const Logout = (props: any) => {
-	const { token } = props
-	if (token !== '') {
-		const { request } = Fetcher.POST({
-			source: 'logout',
-			header: {
-				auth_token: token
-			},
-			data: {}
-		})
-		request.then(() => {
-			const { logout } = props
-			logout()
-		})
+class Logout extends React.Component<any, any> {
+	componentDidMount() {
+		const { token } = this.props
+		if (token !== '') {
+			const { request } = Fetcher.POST({
+				source: 'logout',
+				header: {
+					auth_token: token
+				},
+				data: {}
+			})
+			request.then(() => {
+				const { logout } = this.props
+				logout()
+			})
+		}
 	}
-	return null
+	render() {
+		return <Redirect to="/" />
+	}
 }
 
 export default connect(

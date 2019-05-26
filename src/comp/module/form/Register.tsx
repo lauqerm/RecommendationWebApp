@@ -59,7 +59,7 @@ export class _RegisterForm extends React.Component<RegisterFormProps> {
 			this.fetcherStatus.status = status
 			if (status === 201) {
 				auth(auth_token, id as string, username, role)
-				this.props.history.push('/')
+				window.location.pathname = '/'
 			} else {
 				this.forceUpdate()
 			}
