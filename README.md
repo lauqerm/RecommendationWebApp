@@ -1,3 +1,5 @@
+Phiên bản phân phối trực tuyến: https://lauqerm.github.io/RecommendationWebApp
+
 ## Môi trường cài đặt
 Linux 18.04 trở lên
 
@@ -22,9 +24,15 @@ yarn install
 ```
 
 ## Chạy hệ thống
+### Cục bộ
 Trong thư mục của dự án, chạy lệnh
 ```bash
 yarn start
+```
+### Phân phối trực tuyến
+Trong thư mục của dự án, chạy lệnh
+```bash
+yarn deploy
 ```
 
 =======
