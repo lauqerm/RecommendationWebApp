@@ -46,8 +46,8 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 		user_id: parseInt(this.props.userId),
 		travel_id: parseInt(this.props.tripId),
 		rated: false,
-		rating: 5,
-		tempRating: 5,
+		rating: -1,
+		tempRating: -1,
 		conmented: false,
 		content: '',
 	}
@@ -114,6 +114,10 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 			this.forceUpdate()
 		}
 	}
+	inputOnMouseout = () => {
+		this.reviewData.tempRating = this.reviewData.rating
+		this.forceUpdate()
+	}
 	render() {
 		const { id, defaultRating, disabled, userId, content, updatedDate, name } = this.props
 		const { tempRating } = this.reviewData
@@ -145,6 +149,7 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 							onChange: this.inputOnChange
 						}}
 						labelProps={{
+							onMouseOut: !(disabled) ? this.inputOnMouseout : undefined,
 							onMouseOver: !(disabled) ? this.inputOnMouseover : undefined,
 							title: disabled ? ReviewLabel[_value] : ''
 						}}

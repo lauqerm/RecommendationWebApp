@@ -47,12 +47,14 @@ class $Showroom extends React.Component<any, any> {
 		})
 	}
 	componentDidMount() {
+		console.log(`|${this.currentShowroomId}`, `|${this.props.currentUserId}`)
 		if (this.currentShowroomId !== this.props.currentUserId && !this.fetchStatus.ready) {
 			this.currentShowroomId = this.props.currentUserId
 			this.fetch()
 		}
 	}
 	componentDidUpdate() {
+		console.log(`|${this.currentShowroomId}`, `|${this.props.currentUserId}`)
 		if (this.currentShowroomId !== this.props.currentUserId && !this.fetchStatus.ready) {
 			this.currentShowroomId = this.props.currentUserId
 			this.fetch()
@@ -68,7 +70,7 @@ class $Showroom extends React.Component<any, any> {
 		return (
 			<div className="siteView--2col">
 				{this.fetchStatus.ready
-					? this.state.success && this.suggestions
+					? this.state.success && this.suggestions && this.currentShowroomId === this.props.currentUserId
 						? <React.Fragment>
 							<Search display="COLUMN" externalQuery={this.props.externalQuery} formId="inline-search" />
 							<div className="showroom">
