@@ -3,7 +3,7 @@ import Input from '../atom/form'
 import React from 'react'
 import { Fetcher, FetchStatusProps } from '../../com/fetcher'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { GoogleMap, Tag } from '../atom'
+import { GoogleMap, Loader, Tag } from '../atom'
 import { makeQuery } from './form/Search'
 import { NavLink } from 'react-router-dom'
 import {
@@ -13,12 +13,15 @@ import {
 	TagColorScheme,
 	TagLabel
 	} from '../lang'
+import { withCurrentUser } from '../hoc'
+import { WithCurrentUserProps } from '../hoc/withCurrentUser'
 import './tripDetail.scss'
 
 type TripProps = {
 	id: string,
 	showMap?: boolean,
-}
+	mode?: string,
+} & WithCurrentUserProps
 type TripInfo = {
 	address: string,
 	created_at: string,
@@ -36,6 +39,7 @@ type TripData = {
 	comment_amounts: number,
 	destinations: string[],
 	status: number,
+	schedule?: boolean,
 	travel: TripInfo,
 	type: string[],
 }
@@ -44,6 +48,7 @@ class TripDetail extends React.Component<TripProps> {
 		comment_amounts: 0,
 		destinations: [],
 		status: 0,
+		schedule: undefined,
 		travel: {
 			address: '',
 			created_at: '',
@@ -62,10 +67,11 @@ class TripDetail extends React.Component<TripProps> {
 	fetchStatus: FetchStatusProps = {
 		cancelToken: undefined,
 	}
+	tripUpdating = false
 	fetch = () => {
-		const { id } = this.props
+		const { id, currentUserId } = this.props
 		const { request, tokenSource } = Fetcher.GET({
-			source: `travel?id=${id}`,
+			source: `travel?id=${id}${currentUserId !== '' ? `&user_id=${currentUserId}` : ''}`,
 		})
 		this.fetchStatus.cancelToken = tokenSource
 		request.then((response) => {
@@ -77,6 +83,52 @@ class TripDetail extends React.Component<TripProps> {
 			this.forceUpdate()
 		})
 	}
+	addTrip = () => {
+		const { id, currentUserId } = this.props
+		const { request, tokenSource } = Fetcher.POST({
+			data: {
+				user_id: currentUserId,
+				travel_id: id,
+			},
+			source: `schedule`,
+		})
+		this.fetchStatus.cancelToken = tokenSource
+		request.then((response) => {
+			const { cancelToken } = this.fetchStatus
+			if (cancelToken)
+				this.fetchStatus.cancelToken = undefined
+
+			if (response.status === 200) {
+				this.tripData.schedule = true
+				this.tripUpdating = false
+			}
+		})
+		this.tripUpdating = true
+		this.forceUpdate()
+	}
+	removeTrip = () => {
+		const { id, currentUserId } = this.props
+		const { request, tokenSource } = Fetcher.DELETE({
+			data: {
+				user_id: currentUserId,
+				travel_id: id,
+			},
+			source: `schedule`,
+		})
+		this.fetchStatus.cancelToken = tokenSource
+		request.then((response) => {
+			const { cancelToken } = this.fetchStatus
+			if (cancelToken)
+				this.fetchStatus.cancelToken = undefined
+
+			if (response.status === 200) {
+				this.tripData.schedule = false
+				this.tripUpdating = false
+			}
+		})
+		this.tripUpdating = true
+		this.forceUpdate()
+	}
 	componentDidMount() {
 		this.fetch()
 	}
@@ -85,6 +137,9 @@ class TripDetail extends React.Component<TripProps> {
 		cancelToken = this.fetchStatus.cancelToken
 		if (cancelToken)
 			cancelToken.cancel()
+	}
+	shouldComponentUpdate() {
+		return false
 	}
 	render() {
 		const { travel, type, comment_amounts } = this.tripData
@@ -142,9 +197,9 @@ class TripDetail extends React.Component<TripProps> {
 							</div>
 						</div>
 						<div className="tripDetail__des">
-							<p>
+							{/* <p>
 								{description ? description : ''}
-							</p>
+							</p> */}
 						</div>
 						<div className="tripDetail__tag pb-2">
 							{type && type.length > 0
@@ -167,6 +222,22 @@ class TripDetail extends React.Component<TripProps> {
 								})
 								: null}
 						</div>
+						<div className="pb-2">
+							{this.tripData.schedule !== undefined
+								? this.tripData.schedule === false
+									? <button className="btn btn-success ctn--fluid" onClick={this.addTrip} >
+										{this.tripUpdating
+											? <Loader size={20} />
+											: 'Thêm vào lịch trình'}
+									</button>
+									: <button className="btn btn-danger ctn--fluid" onClick={this.removeTrip}>
+										{this.tripUpdating
+											? <Loader size={20} />
+											: 'Loại khỏi lịch trình'}
+									</button>
+								: null
+							}
+						</div>
 					</div>
 				</div>
 				{showMap
@@ -179,4 +250,4 @@ class TripDetail extends React.Component<TripProps> {
 	}
 }
 
-export default TripDetail
+export default withCurrentUser(TripDetail)

@@ -19,6 +19,9 @@ interface POSTHeader extends GETHeader {
 interface PATCHHeader extends GETHeader {
 	data: object
 }
+interface DELETEHeader extends GETHeader {
+	data: object
+}
 export type FetchStatusProps = {
 	ready?: boolean,
 	cancelToken: CancelTokenSource | undefined
@@ -75,6 +78,25 @@ const Fetcher = {
 
 		var request = {
 			method: 'PATCH',
+			url: API + source,
+			data: data,
+			headers: header,
+			params: params,
+			timeout: timeout,
+			json: true,
+			cancelToken: tokenSource.token
+		}
+		return { request: axios(request), tokenSource: tokenSource }
+	},
+	DELETE: ($props: DELETEHeader) => {
+		const props = _.merge(_.cloneDeep(defaultFetcherProps), $props)
+		props.header['auth_token'] = window.localStorage.getItem('TOKEN')
+		const { source, data, header, params, timeout } = props
+		const CancelToken = axios.CancelToken
+		const tokenSource = CancelToken.source()
+
+		var request = {
+			method: 'DELETE',
 			url: API + source,
 			data: data,
 			headers: header,

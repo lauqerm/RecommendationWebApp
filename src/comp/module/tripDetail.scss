@@ -8,6 +8,9 @@
   text-align: left;
   background-color: white;
   width: 100%;
+  &--tiny {
+    grid-template-columns: 1fr;
+  }
   &__clickable {
     cursor: pointer;
   }
@@ -27,12 +30,17 @@
     &Loader {
       background-repeat: no-repeat;
       background-position: center;
-      background-size: contain;
+      background-size: 100px 100px;
     }
   }
   &__summary {
     display: grid;
     grid-template-rows: min-content 1fr min-content;
+    &--tiny {
+      display: grid;
+      grid-template-columns: 1fr max-content;
+      grid-template-rows: min-content min-content 1fr;
+    }
   }
   &__review {
     display: grid;

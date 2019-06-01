@@ -257,41 +257,41 @@
 						}
 					}
 				}
-				// Cross-select user
-				for (let cnt = 1; cnt <= userCount; cnt++) {
-					if (commentList[cnt] !== undefined) continue
-					// RANDOMLY cross-select user
-					let addStatus = 0.5 - Math.random()
-					if (addStatus > 0) {
-						// RANDOMLY choose review field
-						let type = travelType[Math.floor(Math.random() * travelType.length)]
-						// RANDOMLY choose from comment list
-						let reviewIndex = rand(1, reviewCount[type])
-						let review
-						if (reviewIndex <= genericReviewCount) {
-							review = reviews[0][reviewIndex - 1]
-						} else {
-							review = reviews[type][reviewIndex - genericReviewCount - 1]
-						}
-						// RANDOMLY modify rating
-						let modifyStatus = percentOfBias - Math.random()
-						// Comment for each user each travel will not be duplicated
-						if (commentList[cnt] === undefined) {
-							commentList[cnt] = {
-								travel_id: travelCnt,
-								user_id: cnt,
-								rating: modifyStatus > 0
-									? Math.min(review.rating + 1, 5)
-									: Math.max(review.rating - 1, 1),
-								comment: review.comment
-							}
-						}
-					}
-				}
+				// // Cross-select user
+				// for (let cnt = 1; cnt <= userCount; cnt++) {
+				// 	if (commentList[cnt] !== undefined) continue
+				// 	// RANDOMLY cross-select user
+				// 	let addStatus = 0.5 - Math.random()
+				// 	if (addStatus > 0) {
+				// 		// RANDOMLY choose review field
+				// 		let type = travelType[Math.floor(Math.random() * travelType.length)]
+				// 		// RANDOMLY choose from comment list
+				// 		let reviewIndex = rand(1, reviewCount[type])
+				// 		let review
+				// 		if (reviewIndex <= genericReviewCount) {
+				// 			review = reviews[0][reviewIndex - 1]
+				// 		} else {
+				// 			review = reviews[type][reviewIndex - genericReviewCount - 1]
+				// 		}
+				// 		// RANDOMLY modify rating
+				// 		let modifyStatus = percentOfBias - Math.random()
+				// 		// Comment for each user each travel will not be duplicated
+				// 		if (commentList[cnt] === undefined) {
+				// 			commentList[cnt] = {
+				// 				travel_id: travelCnt,
+				// 				user_id: cnt,
+				// 				rating: modifyStatus > 0
+				// 					? Math.min(review.rating + 1, 5)
+				// 					: Math.max(review.rating - 1, 1),
+				// 				comment: review.comment
+				// 			}
+				// 		}
+				// 	}
+				// }
 				// Remove empty
 				commentList = commentList.filter((value) => value !== undefined)
-				// Randomly remove comment with ratio 20%
-				commentList = commentList.filter(() => Math.random() < 0.25)
+				// Randomly remove comment with ratio 50%
+				commentList = commentList.filter(() => Math.random() < 0.5)
 				commentMap = [...commentMap, ...commentList]
 			}
 			// Analysis
@@ -305,21 +305,21 @@
 			let status = (userCounts.filter((count) => count <= 3)).length !== 0 ? 'FAIL' : 'SUCCESS'
 
 			// Log
-			let comment = 'travel_id,user_id,rating,comment'
+			let comment = 'travel_id,user_id,rating,comment\n'
 			for (let cnt = 0; cnt < commentMap.length; cnt++) {
 				let review = commentMap[cnt]
 				comment += `${review.travel_id},${review.user_id},${review.rating},"${review.comment}"\n`
 			}
-			let interest = 'user_id,favorites'
+			let interest = 'user_id,favorites\n'
 			for (let cnt = 1; cnt < personalFavourites.length; cnt++) {
 				interest += `${cnt},"${personalFavourites[cnt].join(' ')}"\n`
 			}
 			return { status, comment, userCounts, commentMap, interest }
 		}
-		for (let cnt = 0; cnt < 10; cnt++) {
+		for (let cnt = 0; cnt < 1000; cnt++) {
 			let result = generate()
 			if (result.status === 'SUCCESS') {
-				alert('SUCCESS')
+				alert(`SUCCESS with ${result.commentMap.length} comments and ${result.interest.length} interests`)
 				console.log(result.userCounts)
 				console.log(result.commentMap)
 				log('comment', result.comment)

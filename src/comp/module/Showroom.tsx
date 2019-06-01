@@ -34,7 +34,7 @@ class $Showroom extends React.Component<any, any> {
 			let { cancelToken } = this.fetchStatus
 			if (cancelToken)
 				this.fetchStatus.cancelToken = undefined
-			console.log(response)
+
 			this.suggestions = _.cloneDeep(response.data.suggestions)
 			this.fetchStatus.ready = true
 			this.setState({
@@ -48,7 +48,6 @@ class $Showroom extends React.Component<any, any> {
 		})
 	}
 	componentDidMount() {
-		console.log(`|${this.currentShowroomId}`, `|${this.props.currentUserId}`)
 		if (this.currentShowroomId !== this.props.currentUserId) {
 			this.currentShowroomId = this.props.currentUserId
 			let cancelToken = this.fetchStatus.cancelToken
@@ -60,7 +59,6 @@ class $Showroom extends React.Component<any, any> {
 		}
 	}
 	componentDidUpdate() {
-		console.log(`|${this.currentShowroomId}`, `|${this.props.currentUserId}`)
 		if (this.currentShowroomId !== this.props.currentUserId) {
 			this.currentShowroomId = this.props.currentUserId
 			let cancelToken = this.fetchStatus.cancelToken
