@@ -6,8 +6,9 @@ import { withCurrentUser } from '../../comp/hoc'
 const AvatarDropdown = (props: _HeaderAvatarProps) => {
 	const { currentUserId } = props
 	return <div className="ctn--stack p-2 drop--shadow" style={{ width: '250px' }}>
-		<NavLink className="nav-link dropdown-item" to={`/profile/${currentUserId}`} >{'Thông tin cá nhân'}</NavLink>
-		<NavLink className="nav-link dropdown-item" to={`/logout`} >{'Đăng xuất'}</NavLink>
+		<NavLink className="nav-link dropdown-item" to={`/schedule/${currentUserId}`} >Lịch trình hiện tại</NavLink>
+		<NavLink className="nav-link dropdown-item" to={`/profile/${currentUserId}`} >Thông tin cá nhân</NavLink>
+		<NavLink className="nav-link dropdown-item" to={`/logout`} >Đăng xuất</NavLink>
 	</div>
 }
 

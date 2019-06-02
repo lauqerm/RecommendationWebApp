@@ -1,0 +1,22 @@
+.schedule {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 0px 4px 1px var(--sd0);
+  background-color: var(--bg0);
+  > ul {
+    display: grid;
+    grid-row-gap: 1rem;
+    height: min-content;
+    min-width: 500px;
+    text-align: center;
+    padding: 0;
+  }
+  &__message {
+    background-color: white;
+    box-shadow: 0 0px 4px 1px var(--sd0);
+    width: 60%;
+    color: red;
+    margin: auto;
+  }
+}

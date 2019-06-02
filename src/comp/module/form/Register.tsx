@@ -54,7 +54,8 @@ export class _RegisterForm extends React.Component<RegisterFormProps> {
 			data: Fetcher.makeBody(this.formData)
 		})
 		request.then((response: any) => {
-			const { auth_token, id, status, role, username } = response.data
+			const { status, user } = response.data
+			const { auth_token, id, role, username } = user
 			const { auth } = this.props.method
 			this.fetcherStatus.status = status
 			if (status === 201) {

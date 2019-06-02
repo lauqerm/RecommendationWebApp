@@ -1,4 +1,5 @@
 import React from 'react'
+import Schedule from '../layout/Schedule'
 import Trip from '../layout/Trip'
 import { Logout, Showroom } from '../comp/module'
 import { Profile } from '../layout/Profile'
@@ -17,11 +18,9 @@ export const UserRoute = () => {
 				const { tripId } = props.match.params
 				return <Trip id={tripId} />
 			}} />
-			<Route exact path="/favourite/:userId" render={(props: any) => {
-				return <div>Hello favourite</div>
-			}} />
-			<Route exact path="/history/:userId" render={(props: any) => {
-				return <div>Hello history</div>
+			<Route exact path="/schedule/:userId" render={(props: any) => {
+				const { userId } = props.match.params
+				return <Schedule id={userId} />
 			}} />
 			<Route exact path="/profile/:userId" render={(props: RouteComponentProps<{ userId: string }>) => {
 				const { userId } = props.match.params
