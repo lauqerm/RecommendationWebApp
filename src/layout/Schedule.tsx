@@ -18,7 +18,7 @@ type ScheduleProps = {
 } & WithCurrentUserProps & RouteComponentProps
 
 const SortableItem = SortableElement((props: any) => {
-	const { travel, travel_id, onUpdateSchedule } = props
+	const { travel, travel_id, id, onUpdateSchedule } = props
 	const { address, title, lower_price, upper_price } = travel
 
 	return (
@@ -52,7 +52,7 @@ const SortableItem = SortableElement((props: any) => {
 						</div>
 					</div>
 					<div className="pb-2">
-						<button className="btn btn-danger ctn--fluid" onClick={() => onUpdateSchedule(travel_id)}>
+						<button className="btn btn-danger ctn--fluid" onClick={() => onUpdateSchedule(id)}>
 							Loại khỏi lịch trình
 						</button>
 					</div>
@@ -65,12 +65,13 @@ const SortableList = SortableContainer((props: any) => {
 	const { onUpdateSchedule } = props
 	return (
 		<ul>
-			{props.items.map((element: any, index: number) => (
-				<SortableItem key={index} index={index} onUpdateSchedule={onUpdateSchedule} {...element} />
-			))}
+			{props.items.map((element: any, index: number) => {
+				return !element.travel ? <Loader key={index} /> : <SortableItem key={index} index={index} onUpdateSchedule={onUpdateSchedule} {...element} />
+			})}
 		</ul>
 	);
 })
+
 class $Schedule extends React.Component<ScheduleProps, any> {
 	constructor(props: ScheduleProps) {
 		super(props)
@@ -118,6 +119,7 @@ class $Schedule extends React.Component<ScheduleProps, any> {
 					cancelToken: tokenSource
 				}
 			})
+			this.forceUpdate()
 		})
 	}
 	onChangeSchedule = () => {
@@ -144,13 +146,42 @@ class $Schedule extends React.Component<ScheduleProps, any> {
 			}
 		})
 	}
-	onDeleteSchedule() { }
-	onUpdateSchedule = (travel_id: string) => {
+	onDeleteSchedule = () => {
+		const { currentUserId } = this.props
+		this.schedules.map((schedule: any, index: number) => {
+			const { id } = schedule
+			const { request, tokenSource } = Fetcher.DELETE({
+				data: {
+					user_id: currentUserId,
+					id: id,
+				},
+				source: `schedule`,
+			})
+			request.then((response) => {
+				const { cancelToken } = this.fetchStatus
+				if (cancelToken)
+					this.fetchStatus.cancelToken = undefined
+
+				if (response.status === 200) {
+					this.schedules[index] = { ...this.schedules[index], removed: true }
+					if (this.schedules.filter(item => item.removed !== true).length === 0) {
+						this.schedules = []
+						this.forceUpdate()
+					}
+				}
+			})
+			return {
+				...schedule,
+				cancelToken: tokenSource
+			}
+		})
+	}
+	onUpdateSchedule = (id: string) => {
 		const { currentUserId } = this.props
 		const { request, tokenSource } = Fetcher.DELETE({
 			data: {
 				user_id: currentUserId,
-				travel_id: travel_id,
+				id: id,
 			},
 			source: `schedule`,
 		})
@@ -162,7 +193,7 @@ class $Schedule extends React.Component<ScheduleProps, any> {
 
 			if (response.status === 200) {
 				this.schedules = this.schedules.filter((schedule: any) => {
-					return schedule.travel_id !== travel_id
+					return schedule.id !== id
 				})
 				this.forceUpdate()
 			}
@@ -196,6 +227,7 @@ class $Schedule extends React.Component<ScheduleProps, any> {
 				{this.fetchStatus.ready
 					? this.schedules.length !== 0
 						? <React.Fragment>
+							<button onClick={this.onDeleteSchedule} className="btn btn-info mb-3">Xóa lịch trình</button>
 							<SortableList items={this.schedules} onSortEnd={this.onSortEnd} onUpdateSchedule={this.onUpdateSchedule} />
 							<div className="pt-1" style={{ textAlign: 'left' }}>
 								{success ? <Card.Success>Đã cập nhật</Card.Success> : ''}

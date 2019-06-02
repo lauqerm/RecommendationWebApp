@@ -101,6 +101,7 @@ class TripDetail extends React.Component<TripProps> {
 			if (response.status === 200) {
 				this.tripData.schedule = true
 				this.tripUpdating = false
+				this.forceUpdate()
 			}
 		})
 		this.tripUpdating = true
@@ -124,6 +125,7 @@ class TripDetail extends React.Component<TripProps> {
 			if (response.status === 200) {
 				this.tripData.schedule = false
 				this.tripUpdating = false
+				this.forceUpdate()
 			}
 		})
 		this.tripUpdating = true
