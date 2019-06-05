@@ -1,5 +1,11 @@
 import _ from 'lodash'
 
+export const isExist = (value: any) => {
+	return value === null || value === undefined
+		? false
+		: true
+}
+
 export const override = (value: any, overrideValue: any) => {
 	return overrideValue === null || overrideValue === undefined
 		? value

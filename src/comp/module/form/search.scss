@@ -17,11 +17,11 @@
   }
   &__range {
     display: grid;
-    grid-template-rows: min-content min-content 1fr min-content;
-    grid-template-areas: "price" "review" "spacing" "action";
+    grid-template-rows: min-content min-content min-content min-content 1fr min-content;
+    grid-template-areas: "price" "review" "partner" "time" "spacing" "action";
     &--column {
-      grid-template-rows: min-content min-content min-content min-content;
-      grid-template-areas: "action" "price" "review" "spacing";
+      grid-template-rows: min-content min-content min-content min-content min-content min-content;
+      grid-template-areas: "action" "price" "review" "partner" "time" "spacing";
     }
   }
   &__label {

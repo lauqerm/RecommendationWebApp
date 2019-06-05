@@ -3,9 +3,9 @@ import React, { FormEvent, ReactChild } from 'react'
 import { Card, Split } from '../atom'
 import { Fetcher, FetchStatusProps } from '../../com/fetcher'
 import { NavLink } from 'react-router-dom'
+import { PartnerLabel, ReviewLabel, TimeLabel } from '../lang'
 import { ProfileImage } from '../../layout/Profile'
 import { retrieveInput } from '../../com/event'
-import { ReviewLabel } from '../lang'
 import { withCurrentUser } from '../hoc'
 import './Review.scss'
 
@@ -19,6 +19,8 @@ type ReviewProps = {
 	defaultRating?: number,
 	content?: string,
 	updatedDate?: string,
+	partner?: number,
+	time?: number,
 }
 type ReviewState = {
 	error: boolean,
@@ -41,6 +43,8 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 		missingComment: 'Vui lòng điền nhận xét trước khi đăng',
 		tooShortComment: 'Vui lòng điền nhận xét dài hơn 15 ký tự',
 		missingRate: 'Vui lòng đánh giá thang điểm trước khi đăng',
+		missingPartner: 'Vui lòng chọn bạn đồng hành',
+		missingTime: 'Vui lòng chọn thời gian bạn đã đi',
 	}
 	reviewData = {
 		user_id: parseInt(this.props.userId),
@@ -48,8 +52,12 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 		rated: false,
 		rating: -1,
 		tempRating: -1,
-		conmented: false,
+		commented: false,
 		content: '',
+		partner: 0,
+		partnerChosed: false,
+		time: 0,
+		timeChosed: false,
 	}
 	fetchStatus: FetchStatusProps = {
 		ready: false,
@@ -57,10 +65,10 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 	}
 	onSubmit = (e: FormEvent<HTMLInputElement>) => {
 		e.preventDefault()
-		const { conmented, rated, content } = this.reviewData
+		const { commented, rated, content, partnerChosed, timeChosed } = this.reviewData
 		const { currentUserId } = this.props
 
-		if (!conmented)
+		if (!commented)
 			return this.setState({
 				error: true,
 				errorCode: 'missingComment',
@@ -75,6 +83,18 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 			return this.setState({
 				error: true,
 				errorCode: 'missingRate',
+			})
+
+		if (!partnerChosed)
+			return this.setState({
+				error: true,
+				errorCode: 'missingPartner',
+			})
+
+		if (!timeChosed)
+			return this.setState({
+				error: true,
+				errorCode: 'missingTime',
 			})
 
 		const { request, tokenSource } = Fetcher.POST({
@@ -100,12 +120,32 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 		})
 	}
 	inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		this.reviewData.rated = true
 		this.reviewData.rating = parseInt(retrieveInput(e).rawValue)
+		if (this.reviewData.rating <= 5 && this.reviewData.rating >= 1)
+			this.reviewData.rated = true
+		else
+			this.reviewData.rated = false
 	}
 	textareaOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		this.reviewData.conmented = true
 		this.reviewData.content = retrieveInput(e).rawValue
+		if (this.reviewData.content.length != 0)
+			this.reviewData.commented = true
+		else
+			this.reviewData.commented = false
+	}
+	inputOnPartnerChange = (value: string) => {
+		this.reviewData.partner = parseInt(value)
+		if (this.reviewData.partner <= 5 && this.reviewData.partner >= 1)
+			this.reviewData.partnerChosed = true
+		else
+			this.reviewData.partnerChosed = false
+	}
+	inputOnTimeChange = (value: string) => {
+		this.reviewData.time = parseInt(value)
+		if (this.reviewData.time <= 4 && this.reviewData.time >= 1)
+			this.reviewData.timeChosed = true
+		else
+			this.reviewData.timeChosed = false
 	}
 	inputOnMouseover = (e: React.MouseEvent<HTMLLabelElement>) => {
 		const value = e.currentTarget.getAttribute('data-value')
@@ -119,7 +159,7 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 		this.forceUpdate()
 	}
 	render() {
-		const { id, defaultRating, disabled, userId, content, updatedDate, name } = this.props
+		const { id, defaultRating, disabled, userId, content, updatedDate, name, time, partner } = this.props
 		const { tempRating } = this.reviewData
 		const { error, errorCode, success, successCode } = this.state
 		const _updatedDate = updatedDate === undefined ? undefined : new Date(updatedDate)
@@ -129,7 +169,9 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 			<div className="review p-1">
 				<div className="reviewHeader">
 					<h3>
-						<NavLink className="review__Username" to={`/profile/${userId}`}>{name}</NavLink>
+						{disabled
+							? <NavLink className="review__Username" to={`/profile/${userId}`}>{name}</NavLink>
+							: 'Nhận xét của bạn'}
 					</h3>
 					<div className="review__Date">
 						{_updatedDate !== undefined
@@ -155,6 +197,22 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 						}}
 						rating={_value} />
 					{_value !== undefined ? ReviewLabel[_value] : ''}
+				</div>
+				<div className="reviewOption">
+					{disabled
+						? <div>{partner !== undefined && partner !== null ? `Đi cùng ${PartnerLabel[partner]}` : null}</div>
+						: <select className="form-control" id={`partner${id}`}
+							onChange={(e) => this.inputOnPartnerChange(e.currentTarget.value)} required>
+							{PartnerLabel.map((label, index) => <option key={index} value={index}>{label}</option>)}
+						</select>
+					}
+					{disabled
+						? <div>{time !== undefined && time !== null ? `Đi vào thời điểm ${TimeLabel[time]}` : null}</div>
+						: <select className="form-control" id={`time${id}`}
+							onChange={(e) => this.inputOnTimeChange(e.currentTarget.value)} required>
+							{TimeLabel.map((label, index) => <option key={index} value={index}>{label}</option>)}
+						</select>
+					}
 				</div>
 				<Split dir="hor" />
 				{disabled
