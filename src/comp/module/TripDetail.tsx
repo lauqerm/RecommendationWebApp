@@ -146,7 +146,7 @@ class TripDetail extends React.Component<TripProps> {
 	render() {
 		const { travel, type, comment_amounts } = this.tripData
 		const { address, description, location, rating, title, lower_price, upper_price } = travel
-		const { id, showMap } = this.props
+		const { id, showMap, currentUserId } = this.props
 
 		return (
 			<div className="tripDetail">
@@ -225,7 +225,7 @@ class TripDetail extends React.Component<TripProps> {
 								: null}
 						</div>
 						<div className="pb-2">
-							{this.tripData.schedule !== undefined
+							{this.tripData.schedule !== undefined && currentUserId !== ''
 								? this.tripData.schedule === false
 									? <button className="btn btn-success ctn--fluid" onClick={this.addTrip} >
 										{this.tripUpdating

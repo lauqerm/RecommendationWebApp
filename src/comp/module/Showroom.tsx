@@ -89,7 +89,7 @@ class $Showroom extends React.Component<any, any> {
 								})}
 							</div>
 						</React.Fragment>
-						: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message">Đã xảy ra lỗi</div>
+						: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message"></div>
 					: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message">
 						<Loader />
 					</div>

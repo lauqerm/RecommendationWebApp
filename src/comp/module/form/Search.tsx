@@ -12,6 +12,8 @@ type SearchState = {
 	price: Range,
 	review: number,
 	checkedList: boolean[],
+	partner: string,
+	time: string,
 }
 
 type SearchProps = {
@@ -20,7 +22,7 @@ type SearchProps = {
 	display?: 'COLUMN'
 } & RouteComponentProps
 
-export const makeQuery = (review: number, price: Range, types: string[]) => {
+export const makeQuery = (review: number, price: Range, types: string[], partner?: string, time?: string) => {
 	let queryURL = `/search?`
 	let queries = []
 	if (!isNaN(review))
@@ -29,6 +31,10 @@ export const makeQuery = (review: number, price: Range, types: string[]) => {
 		queries.push(`lower_price=${price.min === 1 ? 0 : price.min}&upper_price=${price.max}`)
 	if (types.length !== 0)
 		queries.push(`type=${types.join(',')}`)
+	if (partner !== '0')
+		queries.push(`partner=${partner}`)
+	if (time !== '0')
+		queries.push(`time=${time}`)
 	return `${queryURL}${queries.join('&')}`
 }
 
@@ -44,19 +50,21 @@ class $Search extends React.Component<SearchProps, SearchState> {
 				max: 5
 			},
 			review: 0,
+			partner: '0',
+			time: '0',
 			checkedList: initialCheckedList,
 		}
 	}
 	onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
-		const { price, review, checkedList } = this.state
+		const { price, review, checkedList, partner, time } = this.state
 		let types: string[] = []
 		checkedList.map((type, index) => {
 			if (type !== false)
 				types.push(`${index + 1}`)
 		})
 
-		this.props.history.push(makeQuery(review, price, types))
+		this.props.history.push(makeQuery(review, price, types, partner, time))
 		window.location.reload()
 	}
 	onPriceChange = (value: number | Range): void => {
@@ -67,6 +75,16 @@ class $Search extends React.Component<SearchProps, SearchState> {
 	onReviewChange = (value: string): void => {
 		this.setState({
 			review: Number.parseInt(value, 10)
+		})
+	}
+	onPartnerChange = (value: string): void => {
+		this.setState({
+			partner: value
+		})
+	}
+	onTimeChange = (value: string): void => {
+		this.setState({
+			time: value
 		})
 	}
 	onTagChange = (name: string | null, checked: boolean): void => {
@@ -83,6 +101,8 @@ class $Search extends React.Component<SearchProps, SearchState> {
 		onPriceChange: debounce(this.onPriceChange, 25),
 		onReviewChange: debounce(this.onReviewChange, 25),
 		onTagChange: debounce(this.onTagChange, 25),
+		onPartnerChange: debounce(this.onPartnerChange, 25),
+		onTimeChange: debounce(this.onTimeChange, 25)
 	}
 	componentDidMount() {
 		try {
@@ -111,30 +131,23 @@ class $Search extends React.Component<SearchProps, SearchState> {
 					})
 					newState.checkedList = checkedList
 				}
+				if (paramObject.partner) newState.partner = paramObject.partner
+				if (paramObject.time) newState.time = paramObject.time
 				this.setState(newState)
 			}
 		}
-		catch {}
+		catch { }
 	}
 	componentWillUnmount() {
 		this.event.onPriceChange.cancel()
 		this.event.onReviewChange.cancel()
 		this.event.onTagChange.cancel()
+		this.event.onTimeChange.cancel()
+		this.event.onPartnerChange.cancel()
 	}
 	render() {
-		const { price, review, checkedList } = this.state
+		const { price, review, checkedList, partner, time } = this.state
 		const { display, formId } = this.props
-		const SearchModule = <BareSearch
-			formId={formId}
-			onPriceChange={this.event.onPriceChange}
-			onReviewChange={this.event.onReviewChange}
-			onSubmit={this.onSubmit}
-			onTagChange={this.event.onTagChange}
-			checkedList={checkedList}
-			price={price}
-			review={review}
-			display={display === undefined ? '' : display}
-		/>
 
 		return (
 			<div>
@@ -152,7 +165,21 @@ class $Search extends React.Component<SearchProps, SearchState> {
 						: <div>
 							<FontAwesomeIcon icon="search" size="3x" className="m-2" />
 						</div>}
-					drop={SearchModule} />
+					drop={<BareSearch
+						formId={formId}
+						onPriceChange={this.event.onPriceChange}
+						onReviewChange={this.event.onReviewChange}
+						onPartnerChange={this.event.onPartnerChange}
+						onTimeChange={this.event.onTimeChange}
+						onSubmit={this.onSubmit}
+						onTagChange={this.event.onTagChange}
+						checkedList={checkedList}
+						price={price}
+						review={review}
+						display={display === undefined ? '' : display}
+						partner={partner}
+						time={time}
+					/>} />
 			</div>
 		)
 	}
