@@ -35,6 +35,14 @@
   content: "★ ";
 }
 
+.rate--checked {
+  color: var(--checked) !important;
+}
+
+.rate--hidden {
+  color: white !important;
+}
+
 .rate > input:checked ~ label,
 .rate--disabled > input:checked ~ label {
   color: var(--checked);
@@ -43,6 +51,10 @@
 .rate:not(:checked) > label:hover,
 .rate:not(:checked) > label:hover ~ label {
   color: var(--glowing);
+}
+
+.rate--pending {
+  color: var(--pending) !important;
 }
 
 .rate > input:checked + label:hover,

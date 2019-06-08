@@ -164,8 +164,7 @@ class TripDetail extends React.Component<TripProps> {
 					<div className="tripDetail__summary ctn--stack">
 						<div className="tripDetail__review">
 							<label>Đánh giá chung</label>
-							<Input.Rate
-								disabled
+							<Input.DisabledRate
 								rating={rating}
 								labelList={ReviewLabel}
 								name={`tripReview${id}`}

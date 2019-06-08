@@ -1,6 +1,6 @@
 import { Checkbox } from './Checkbox'
+import { DisabledRate, Rate } from './Rate'
 import { InputWithLabel } from './InputWithLabel'
-import { Rate } from './Rate'
 
 export {
 	InputWithLabel,
@@ -9,6 +9,7 @@ export {
 }
 
 export default {
+	DisabledRate,
 	Rate,
 	Checkbox,
 }
