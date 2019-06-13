@@ -135,7 +135,7 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 	}
 	inputOnPartnerChange = (value: string) => {
 		this.reviewData.partner = parseInt(value)
-		if (this.reviewData.partner <= 5 && this.reviewData.partner >= 1)
+		if (this.reviewData.partner <= PartnerLabel.length && this.reviewData.partner >= 1)
 			this.reviewData.partnerChosed = true
 		else
 			this.reviewData.partnerChosed = false

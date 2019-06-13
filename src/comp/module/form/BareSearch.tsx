@@ -64,18 +64,18 @@ export const BareSearch = (props: BareSearchProps) => {
 					<hr />
 				</div>
 				<div style={{ gridArea: 'partner' }}>
-					{/* <label className="search__label">Kiểu đồng hành</label>
+					<label className="search__label">Kiểu đồng hành</label>
 					<PartnerFilter
 						onChange={(event) => onPartnerChange(event.currentTarget.value)}
 						value={partner} />
-					<hr /> */}
+					<hr />
 				</div>
 				<div style={{ gridArea: 'time' }}>
-					{/* <label className="search__label">Thời gian du lịch</label>
+					<label className="search__label">Thời gian du lịch</label>
 					<TimeFilter
 						onChange={(event) => onTimeChange(event.currentTarget.value)}
 						value={time} />
-					<hr /> */}
+					<hr />
 				</div>
 				<div style={{ gridArea: 'review' }}>
 					<label className="search__label">Đánh giá</label>
