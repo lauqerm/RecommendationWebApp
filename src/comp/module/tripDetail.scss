@@ -4,10 +4,21 @@
   grid-row-gap: 0.5rem;
   grid-template-columns: 1fr 1fr;
   height: min-content;
-  min-width: 500px;
+  min-width: 300px;
   text-align: left;
   background-color: white;
   width: 100%;
+  &--showroom {
+    box-shadow: 0 0 4px 1px var(--sd0);
+    display: grid;
+    grid-row-gap: 0.5rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 200px 1fr;
+    min-width: 300px;
+    text-align: left;
+    background-color: white;
+    width: 100%;
+  }
   &--tiny {
     grid-template-columns: 1fr;
   }
@@ -19,6 +30,11 @@
     grid-template-rows: min-content 1fr;
     grid-column: 2;
     font-size: 0.9rem;
+    &--showroom {
+      display: grid;
+      grid-template-rows: min-content 1fr;
+      font-size: 0.9rem;
+    }
   }
   &__combine {
     grid-row: 1 / span 2;
@@ -31,6 +47,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: 100px 100px;
+      text-align: center;
     }
   }
   &__summary {

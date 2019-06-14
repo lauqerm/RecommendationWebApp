@@ -146,11 +146,12 @@ class TripDetail extends React.Component<TripProps> {
 	render() {
 		const { travel, type, comment_amounts } = this.tripData
 		const { address, description, location, rating, title, lower_price, upper_price } = travel
-		const { id, showMap, currentUserId } = this.props
-		const imgResource = description.replace('https://i.imgur.com/', '/assets/img/')
+		const { id, showMap, currentUserId, mode } = this.props
+		let imgResource = description.replace('https://i.imgur.com/', '/assets/img/')
+		imgResource = imgResource.replace('png', 'jpg')
 
 		return (
-			<div className="tripDetail">
+			<div className={`tripDetail${mode === 'SHOWROOM' ? '--showroom' : ''}`}>
 				<div className="tripDetail__imgContainer">
 					<div className="tripDetail__imgLoader" style={{
 						backgroundImage: `url(${require('../../comp/atom/Loader/loading.gif')})`
@@ -158,7 +159,7 @@ class TripDetail extends React.Component<TripProps> {
 						{imgResource !== '' ? <img src={imgResource} className="tripDetail__img" /> : null}
 					</div>
 				</div>
-				<div className={`tripDetail__info ${showMap ? 'tripDetail__combine' : ''} pt-2 pl-2 pr-2`}>
+				<div className={`tripDetail__info${mode === 'SHOWROOM' ? '--showroom' : ''} ${showMap ? 'tripDetail__combine' : ''} pt-2 pl-2 pr-2`}>
 					<h2 className="tripDetail__header">
 						<NavLink to={`/trip/${id}`}>{title}</NavLink>
 					</h2>

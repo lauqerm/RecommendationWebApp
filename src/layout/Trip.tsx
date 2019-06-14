@@ -56,7 +56,7 @@ class $Trip extends React.Component<TripProps> {
 					<TripDetail id={id} showMap />
 				</div>
 				<div className="tripReview">
-					{(currentUserId && isAlreadyCommented.length === 0) || this.reviews.length === 0
+					{(currentUserId) || this.reviews.length === 0
 						? <Review id="0" tripId={id} userId={currentUserId} />
 						: null
 					}
