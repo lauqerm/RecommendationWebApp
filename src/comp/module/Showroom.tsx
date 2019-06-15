@@ -27,7 +27,7 @@ class $Showroom extends React.Component<any, any> {
 		const { currentUserId, externalQuery } = this.props
 
 		let { request, tokenSource } = Fetcher.GET({
-			source: externalQuery ? externalQuery : `suggestion${currentUserId !== '' ? `?user_id=${currentUserId}` : ''}`,
+			source: externalQuery ? externalQuery : `suggestion?user_id=${currentUserId !== '' ? currentUserId : '-1'}`,
 		})
 		this.fetchStatus.cancelToken = tokenSource
 		request.then((response) => {
@@ -85,7 +85,7 @@ class $Showroom extends React.Component<any, any> {
 							<Search display="COLUMN" externalQuery={this.props.externalQuery} formId="inline-search" />
 							<div className="showroom">
 								{this.suggestions.map((element) => {
-									return <TripDetail key={element} id={element} />
+									return <TripDetail key={element} id={element} mode="SHOWROOM" />
 								})}
 							</div>
 						</React.Fragment>

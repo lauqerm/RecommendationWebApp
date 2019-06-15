@@ -4,5 +4,6 @@ export const PartnerLabel = [
 	'Gia đình',
 	'Người yêu',
 	'Bạn bè',
+	'Tập thể',
 	'Công tác',
 ]

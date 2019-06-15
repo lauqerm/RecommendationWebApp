@@ -146,26 +146,27 @@ class TripDetail extends React.Component<TripProps> {
 	render() {
 		const { travel, type, comment_amounts } = this.tripData
 		const { address, description, location, rating, title, lower_price, upper_price } = travel
-		const { id, showMap, currentUserId } = this.props
+		const { id, showMap, currentUserId, mode } = this.props
+		let imgResource = description.replace('https://i.imgur.com/', '/assets/img/')
+		imgResource = imgResource.replace('png', 'jpg')
 
 		return (
-			<div className="tripDetail">
+			<div className={`tripDetail${mode === 'SHOWROOM' ? '--showroom' : ''}`}>
 				<div className="tripDetail__imgContainer">
 					<div className="tripDetail__imgLoader" style={{
 						backgroundImage: `url(${require('../../comp/atom/Loader/loading.gif')})`
 					}}>
-						<img src={description} className="tripDetail__img" />
+						{imgResource !== '' ? <img src={imgResource} className="tripDetail__img" /> : null}
 					</div>
 				</div>
-				<div className={`tripDetail__info ${showMap ? 'tripDetail__combine' : ''} pt-2 pl-2 pr-2`}>
+				<div className={`tripDetail__info${mode === 'SHOWROOM' ? '--showroom' : ''} ${showMap ? 'tripDetail__combine' : ''} pt-2 pl-2 pr-2`}>
 					<h2 className="tripDetail__header">
 						<NavLink to={`/trip/${id}`}>{title}</NavLink>
 					</h2>
 					<div className="tripDetail__summary ctn--stack">
 						<div className="tripDetail__review">
 							<label>Đánh giá chung</label>
-							<Input.Rate
-								disabled
+							<Input.DisabledRate
 								rating={rating}
 								labelList={ReviewLabel}
 								name={`tripReview${id}`}
@@ -214,7 +215,7 @@ class TripDetail extends React.Component<TripProps> {
 											color={TagColorScheme[index]}
 											mode="OUTLINE"
 											onClick={() => {
-												window.location.href = makeQuery(0, { min: 0, max: 5 }, [`${index + 1}`])
+												window.location.href = makeQuery(currentUserId, 0, { min: 0, max: 5 }, [`${index + 1}`], '0', '0')
 											}}
 											className="tripDetail__clickable"
 										>

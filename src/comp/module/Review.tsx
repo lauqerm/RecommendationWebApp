@@ -135,7 +135,7 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 	}
 	inputOnPartnerChange = (value: string) => {
 		this.reviewData.partner = parseInt(value)
-		if (this.reviewData.partner <= 5 && this.reviewData.partner >= 1)
+		if (this.reviewData.partner <= PartnerLabel.length && this.reviewData.partner >= 1)
 			this.reviewData.partnerChosed = true
 		else
 			this.reviewData.partnerChosed = false
@@ -183,19 +183,25 @@ class $Review extends React.Component<ReviewProps, ReviewState> {
 					</div>
 				</div>
 				<div>
-					<Input.Rate
-						name={`rate${id}`}
-						labelList={ReviewLabel}
-						disabled={disabled}
-						inputProps={{
-							onChange: this.inputOnChange
-						}}
-						labelProps={{
-							onMouseOut: !(disabled) ? this.inputOnMouseout : undefined,
-							onMouseOver: !(disabled) ? this.inputOnMouseover : undefined,
-							title: disabled ? ReviewLabel[_value] : ''
-						}}
-						rating={_value} />
+					{disabled
+						? <Input.DisabledRate
+							name={`rate${id}`}
+							labelList={ReviewLabel}
+							rating={_value} />
+						: <Input.Rate
+							name={`rate${id}`}
+							labelList={ReviewLabel}
+							disabled={disabled}
+							inputProps={{
+								onChange: this.inputOnChange
+							}}
+							labelProps={{
+								onMouseOut: !(disabled) ? this.inputOnMouseout : undefined,
+								onMouseOver: !(disabled) ? this.inputOnMouseover : undefined,
+								title: disabled ? ReviewLabel[_value] : ''
+							}}
+							rating={_value} />
+					}
 					{_value !== undefined ? ReviewLabel[_value] : ''}
 				</div>
 				<div className="reviewOption">

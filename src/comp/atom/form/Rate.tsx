@@ -12,6 +12,40 @@ export type RateProps = {
 	rating?: number,
 	valueList?: string[],
 }
+export type DisabledRateProps = {
+	name: string,
+	labelList: string[],
+	labelProps?: DetailedHTMLProps<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>,
+	styleClass?: string,
+	rating: number,
+}
+export const DisabledRate = ($props: DisabledRateProps) => {
+	const props = _.merge({
+		labelList: [],
+		styleClass: 'rate--star',
+	}, $props)
+	const { name, rating, labelList, styleClass, labelProps } = props
+	const range = labelList.length
+	return (
+		<div className={`rate--disabled ${styleClass}`}>
+			{labelList.map((label, $position) => {
+				const position = range - $position
+				if (label === '')
+					return null
+				return (
+					<label
+						className={`${position > rating ? 'rate--hidden' : 'rate--checked'}`}
+						key={position}
+						htmlFor={`${name}${position}`}
+						data-value={position}
+						{...labelProps}>
+						{label}
+					</label>
+				)
+			})}
+		</div>
+	)
+}
 export const Rate = ($props: RateProps) => {
 	const props = _.merge({
 		labelList: [],

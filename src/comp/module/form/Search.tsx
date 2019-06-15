@@ -3,9 +3,11 @@ import { BareSearch } from './BareSearch'
 import { debounce } from 'lodash'
 import { Dropdown } from '..'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { PartnerLabel, TagLabel } from '../../lang'
 import { Range } from 'react-input-range'
 import { RouteComponentProps, withRouter } from 'react-router'
-import { TagLabel } from '../../lang'
+import { withCurrentUser } from '../../hoc'
+import { WithCurrentUserProps } from '../../hoc/withCurrentUser'
 import './search.scss'
 
 type SearchState = {
@@ -20,11 +22,14 @@ type SearchProps = {
 	externalQuery?: string,
 	formId: string,
 	display?: 'COLUMN'
-} & RouteComponentProps
+} & RouteComponentProps & WithCurrentUserProps
 
-export const makeQuery = (review: number, price: Range, types: string[], partner?: string, time?: string) => {
+export const makeQuery = (user: string, review: number, price: Range, types: string[], partner?: string, time?: string) => {
 	let queryURL = `/search?`
 	let queries = []
+	if (user !== '')
+		queries.push(`user_id=${user}`)
+	else queries.push('user_id=-1')
 	if (!isNaN(review))
 		queries.push(`rating=${review}`)
 	if (!isNaN(price.min) && !isNaN(price.max))
@@ -33,8 +38,10 @@ export const makeQuery = (review: number, price: Range, types: string[], partner
 		queries.push(`type=${types.join(',')}`)
 	if (partner !== '0')
 		queries.push(`partner=${partner}`)
+	else queries.push(`partner=1,2,3,4,5,6`)
 	if (time !== '0')
 		queries.push(`time=${time}`)
+	else queries.push(`time=1,2,3,4`)
 	return `${queryURL}${queries.join('&')}`
 }
 
@@ -64,7 +71,7 @@ class $Search extends React.Component<SearchProps, SearchState> {
 				types.push(`${index + 1}`)
 		})
 
-		this.props.history.push(makeQuery(review, price, types, partner, time))
+		this.props.history.push(makeQuery(this.props.currentUserId, review, price, types, partner, time))
 		window.location.reload()
 	}
 	onPriceChange = (value: number | Range): void => {
@@ -185,4 +192,4 @@ class $Search extends React.Component<SearchProps, SearchState> {
 	}
 }
 
-export const Search = withRouter($Search)
+export const Search = withCurrentUser(withRouter($Search))

@@ -47,7 +47,7 @@ class $LoginForm extends React.Component<LoginFormProps> {
 			this.fetcherStatus.status = status
 			if (status === 200) {
 				auth(auth_token, id as string, username, role)
-				location.reload()
+				this.props.history.push('/')
 			} else {
 				this.forceUpdate()
 			}

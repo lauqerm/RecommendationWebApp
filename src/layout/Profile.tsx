@@ -291,7 +291,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 						}
 					</div>
 				</div>
-				<InputWithLabel {...inputs[5]}
+				{/*<InputWithLabel {...inputs[5]}
 					disabled={false}
 					customInput={<div className="profile__cont--tag">
 						{TagLabel.map((element, index) => {
@@ -310,7 +310,7 @@ class $Profile extends React.Component<ProfileFormProps, ProfileFormState> {
 								}}
 							/>
 						})}
-					</div>} />
+					</div>} />*/}
 				<div className="pt-1">
 					{error && <Card.Error>{this.lang[errorCode]}</Card.Error>}
 					{success && <Card.Success>{this.lang[successCode]}</Card.Success>}
