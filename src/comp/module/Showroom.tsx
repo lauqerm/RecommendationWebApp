@@ -87,6 +87,18 @@ class $Showroom extends React.Component<any, any> {
 								{this.suggestions.map((element) => {
 									return <TripDetail key={element} id={element} mode="SHOWROOM" />
 								})}
+								{this.suggestions.map((element) => {
+									return <TripDetail key={element} id={element} mode="SHOWROOM" />
+								})}
+								{this.suggestions.map((element) => {
+									return <TripDetail key={element} id={element} mode="SHOWROOM" />
+								})}
+								{this.suggestions.map((element) => {
+									return <TripDetail key={element} id={element} mode="SHOWROOM" />
+								})}
+								{this.suggestions.map((element) => {
+									return <TripDetail key={element} id={element} mode="SHOWROOM" />
+								})}
 							</div>
 						</React.Fragment>
 						: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message"></div>
