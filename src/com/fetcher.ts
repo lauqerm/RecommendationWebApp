@@ -39,7 +39,7 @@ const Fetcher = {
 		const CancelToken = axios.CancelToken
 		const tokenSource = CancelToken.source()
 
-		var request = {
+		var request: any = {
 			method: 'GET',
 			url: API + source,
 			headers: header,
@@ -57,7 +57,7 @@ const Fetcher = {
 		const CancelToken = axios.CancelToken
 		const tokenSource = CancelToken.source()
 
-		var request = {
+		var request: any = {
 			method: 'POST',
 			url: API + source,
 			data: data,
@@ -76,7 +76,7 @@ const Fetcher = {
 		const CancelToken = axios.CancelToken
 		const tokenSource = CancelToken.source()
 
-		var request = {
+		var request: any = {
 			method: 'PATCH',
 			url: API + source,
 			data: data,
@@ -95,7 +95,7 @@ const Fetcher = {
 		const CancelToken = axios.CancelToken
 		const tokenSource = CancelToken.source()
 
-		var request = {
+		var request: any = {
 			method: 'DELETE',
 			url: API + source,
 			data: data,

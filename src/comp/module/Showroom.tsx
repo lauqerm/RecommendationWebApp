@@ -77,6 +77,7 @@ class $Showroom extends React.Component<any, any> {
 		}
 	}
 	render() {
+		console.log("🚀 ~ file: Showroom.tsx ~ line 83 ~ $Showroom ~ render ~ this.fetchStatus", this.fetchStatus)
 		return (
 			<div className="siteView--2col">
 				{this.fetchStatus.ready && this.fetchStatus.cancelToken === undefined
@@ -90,9 +91,13 @@ class $Showroom extends React.Component<any, any> {
 							</div>
 						</React.Fragment>
 						: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message"></div>
-					: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message">
-						<Loader />
-					</div>
+					: this.state.error
+						? <div className="ctn--gridRowFluid p-3 mt-1 showroom__message">
+							Không thể kết nối tới máy chủ
+						</div>
+						: <div className="ctn--gridRowFluid p-3 mt-1 showroom__message">
+							<Loader />
+						</div>
 				}
 			</div>
 		)
